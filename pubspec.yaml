@@ -1,0 +1,39 @@
+name: pulse
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  fl_chart: ^0.69.0
+  easy_localization: ^3.0.7
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.3.2
+  intl: ^0.19.0
+  font_awesome_flutter: ^10.8.0
+  csv: ^6.0.0
+  http: ^0.13.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+flutter:
+  assets:
+    - lang/en-US.json
+    - lang/th-TH.json
+    - assets/
+    - assets/images/
+  uses-material-design: true
+  fonts:
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/fonts/SpaceGrotesk-Bold.otf
+          weight: 700
