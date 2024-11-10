@@ -486,7 +486,7 @@ Widget _showMEWsForms(BuildContext context) {
                       String urine = urineController.text;
                       String conscious = consciousnessValue ?? '';
 
-                      var response = await sendMEWsValues(
+                      String response = await sendMEWsValues(
                           consciousness: conscious,
                           heart_rate: hr,
                           temperature: temp,
@@ -495,8 +495,11 @@ Widget _showMEWsForms(BuildContext context) {
                           respiratory_rate: rr,
                           urine: urine);
 
-                      // print(response);
-                      showResultDialog(context);
+                      Navigator.pop(context);
+
+                      // print("${response}");
+                      //! TODO: handle response error.
+                      showResultDialog(context, int.parse(response));
                     },
                     child: Text(
                       'calculate'.tr(),

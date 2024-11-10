@@ -58,5 +58,12 @@
   "confirmAction": "Confirm Action",
   "proceed?": "Are you sure you want to proceed?",
   "cancel": "Cancel",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "lowRisk": "Low risk",
+  "medRisk": "Moderate risk",
+  "medhighRisk": "Moderate high risk",
+  "highRisk": "High risk",
+  "addNote": "Add note",
+  "finishedCalculating": "Finished calculating",
+  "totalScore": "Total score"
 }

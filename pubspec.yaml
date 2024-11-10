@@ -31,6 +31,7 @@ flutter:
     - lang/th-TH.json
     - assets/
     - assets/images/
+    - assets/images/emojis/
   uses-material-design: true
   fonts:
     - family: SpaceGrotesk

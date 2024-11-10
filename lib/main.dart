@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pulse/authentication/login.dart';
 import 'package:pulse/mainpage/mainpage.dart';
 import 'package:pulse/temp/dashboard.dart';
 import 'package:pulse/utils/frozenTable.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: FrozenColumnTable(),
+      home: MainPage(),
     );
   }
 }
