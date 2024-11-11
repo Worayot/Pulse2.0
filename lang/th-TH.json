@@ -65,5 +65,8 @@
   "highRisk": "ความเสี่ยงสูง",
   "addNote": "เพิ่มโน้ต",
   "finishedCalculating": "คำนวณเสร็จสิ้น",
-  "totalScore": "คะแนนโดยรวม"
+  "totalScore": "คะแนนโดยรวม",
+  "bedNo": "เลขเตียง",
+  "hnNo": "เลขโรงพยาบาล",
+  "old": ""
 }

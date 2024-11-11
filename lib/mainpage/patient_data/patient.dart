@@ -162,70 +162,82 @@ class _PatientPageState extends State<PatientPage> {
                 itemCount: _filteredPatients.length,
                 itemBuilder: (context, index) {
                   final patient = _filteredPatients[index];
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    color: const Color(0xffE0EAFF),
-                    child: ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                  return Stack(
+                    children: [
+                      Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        color: const Color(0xffE0EAFF),
+                        child: ListTile(
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${patient.name} ${patient.surname}",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text("Bed Number: ${patient.bedNumber}",
-                                        style: const TextStyle(
-                                          fontSize: 11,
-                                        )),
-                                    Text(
-                                        "Last Updated: ${DateFormat('dd/MM/yyyy HH:mm').format(patient.lastUpdate)}",
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                              Stack(
+                              Row(
                                 children: [
-                                  Positioned(
-                                    top: 10,
-                                    right: 10,
-                                    child: SizedBox(
-                                      // height: double.infinity,
-
-                                      child: Image.asset(
-                                        'assets/images/therapy3.png',
-                                        fit: BoxFit.fitHeight,
-                                      ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${patient.name} ${patient.surname}",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Bed Number: ${patient.bedNumber}",
+                                          style: const TextStyle(fontSize: 11),
+                                        ),
+                                        Text(
+                                          "Last Updated: ${DateFormat('dd/MM/yyyy HH:mm').format(patient.lastUpdate)}",
+                                          style: const TextStyle(fontSize: 10),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      buildActionButton(FontAwesomeIcons.plus),
-                                      const SizedBox(width: 10),
-                                      buildActionButton(
-                                          FontAwesomeIcons.penClip),
-                                      const SizedBox(width: 10),
-                                      buildActionButton(FontAwesomeIcons.list),
-                                    ],
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: ClipRect(
+                          child: SizedBox(
+                            height: 100,
+                            width: 180,
+                            child: Image.asset(
+                              'assets/images/therapy3.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 10,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            buildActionButton(FontAwesomeIcons.plus, () {
+                              addToCare();
+                            }, Colors.white, const Color(0xff3362CC)),
+                            const SizedBox(width: 10),
+                            buildActionButton(FontAwesomeIcons.penClip, () {
+                              editDetail();
+                            }, Colors.white, const Color(0xff3362CC)),
+                            const SizedBox(width: 10),
+                            buildActionButton(FontAwesomeIcons.list, () {
+                              showInfo();
+                            }, Colors.white, const Color(0xff3362CC)),
+                          ],
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),
@@ -238,3 +250,7 @@ class _PatientPageState extends State<PatientPage> {
 
   // Helper method to build action buttons
 }
+
+void addToCare() {}
+void editDetail() {}
+void showInfo() {}

@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 
-Widget buildActionButton(IconData icon) {
+Widget buildActionButton(
+    IconData icon, VoidCallback onPressed, Color bgColor, Color iconColor) {
   return SizedBox(
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     child: ElevatedButton(
-      onPressed: () {
-        // Your onPressed action here
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
-        backgroundColor: Colors.white,
-        padding: const EdgeInsets.all(8),
+        backgroundColor: bgColor,
+        padding: const EdgeInsets.only(left: 0),
       ),
-      child: Icon(icon, size: 20, color: const Color(0xff4B74D1)),
+      child: Center(child: Icon(icon, size: 22, color: iconColor)),
+    ),
+  );
+}
+
+Widget buildExportButton(
+    IconData icon, VoidCallback onPressed, Color bgColor, Color iconColor) {
+  return SizedBox(
+    width: 45,
+    height: 45,
+    child: ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        backgroundColor: bgColor,
+        padding: const EdgeInsets.only(left: 2),
+      ),
+      child: Center(child: Icon(icon, size: 25, color: iconColor)),
     ),
   );
 }

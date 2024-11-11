@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MewsResultWidget extends StatelessWidget {
   final String mews;
@@ -13,7 +12,6 @@ class MewsResultWidget extends StatelessWidget {
     // Process MEWs
     String nursing = "";
     int? _MEWs = int.tryParse(mews);
-    Icon emoji = Icon(FontAwesomeIcons.accessibleIcon);
 
     if (_MEWs == null) {
       return const SizedBox(); // Return an empty widget if MEWs is not a valid integer

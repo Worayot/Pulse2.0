@@ -150,16 +150,17 @@ void showResultDialog(BuildContext context, int MEWs) {
               ),
             ),
 
-            // Emoji position remains fixed, adjusted to stay visible behind the content
+            // Make the emoji non-interactive by wrapping with IgnorePointer
             Positioned(
-              bottom: 0, // Adjust position to prevent covering
+              bottom: 0,
               right: 0,
-              child: Opacity(
-                opacity: 0.5, // Set opacity here (0.0 to 1.0)
-                child: Image.asset(emoji),
+              child: IgnorePointer(
+                child: Opacity(
+                  opacity: 0.5, // Set opacity here (0.0 to 1.0)
+                  child: Image.asset(emoji),
+                ),
               ),
             ),
-            // "Add Note" button remains fixed
 
             // Close button remains fixed
             Positioned(
@@ -169,7 +170,7 @@ void showResultDialog(BuildContext context, int MEWs) {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Icon(FontAwesomeIcons.xmark, color: Colors.black),
+                child: const Icon(FontAwesomeIcons.xmark, color: Colors.black),
               ),
             ),
           ],

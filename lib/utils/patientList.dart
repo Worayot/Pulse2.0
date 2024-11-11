@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/MEWsForms.dart';
+import 'package:pulse/utils/actionButton.dart';
 import 'package:pulse/utils/nursing.dart';
 import 'package:pulse/utils/patientDetails.dart';
 
@@ -120,24 +121,21 @@ class _PatientListState extends State<PatientList> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 8.0),
+                                vertical: 12.0, horizontal: 12.0),
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Colors.red, // Background color
-                                shape: BoxShape
-                                    .circle, // Makes the container circular
+                                color: Colors.red,
+                                shape: BoxShape.circle,
                               ),
-                              width:
-                                  45, // Set a larger width and height to fit the text inside
+                              width: 45,
                               height: 45,
-                              alignment: Alignment
-                                  .center, // Center the text inside the circle
+                              alignment: Alignment.center,
                               child: Text(
                                 patient.MEWs.toString(),
                                 style: const TextStyle(
-                                  color: Colors.white, // Text color
-                                  fontWeight: FontWeight.bold, // Text style
-                                  fontSize: 25, // Text size
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
                                 ),
                               ),
                             ),
@@ -145,7 +143,7 @@ class _PatientListState extends State<PatientList> {
                           Expanded(
                             child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 8.0),
+                                    vertical: 8.0, horizontal: 4.0),
                                 child: InkWell(
                                   onTap: () {
                                     showDialog(
@@ -176,28 +174,28 @@ class _PatientListState extends State<PatientList> {
                           SizedBox(
                               child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 8.0),
+                                vertical: 8.0, horizontal: 12.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                _buildActionButton(FontAwesomeIcons.solidClock,
+                                buildActionButton(FontAwesomeIcons.solidClock,
                                     () {
                                   _showTimeManager(context);
-                                }),
+                                }, Colors.white, const Color(0xff3362CC)),
                                 const SizedBox(width: 4),
-                                _buildActionButton(FontAwesomeIcons.userNurse,
+                                buildActionButton(FontAwesomeIcons.userNurse,
                                     () {
                                   showNursing(context, "1");
-                                }),
+                                }, Colors.white, const Color(0xff3362CC)),
                                 const SizedBox(width: 4),
-                                _buildActionButton(
+                                buildActionButton(
                                     FontAwesomeIcons.clipboardList, () {
                                   showPatientDetails(context, patient);
-                                }),
+                                }, Colors.white, const Color(0xff3362CC)),
                                 const SizedBox(width: 4),
-                                _buildActionButton(FontAwesomeIcons.xmark, () {
+                                buildActionButton(FontAwesomeIcons.xmark, () {
                                   _removePatient(index); // Pass index to remove
-                                }),
+                                }, Colors.red, Colors.white),
                               ],
                             ),
                           ))
@@ -293,22 +291,6 @@ class _PatientListState extends State<PatientList> {
       ),
     );
   }
-}
-
-Widget _buildActionButton(IconData icon, VoidCallback onPressed) {
-  return SizedBox(
-    width: 30,
-    height: 30,
-    child: ElevatedButton(
-      onPressed: onPressed, // Execute the provided action
-
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        padding: const EdgeInsets.all(4),
-      ),
-      child: Icon(icon, size: 20, color: const Color(0xff3362CC)),
-    ),
-  );
 }
 
 void _showTimeManager(BuildContext context) {

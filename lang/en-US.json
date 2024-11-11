@@ -43,6 +43,7 @@
   "years": "years",
   "bedNumber": "Bed Number",
   "hn": "Hospital Number",
+  "ward": "Ward",
   "oClock": "o'clock",
   "consciousness": "Consciousness",
   "heartRate": "Heart rate",
@@ -65,5 +66,8 @@
   "highRisk": "High risk",
   "addNote": "Add note",
   "finishedCalculating": "Finished calculating",
-  "totalScore": "Total score"
+  "totalScore": "Total score",
+  "bedNo": "Bed no.",
+  "hnNo": "Hospital no.",
+  "old": " old"
 }

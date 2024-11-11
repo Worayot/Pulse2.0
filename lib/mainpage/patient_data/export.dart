@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/utils/actionButton.dart';
 
 class ExportPage extends StatefulWidget {
   @override
@@ -56,10 +58,18 @@ class _ExportPageState extends State<ExportPage> {
         name: "Jane",
         surname: "Johnson",
         age: 40,
-        gender: "Male",
+        gender: "Female",
         ward: "B1",
         hospitalNumber: "H125",
         bedNumber: "B3"),
+    Patient(
+        name: "Worayot",
+        surname: "Liamkaew",
+        age: 21,
+        gender: "Male",
+        ward: "C11",
+        hospitalNumber: "602",
+        bedNumber: "01"),
     // Add more patients as needed
   ];
 
@@ -151,7 +161,7 @@ class _ExportPageState extends State<ExportPage> {
                     return _buildAgeSlider(setState);
                   },
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -192,7 +202,7 @@ class _ExportPageState extends State<ExportPage> {
           decoration: InputDecoration(labelText: 'Filter by Surname'),
           onChanged: (value) {
             _surnameFilter = value;
-            _filterPatients(); // Apply filter immediately
+            _filterPatients();
           },
         ),
         TextField(
@@ -253,60 +263,103 @@ class _ExportPageState extends State<ExportPage> {
       itemCount: _filteredPatients.length,
       itemBuilder: (context, index) {
         final patient = _filteredPatients[index];
-        return Card(
-          margin: EdgeInsets.symmetric(vertical: 6),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        return Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16),
+          child: Stack(
+            children: [
+              Card(
+                color: const Color(0xffE0EAFF),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${patient.name} ${patient.surname}',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('Bed Number: ${patient.bedNumber}'),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text('${patient.name} ${patient.surname}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18)),
+                                SizedBox(width: 5),
+                                if (patient.gender == "Male")
+                                  Icon(
+                                    Icons.male, // For male
+                                    color: Colors.blue,
+                                    size: 28.0,
+                                  ),
+                                if (patient.gender == "Female")
+                                  Icon(
+                                    Icons.female, // For female
+                                    color: Colors.pink,
+                                    size: 28.0,
+                                  ),
+                                Text(
+                                    " (${patient.age} ${"years".tr()}${"old".tr()})",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold))
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('${"ward".tr()} '),
+                                Text(patient.ward,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                                Text(' ${"bedNo".tr()} '),
+                                Text(patient.bedNumber,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('${"hnNo".tr()} '),
+                                Text(patient.hospitalNumber,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      buildExportButton(FontAwesomeIcons.fileExport, () {},
+                          Colors.white, const Color(0xff4B74D1))
                     ],
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.more_vert), // You can change the icon
-                  onPressed: () {
-                    // Handle icon button press
-                    _showPatientDetails(patient);
-                  },
+              ),
+              Positioned(
+                top: 0,
+                right: 20,
+                bottom: 0,
+                child: ClipRect(
+                  child: SizedBox(
+                    height: 65,
+                    width: 200,
+                    child: Opacity(
+                      opacity: 0.25, // Set the opacity to 50%
+                      child: Image.asset(
+                        'assets/images/therapy4.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(
-                      Icons.file_download), // You can change the icon
-                  onPressed: () {},
-                ),
-              ],
-            ),
+              ),
+              Positioned(
+                  top: 0,
+                  bottom: 0,
+                  right: 25,
+                  child: buildExportButton(FontAwesomeIcons.fileExport, () {},
+                      Colors.white, const Color(0xff4B74D1))),
+            ],
           ),
-        );
-      },
-    );
-  }
-
-  void _showPatientDetails(Patient patient) {
-    // Here you can navigate to a new screen or show details
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Patient Details'),
-          content: Text(
-              'Name: ${patient.name} ${patient.surname}\nAge: ${patient.age}\nGender: ${patient.gender}\nWard: ${patient.ward}\nHospital Number: ${patient.hospitalNumber}\nBed Number: ${patient.bedNumber}'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('Close'),
-            ),
-          ],
         );
       },
     );
@@ -357,6 +410,4 @@ class _ExportPageState extends State<ExportPage> {
   }
 }
 
-void _exportAll() {
-  // Implement the export functionality here
-}
+void _exportAll() {}
