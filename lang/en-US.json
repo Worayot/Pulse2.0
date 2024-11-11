@@ -70,5 +70,6 @@
   "bedNo": "Bed no.",
   "hnNo": "Hospital no.",
   "exportData": "Export data",
-  "filterData": "Filter data"
+  "filterData": "Filter data",
+  "patientData": "Patient Data"
 }
