@@ -40,7 +40,7 @@
   "verbalStimuli": "Responds to Verbal Stimuli",
   "pain": "Responds to Painful Stimuli",
   "unresponsive": "Unresponsive",
-  "years": "years",
+  "yrs": "yrs",
   "bedNumber": "Bed Number",
   "hn": "Hospital Number",
   "ward": "Ward",
@@ -69,5 +69,6 @@
   "totalScore": "Total score",
   "bedNo": "Bed no.",
   "hnNo": "Hospital no.",
-  "old": " old"
+  "exportData": "Export data",
+  "filterData": "Filter data"
 }

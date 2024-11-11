@@ -92,10 +92,10 @@ class _PatientListState extends State<PatientList> {
 
   @override
   Widget build(BuildContext context) {
-    return buildPatientList();
+    return buildPatientListHome();
   }
 
-  Widget buildPatientList() {
+  Widget buildPatientListHome() {
     return Expanded(
       child: ListView.builder(
         itemCount: _patients.length,

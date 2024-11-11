@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:pulse/func/DateNavigation.dart';
 import 'package:pulse/utils/actionButton.dart';
 import 'package:pulse/utils/infoDialog.dart';
 
@@ -72,7 +71,7 @@ class _PatientPageState extends State<PatientPage> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-            padding: const EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(left: 10),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -81,7 +80,7 @@ class _PatientPageState extends State<PatientPage> {
                 ))),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25, top: 23),
+            padding: const EdgeInsets.only(right: 25),
             child: IconButton(
               icon: const FaIcon(FontAwesomeIcons.circleInfo,
                   size: 25, // Size of the icon

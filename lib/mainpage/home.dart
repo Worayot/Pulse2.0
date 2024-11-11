@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/infoDialog.dart';
-import 'package:pulse/utils/patientList.dart';
+import 'package:pulse/utils/patientListHome.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -27,7 +27,7 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-            padding: const EdgeInsets.only(left: 30, top: 30),
+            padding: const EdgeInsets.only(left: 25),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -36,7 +36,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 ))),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25, top: 23),
+            padding: const EdgeInsets.only(right: 25),
             child: IconButton(
               icon: const FaIcon(FontAwesomeIcons.circleInfo,
                   size: 25, // Size of the icon

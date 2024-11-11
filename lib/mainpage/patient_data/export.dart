@@ -2,15 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/actionButton.dart';
+import 'package:pulse/utils/infoDialog.dart';
 
 class ExportPage extends StatefulWidget {
+  const ExportPage({super.key});
+
   @override
   _ExportPageState createState() => _ExportPageState();
 }
 
 class Patient {
-  final String name;
-  final String surname;
+  final String fullName;
   final int age;
   final String gender;
   final String ward;
@@ -18,8 +20,7 @@ class Patient {
   final String bedNumber;
 
   Patient({
-    required this.name,
-    required this.surname,
+    required this.fullName,
     required this.age,
     required this.gender,
     required this.ward,
@@ -31,40 +32,35 @@ class Patient {
 class _ExportPageState extends State<ExportPage> {
   final List<Patient> _patients = [
     Patient(
-        name: "John",
-        surname: "Doe",
+        fullName: "John Doe",
         age: 30,
         gender: "Male",
         ward: "A1",
         hospitalNumber: "H123",
         bedNumber: "B1"),
     Patient(
-        name: "Jane",
-        surname: "Smith",
+        fullName: "Jane Smith",
         age: 25,
         gender: "Female",
         ward: "A2",
         hospitalNumber: "H124",
         bedNumber: "B2"),
     Patient(
-        name: "Mike",
-        surname: "Johnson",
+        fullName: "Mike Johnson",
         age: 40,
         gender: "Male",
         ward: "B1",
         hospitalNumber: "H125",
         bedNumber: "B3"),
     Patient(
-        name: "Jane",
-        surname: "Johnson",
+        fullName: "Jane Johnson",
         age: 40,
         gender: "Female",
         ward: "B1",
         hospitalNumber: "H125",
         bedNumber: "B3"),
     Patient(
-        name: "Worayot",
-        surname: "Liamkaew",
+        fullName: "วรยศ เลี่ยมแก้ว",
         age: 21,
         gender: "Male",
         ward: "C11",
@@ -74,6 +70,7 @@ class _ExportPageState extends State<ExportPage> {
   ];
 
   List<Patient> _filteredPatients = [];
+  String _fullNameFilter = '';
   String _nameFilter = '';
   String _surnameFilter = '';
   String _wardFilter = '';
@@ -86,22 +83,30 @@ class _ExportPageState extends State<ExportPage> {
   @override
   void initState() {
     super.initState();
-    _filteredPatients = _patients; // Initialize with all patients
+    _filteredPatients = _patients;
   }
 
   void _filterPatients() {
     setState(() {
       _filteredPatients = _patients.where((patient) {
+        final matchesFullName = _fullNameFilter.isEmpty ||
+            patient.fullName
+                .toLowerCase()
+                .contains(_fullNameFilter.toLowerCase());
         final matchesName = _nameFilter.isEmpty ||
-            patient.name.toLowerCase().contains(_nameFilter.toLowerCase());
+            patient.fullName
+                .split(" ")[0]
+                .toLowerCase()
+                .contains(_nameFilter.toLowerCase());
         final matchesSurname = _surnameFilter.isEmpty ||
-            patient.surname
+            patient.fullName
+                .split(" ")[1]
                 .toLowerCase()
                 .contains(_surnameFilter.toLowerCase());
         final matchesWard = _wardFilter.isEmpty ||
             patient.ward.toLowerCase().contains(_wardFilter.toLowerCase());
         final matchesGender = _genderFilter.isEmpty ||
-            patient.gender.toLowerCase().contains(_genderFilter.toLowerCase());
+            patient.gender.toLowerCase() == (_genderFilter.toLowerCase());
         final matchesHospitalNumber = _hnFilter.isEmpty ||
             patient.hospitalNumber
                 .toLowerCase()
@@ -113,7 +118,8 @@ class _ExportPageState extends State<ExportPage> {
         final matchesAge =
             patient.age >= _minAge && patient.age <= _maxAge; // Age filter
 
-        return matchesName &&
+        return matchesFullName &&
+            matchesName &&
             matchesSurname &&
             matchesWard &&
             matchesGender &&
@@ -126,6 +132,7 @@ class _ExportPageState extends State<ExportPage> {
 
   void _resetFilters() {
     setState(() {
+      _fullNameFilter = '';
       _nameFilter = '';
       _surnameFilter = '';
       _wardFilter = '';
@@ -138,20 +145,21 @@ class _ExportPageState extends State<ExportPage> {
     });
   }
 
-  void _showFilterDialog() {
+  void showFilterDialog() {
     showDialog(
       context: context,
       builder: (context) {
         return Dialog(
           child: Container(
             width: 400, // Set the desired width here
-            padding: EdgeInsets.all(16.0), // Optional: add padding
+            padding: const EdgeInsets.all(16.0), // Optional: add padding
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Filter Patients',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16.0),
                 _buildFilterInputs(),
@@ -258,17 +266,24 @@ class _ExportPageState extends State<ExportPage> {
     );
   }
 
-  Widget _buildPatientList() {
+  Widget buildPatientListExport() {
     return ListView.builder(
       itemCount: _filteredPatients.length,
       itemBuilder: (context, index) {
         final patient = _filteredPatients[index];
+        List<String> nameParts = patient.fullName.split(" ");
+        String name = nameParts[0];
+        String surname = nameParts[1];
         return Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16),
           child: Stack(
             children: [
               Card(
+                elevation: 0,
                 color: const Color(0xffE0EAFF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 margin:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                 child: Padding(
@@ -282,27 +297,27 @@ class _ExportPageState extends State<ExportPage> {
                           children: [
                             Row(
                               children: [
-                                Text('${patient.name} ${patient.surname}',
+                                Text('$name $surname',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18)),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 if (patient.gender == "Male")
-                                  Icon(
+                                  const Icon(
                                     Icons.male, // For male
                                     color: Colors.blue,
                                     size: 28.0,
                                   ),
                                 if (patient.gender == "Female")
-                                  Icon(
+                                  const Icon(
                                     Icons.female, // For female
                                     color: Colors.pink,
                                     size: 28.0,
                                   ),
-                                Text(
-                                    " (${patient.age} ${"years".tr()}${"old".tr()})",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold))
+                                const SizedBox(width: 5),
+                                Text("(${patient.age} ${"yrs".tr()})",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold))
                               ],
                             ),
                             Row(
@@ -336,14 +351,14 @@ class _ExportPageState extends State<ExportPage> {
               ),
               Positioned(
                 top: 0,
-                right: 20,
+                right: 10,
                 bottom: 0,
                 child: ClipRect(
                   child: SizedBox(
                     height: 65,
                     width: 200,
                     child: Opacity(
-                      opacity: 0.25, // Set the opacity to 50%
+                      opacity: 0.5, // Set the opacity to 50%
                       child: Image.asset(
                         'assets/images/therapy4.png',
                         fit: BoxFit.contain,
@@ -369,37 +384,104 @@ class _ExportPageState extends State<ExportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Export Patients'),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "exportData".tr(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: _showFilterDialog, // Show filter dialog on button press
+          Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child: IconButton(
+              icon: const FaIcon(
+                FontAwesomeIcons.circleInfo,
+                size: 25,
+                color: Color(0xff3362CC),
+              ),
+              onPressed: () {
+                showInfoDialog(context);
+              },
+            ),
           ),
         ],
       ),
       body: Column(
         children: [
-          Expanded(child: _buildPatientList()),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _fullNameFilter = value;
+                          _filterPatients();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search...',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      showFilterDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              15), // Set your border radius here
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 10),
+                        backgroundColor: const Color(0xff407BFF)),
+                    child: Row(
+                      children: [
+                        const Icon(FontAwesomeIcons.filter,
+                            color: Color(0xffCADBFF)),
+                        const SizedBox(width: 5),
+                        Text('filterData'.tr(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(child: buildPatientListExport()),
           Padding(
             padding: const EdgeInsets.only(right: 16.0, bottom: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Reset Filters button with icon
                 ElevatedButton.icon(
-                  onPressed: _resetFilters, // Reset filters button
-                  icon:
-                      Icon(Icons.refresh), // Icon for the Reset Filters button
-                  label: Text(
-                      'Reset Filters'), // Text for the Reset Filters button
+                  onPressed: _resetFilters,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Reset Filters'),
                 ),
-                SizedBox(width: 10),
-                // Export All button with icon
+                const SizedBox(width: 10),
                 ElevatedButton.icon(
-                  onPressed: _exportAll, // Export all button
-                  icon: Icon(
-                      Icons.file_download), // Icon for the Export All button
-                  label: Text('Export All'), // Text for the Export All button
+                  onPressed: _exportAll,
+                  icon: const Icon(Icons.file_download),
+                  label: const Text('Export All'),
                 ),
               ],
             ),
