@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pulse/mainpage/patient_data/patientData.dart';
 import 'package:pulse/utils/actionButton.dart';
+import 'package:pulse/utils/addPatientForm.dart';
 import 'package:pulse/utils/infoDialog.dart';
 
 class Patient {
@@ -72,7 +73,7 @@ class _PatientPageState extends State<PatientPage> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 15),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -127,7 +128,11 @@ class _PatientPageState extends State<PatientPage> {
                   height: 55,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      // Placeholder for Add Patient functionality
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const AddPatientForm();
+                          });
                     },
                     icon: const Icon(
                       FontAwesomeIcons.userPlus,
@@ -191,7 +196,7 @@ class _PatientPageState extends State<PatientPage> {
                                         ),
                                         Text(
                                           "Last Updated: ${DateFormat('dd/MM/yyyy HH:mm').format(patient.lastUpdate)}",
-                                          style: const TextStyle(fontSize: 10),
+                                          style: const TextStyle(fontSize: 11),
                                         ),
                                       ],
                                     ),

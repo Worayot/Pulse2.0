@@ -2,8 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/bulletPoints.dart';
+import 'package:pulse/utils/infoBox.dart';
 import 'package:pulse/utils/inspectionTimeRow.dart';
-import 'package:pulse/utils/table.dart.dart';
+import 'package:pulse/utils/reportWidget.dart';
 
 class PatientData extends StatefulWidget {
   const PatientData({super.key});
@@ -71,22 +72,40 @@ class _PatientDataState extends State<PatientData> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              infoBox(title: "Name", content: "Worayot"),
-                              infoBox(title: "Surname", content: "Liamkaew")
+                              infoBox(
+                                  title: "Name",
+                                  content: "Worayot",
+                                  boxColor: Colors.white),
+                              infoBox(
+                                  title: "Surname",
+                                  content: "Liamkaew",
+                                  boxColor: Colors.white)
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              infoBox(title: "Age", content: "21"),
-                              infoBox(title: "Gender", content: "Male")
+                              infoBox(
+                                  title: "Age",
+                                  content: "21",
+                                  boxColor: Colors.white),
+                              infoBox(
+                                  title: "Gender",
+                                  content: "Male",
+                                  boxColor: Colors.white)
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              infoBox(title: "Hospital no.", content: "C11"),
-                              infoBox(title: "Bed No.", content: "602")
+                              infoBox(
+                                  title: "Hospital no.",
+                                  content: "C11",
+                                  boxColor: Colors.white),
+                              infoBox(
+                                  title: "Bed No.",
+                                  content: "602",
+                                  boxColor: Colors.white)
                             ],
                           ),
                           Padding(
@@ -139,50 +158,20 @@ class _PatientDataState extends State<PatientData> {
                     box_height: 220,
                     image: "assets/images/bullet2.png"),
                 const SizedBox(height: 10),
-                ExpandableWidget(
+                const ExpandableWidget(
                     title: "Full Report",
                     widget: Column(
-                      children: [SizedBox(height: 60), ReportTable()],
+                      children: [
+                        SizedBox(height: 70),
+                        ReportWidget(tableHeight: 350)
+                      ],
                     ),
-                    box_height: 600,
+                    box_height: 520,
                     image: "assets/images/bullet3.png")
               ],
             ),
           ),
         ));
-  }
-
-  Widget infoBox({required String title, required String content}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the left
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              textAlign: TextAlign.left,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Container(
-            width: 150,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                content,
-                style: const TextStyle(color: Colors.black),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget description() {

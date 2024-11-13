@@ -4,7 +4,7 @@ import 'package:pulse/authentication/login.dart';
 import 'package:pulse/mainpage/mainpage.dart';
 import 'package:pulse/mainpage/patient_data/patientData.dart';
 import 'package:pulse/temp/dashboard.dart';
-import 'package:pulse/utils/table.dart.dart';
+import 'package:pulse/utils/reportWidget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

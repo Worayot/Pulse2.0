@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/DateNavigation.dart';
 import 'package:pulse/utils/patientListHome.dart';
+import 'package:pulse/utils/swipableTable.dart';
+import 'package:pulse/utils/reportWidget.dart';
 
 void showPatientDetails(BuildContext context, Patient patient) {
   List<String> date =
@@ -106,15 +108,12 @@ void showPatientDetails(BuildContext context, Patient patient) {
                               fontWeight: FontWeight.bold, fontSize: 50),
                           textAlign: TextAlign.center,
                         ),
+                        const ReportWidget(tableHeight: 250)
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
-            const Align(
-              alignment: Alignment.center,
-              child: DateNavigation(),
             ),
           ],
         ),

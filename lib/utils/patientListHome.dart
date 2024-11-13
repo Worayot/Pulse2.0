@@ -106,39 +106,58 @@ class _PatientListState extends State<PatientList> {
           return Column(
             children: [
               SizedBox(
-                height: 70,
+                height: 80,
                 child: Card(
                   color: const Color(0xffE0EAFF),
                   margin: EdgeInsets.zero,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                        bottomLeft: Radius.circular(12)),
                   ),
-                  elevation: 0,
+                  elevation: 1,
                   child: Column(
                     children: [
                       Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 12.0),
+                                vertical: 17.0, horizontal: 12.0),
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Colors.red,
+                                color: Color(0xffFAD505),
                                 shape: BoxShape.circle,
                               ),
                               width: 45,
                               height: 45,
                               alignment: Alignment.center,
-                              child: Text(
-                                patient.MEWs.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
+                              child: Stack(
+                                children: [
+                                  Text(
+                                    patient.MEWs.toString(),
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.transparent,
+                                      shadows: [
+                                        Shadow(
+                                          offset: const Offset(1, 1),
+                                          blurRadius: 10,
+                                          color: Colors.black.withOpacity(0.25),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    patient.MEWs.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -223,13 +242,13 @@ class _PatientListState extends State<PatientList> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomLeft:
-                                Radius.circular(_isExpanded[index] ? 0 : 20),
+                                Radius.circular(_isExpanded[index] ? 0 : 12),
                             bottomRight:
-                                Radius.circular(_isExpanded[index] ? 0 : 20),
+                                Radius.circular(_isExpanded[index] ? 0 : 12),
                           ),
                         ),
                         backgroundColor: const Color(0xff98B1E8),
-                        elevation: 0,
+                        elevation: 1,
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                       ),
                       child: Row(
@@ -264,8 +283,8 @@ class _PatientListState extends State<PatientList> {
                       decoration: const BoxDecoration(
                         color: Color(0xff98B1E8),
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
                         ),
                       ),
                       child: Column(
@@ -280,10 +299,9 @@ class _PatientListState extends State<PatientList> {
                                     decoration: InputDecoration(
                                       fillColor: Colors.white,
                                       filled: true,
-                                      contentPadding: const EdgeInsets
-                                          .symmetric(
-                                          horizontal:
-                                              12.0), // Adjust padding as needed
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 12.0),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: BorderSide.none,

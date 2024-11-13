@@ -176,7 +176,7 @@ class _ExportPageState extends State<ExportPage> {
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
                       },
-                      child: Text('Close'),
+                      child: Text('close'.tr()),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -274,19 +274,20 @@ class _ExportPageState extends State<ExportPage> {
         String name = nameParts[0];
         String surname = nameParts[1];
         return Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16),
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16), // Space between card and screen
           child: Stack(
             children: [
               Card(
-                elevation: 0,
+                elevation: 1,
                 color: const Color(0xffE0EAFF),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                margin:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                margin: const EdgeInsets.symmetric(vertical: 8),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -299,51 +300,56 @@ class _ExportPageState extends State<ExportPage> {
                                 Text('$name $surname',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                                const SizedBox(width: 5),
+                                        fontSize: 16)),
+                                const SizedBox(width: 2),
                                 if (patient.gender == "Male")
                                   const Icon(
                                     Icons.male, // For male
                                     color: Colors.blue,
-                                    size: 28.0,
+                                    size: 26.0,
                                   ),
                                 if (patient.gender == "Female")
                                   const Icon(
                                     Icons.female, // For female
                                     color: Colors.pink,
-                                    size: 28.0,
+                                    size: 26.0,
                                   ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 3),
                                 Text("(${patient.age} ${"yrs".tr()})",
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold))
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 11))
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${"ward".tr()} '),
+                                Text('${"ward".tr()} ',
+                                    style: const TextStyle(fontSize: 11)),
                                 Text(patient.ward,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold)),
-                                Text(' ${"bedNo".tr()} '),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 11)),
+                                Text(' ${"bedNo".tr()} ',
+                                    style: const TextStyle(fontSize: 11)),
                                 Text(patient.bedNumber,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 11)),
                               ],
                             ),
                             Row(
                               children: [
-                                Text('${"hnNo".tr()} '),
+                                Text('${"hnNo".tr()} ',
+                                    style: const TextStyle(fontSize: 11)),
                                 Text(patient.hospitalNumber,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 11)),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      buildExportButton(FontAwesomeIcons.fileExport, () {},
-                          Colors.white, const Color(0xff4B74D1))
                     ],
                   ),
                 ),
@@ -354,10 +360,10 @@ class _ExportPageState extends State<ExportPage> {
                 bottom: 0,
                 child: ClipRect(
                   child: SizedBox(
-                    height: 65,
-                    width: 200,
+                    height: 50,
+                    width: 150,
                     child: Opacity(
-                      opacity: 0.5, // Set the opacity to 50%
+                      opacity: 1, // Set the opacity to 50%
                       child: Image.asset(
                         'assets/images/therapy4.png',
                         fit: BoxFit.contain,
@@ -369,7 +375,7 @@ class _ExportPageState extends State<ExportPage> {
               Positioned(
                   top: 0,
                   bottom: 0,
-                  right: 25,
+                  right: 10,
                   child: buildExportButton(FontAwesomeIcons.fileExport, () {},
                       Colors.white, const Color(0xff4B74D1))),
             ],
@@ -412,8 +418,7 @@ class _ExportPageState extends State<ExportPage> {
       body: Column(
         children: [
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -430,7 +435,7 @@ class _ExportPageState extends State<ExportPage> {
                         hintText: 'Search...',
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
                     ),
@@ -442,8 +447,7 @@ class _ExportPageState extends State<ExportPage> {
                     },
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15), // Set your border radius here
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         padding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 10),
