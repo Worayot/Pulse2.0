@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pulse/authentication/login.dart';
 import 'package:pulse/mainpage/mainpage.dart';
-import 'package:pulse/mainpage/patient_data/patient_info.dart';
+import 'package:pulse/mainpage/patient_data/patientData.dart';
 import 'package:pulse/temp/dashboard.dart';
-import 'package:pulse/utils/frozenTable.dart';
+import 'package:pulse/utils/table.dart.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

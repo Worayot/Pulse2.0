@@ -115,8 +115,7 @@ class _ExportPageState extends State<ExportPage> {
             patient.bedNumber
                 .toLowerCase()
                 .contains(_bedNumFilter.toLowerCase());
-        final matchesAge =
-            patient.age >= _minAge && patient.age <= _maxAge; // Age filter
+        final matchesAge = patient.age >= _minAge && patient.age <= _maxAge;
 
         return matchesFullName &&
             matchesName &&
@@ -125,7 +124,7 @@ class _ExportPageState extends State<ExportPage> {
             matchesGender &&
             matchesHospitalNumber &&
             matchesBedNumber &&
-            matchesAge; // Include age filter in the return
+            matchesAge;
       }).toList();
     });
   }
@@ -141,7 +140,7 @@ class _ExportPageState extends State<ExportPage> {
       _bedNumFilter = '';
       _minAge = 0;
       _maxAge = 120;
-      _filteredPatients = _patients; // Reset to original patient list
+      _filteredPatients = _patients;
     });
   }
 

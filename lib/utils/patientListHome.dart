@@ -5,6 +5,7 @@ import 'package:pulse/utils/MEWsForms.dart';
 import 'package:pulse/utils/actionButton.dart';
 import 'package:pulse/utils/nursing.dart';
 import 'package:pulse/utils/patientDetails.dart';
+import 'package:pulse/utils/timeManager.dart';
 
 class Patient {
   final String name;
@@ -70,6 +71,7 @@ class PatientList extends StatefulWidget {
   const PatientList({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PatientListState createState() => _PatientListState();
 }
 
@@ -180,7 +182,7 @@ class _PatientListState extends State<PatientList> {
                               children: [
                                 buildActionButton(FontAwesomeIcons.solidClock,
                                     () {
-                                  _showTimeManager(context);
+                                  showTimeManager(context);
                                 }, Colors.white, const Color(0xff3362CC)),
                                 const SizedBox(width: 4),
                                 buildActionButton(FontAwesomeIcons.userNurse,
@@ -239,10 +241,11 @@ class _PatientListState extends State<PatientList> {
                                 : "inspectionTime".tr(),
                             style: const TextStyle(color: Colors.black),
                           ),
+                          const SizedBox(width: 5),
                           Icon(
                             _isExpanded[index]
-                                ? Icons.arrow_upward
-                                : Icons.arrow_downward,
+                                ? FontAwesomeIcons.angleUp
+                                : FontAwesomeIcons.angleDown,
                             color: Colors.black,
                           ),
                         ],
@@ -258,28 +261,76 @@ class _PatientListState extends State<PatientList> {
                     Container(
                       width: 170,
                       padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: const BorderRadius.only(
+                      decoration: const BoxDecoration(
+                        color: Color(0xff98B1E8),
+                        borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
                       ),
                       child: Column(
-                        children: patient.additionalInfo.map((info) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  initialValue: info,
-                                  decoration: const InputDecoration(
-                                      border: UnderlineInputBorder()),
-                                ),
+                        children: [
+                          ...patient.additionalInfo.map((info) {
+                            return Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  height: 30,
+                                  child: TextFormField(
+                                    initialValue: info,
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      contentPadding: const EdgeInsets
+                                          .symmetric(
+                                          horizontal:
+                                              12.0), // Adjust padding as needed
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      suffixIcon: const Icon(
+                                        Icons.edit,
+                                        color: Color(0xff565656),
+                                      ),
+                                    ),
+                                  ),
+                                ));
+                          }),
+                          SizedBox(
+                            height: 30,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff3362CC),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.only(left: 0, right: 0)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'addMoreTime'.tr(),
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 10),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Icon(FontAwesomeIcons.plus,
+                                      color: Colors.white)
+                                ],
                               ),
-                              const Icon(Icons.edit, color: Colors.black)
-                            ],
-                          );
-                        }).toList(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -291,43 +342,4 @@ class _PatientListState extends State<PatientList> {
       ),
     );
   }
-}
-
-void _showTimeManager(BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 0),
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), // Adjust radius here
-            ),
-            title: Row(
-              children: [
-                Text(
-                  "notifications".tr(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(
-                    FontAwesomeIcons.xmark, // The icon to display
-                    color: Colors.black, // Icon color
-                    size: 30, // Icon size
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            contentPadding:
-                const EdgeInsets.only(left: 30, right: 30, bottom: 30),
-            content: const Row(
-              children: [],
-            ),
-          ),
-        );
-      });
 }

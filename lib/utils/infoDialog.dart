@@ -46,7 +46,7 @@ void showInfoDialog(BuildContext context) {
             content: Container(
               width: 800,
               constraints: const BoxConstraints(
-                maxHeight: 180,
+                maxHeight: 210,
               ),
               child: Column(
                 children: [
@@ -68,12 +68,13 @@ void showInfoDialog(BuildContext context) {
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           Text(' ${'willGoToMEWsCalScreen'.tr()}',
-                              style: const TextStyle(fontSize: 16)),
+                              style: const TextStyle(fontSize: 16),
+                              softWrap: true),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('\t\t${'MEWsScreen'.tr()}',
+                          Text('\t\t${'MEWsCalScreen'.tr()}',
                               style: const TextStyle(fontSize: 16))
                         ],
                       ),
@@ -96,6 +97,17 @@ void showInfoDialog(BuildContext context) {
                           const Icon(FontAwesomeIcons.userNurse,
                               size: 16, color: Color(0xff3362CC)),
                           Text(' ${'nursing'.tr()}',
+                              style: const TextStyle(fontSize: 16))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text('• ',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                          const Icon(FontAwesomeIcons.clipboardList,
+                              size: 16, color: Color(0xff3362CC)),
+                          Text(' ${'patientDetails'.tr()}',
                               style: const TextStyle(fontSize: 16))
                         ],
                       ),

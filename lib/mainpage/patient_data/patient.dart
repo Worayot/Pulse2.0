@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:pulse/mainpage/patient_data/patient_info.dart';
+import 'package:pulse/mainpage/patient_data/patientData.dart';
 import 'package:pulse/utils/actionButton.dart';
 import 'package:pulse/utils/infoDialog.dart';
 
@@ -235,7 +235,7 @@ class _PatientPageState extends State<PatientPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PatientInfo(),
+                                  builder: (context) => const PatientData(),
                                 ),
                               );
                             }, Colors.white, const Color(0xff3362CC)),
