@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/bulletPoints.dart';
 import 'package:pulse/utils/infoBox.dart';
 import 'package:pulse/utils/inspectionTimeRow.dart';
-import 'package:pulse/utils/reportWidget.dart';
+import 'package:pulse/utils/symbolsDialog/reportWidget.dart';
 
 class PatientData extends StatefulWidget {
   const PatientData({super.key});

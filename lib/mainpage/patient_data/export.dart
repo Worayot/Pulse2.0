@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/actionButton.dart';
-import 'package:pulse/utils/infoDialog.dart';
+import 'package:pulse/utils/symbolsDialog/exportSymbols.dart';
+import 'package:pulse/utils/symbolsDialog/infoDialog.dart';
 
 class ExportPage extends StatefulWidget {
   const ExportPage({super.key});
@@ -409,7 +410,7 @@ class _ExportPageState extends State<ExportPage> {
                 color: Color(0xff3362CC),
               ),
               onPressed: () {
-                showInfoDialog(context);
+                showInfoDialog(context, exportSymbols());
               },
             ),
           ),
@@ -419,54 +420,59 @@ class _ExportPageState extends State<ExportPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _fullNameFilter = value;
-                          _filterPatients();
-                        });
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Search...',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      showFilterDialog();
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _fullNameFilter = value;
+                        _filterPatients();
+                      });
                     },
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 10),
-                        backgroundColor: const Color(0xff407BFF)),
-                    child: Row(
-                      children: [
-                        const Icon(FontAwesomeIcons.filter,
-                            color: Color(0xffCADBFF)),
-                        const SizedBox(width: 5),
-                        Text('filterData'.tr(),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16)),
-                      ],
+                    decoration: const InputDecoration(
+                      hintText: "Search...",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: Icon(
+                        FontAwesomeIcons.magnifyingGlass,
+                        color: Colors.black,
+                      ),
+                      filled: true, // Enables the background color
+                      fillColor: Color(0xffCADBFF), // Sets the background color
+                      labelStyle: TextStyle(color: Colors.black),
                     ),
+                    style: const TextStyle(color: Colors.black),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    showFilterDialog();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 10),
+                      backgroundColor: const Color(0xff407BFF)),
+                  child: Row(
+                    children: [
+                      const Icon(FontAwesomeIcons.filter,
+                          color: Color(0xffCADBFF)),
+                      const SizedBox(width: 5),
+                      Text('filterData'.tr(),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16)),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(child: buildPatientListExport()),
@@ -479,7 +485,7 @@ class _ExportPageState extends State<ExportPage> {
                   onTap: _resetFilters,
                   child: Text(
                     'resetFilters'.tr(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.red, // Set text color to red
                         decoration: TextDecoration.underline, // Add underline
                         decorationColor:
@@ -490,8 +496,17 @@ class _ExportPageState extends State<ExportPage> {
                 const SizedBox(width: 10),
                 ElevatedButton.icon(
                   onPressed: _exportAll,
-                  icon: const Icon(Icons.file_download),
-                  label: const Text('Export All'),
+                  label: Text('download'.tr(),
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color(0xff407BFF), // Set background color to blue
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Set border radius
+                    ),
+                  ),
                 ),
               ],
             ),

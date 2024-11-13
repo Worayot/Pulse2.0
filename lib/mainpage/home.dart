@@ -3,7 +3,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/infoDialog.dart';
+import 'package:pulse/utils/symbolsDialog/homeSymbols.dart';
+import 'package:pulse/utils/symbolsDialog/infoDialog.dart';
 import 'package:pulse/utils/patientListHome.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   color: Color(0xff3362CC) // Color of the icon
                   ),
               onPressed: () {
-                showInfoDialog(context);
+                showInfoDialog(context, homeSymbols());
               },
             ),
           ),

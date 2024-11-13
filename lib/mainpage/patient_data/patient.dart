@@ -7,7 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:pulse/mainpage/patient_data/patientData.dart';
 import 'package:pulse/utils/actionButton.dart';
 import 'package:pulse/utils/addPatientForm.dart';
-import 'package:pulse/utils/infoDialog.dart';
+import 'package:pulse/utils/symbolsDialog/infoDialog.dart';
+import 'package:pulse/utils/symbolsDialog/patientSymbols.dart';
 
 class Patient {
   final String name;
@@ -89,7 +90,7 @@ class _PatientPageState extends State<PatientPage> {
                   color: Color(0xff3362CC) // Color of the icon
                   ),
               onPressed: () {
-                showInfoDialog(context);
+                showInfoDialog(context, patientSymbols());
               },
             ),
           ),

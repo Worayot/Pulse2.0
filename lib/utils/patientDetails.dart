@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/DateNavigation.dart';
 import 'package:pulse/utils/patientListHome.dart';
 import 'package:pulse/utils/swipableTable.dart';
-import 'package:pulse/utils/reportWidget.dart';
+import 'package:pulse/utils/symbolsDialog/reportWidget.dart';
 
 void showPatientDetails(BuildContext context, Patient patient) {
   List<String> date =
