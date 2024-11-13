@@ -21,17 +21,18 @@ Widget infoTextField({
         const SizedBox(height: 5),
         Container(
           // Remove fixed width and let it take available space
-          constraints: BoxConstraints(maxWidth: double.infinity, minWidth: 140),
+          constraints:
+              const BoxConstraints(maxWidth: double.infinity, minWidth: 140),
           height: 40,
           decoration: BoxDecoration(
             color: boxColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 0),
             child: TextFormField(
               controller: controller,
-              maxLines: null, // Allows for text wrapping to new lines
+              maxLines: 2, // Allows for text wrapping to new lines
               style: const TextStyle(color: Colors.black, fontSize: 12),
               decoration: const InputDecoration(
                 border: InputBorder.none,

@@ -21,6 +21,8 @@ class _AddPatientFormState extends State<AddPatientForm> {
   final TextEditingController hnController = TextEditingController();
   final TextEditingController bedNumController = TextEditingController();
 
+  String? _selectedGender;
+
   @override
   void dispose() {
     nameController.dispose(); // Dispose the controller when done
@@ -33,13 +35,41 @@ class _AddPatientFormState extends State<AddPatientForm> {
   }
 
   void submitData() {
-    String name = nameController.text;
-    String surname = surnameController.text;
-    String age = ageController.text;
-    String ward = wardController.text;
-    String hn = hnController.text;
-    String bedNum = bedNumController.text;
-    // Do something with the input, like print it or save it
+    String name = nameController.text.trim();
+    String surname = surnameController.text.trim();
+    String age = ageController.text.trim();
+    String ward = wardController.text.trim();
+    String hn = hnController.text.trim();
+    String bedNum = bedNumController.text.trim();
+
+    if (name.isEmpty ||
+        surname.isEmpty ||
+        age.isEmpty ||
+        ward.isEmpty ||
+        hn.isEmpty ||
+        bedNum.isEmpty ||
+        _selectedGender == null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Warning".tr()),
+            content: Text("plsFillInAllTheFields".tr()),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true); // User confirmed
+                },
+                child: Text("ok".tr()),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -47,10 +77,11 @@ class _AddPatientFormState extends State<AddPatientForm> {
     final Size size = MediaQuery.sizeOf(context);
 
     return Dialog(
+      // insetPadding: EdgeInsets.all(19),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -73,6 +104,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
                   width: size.width / 2 - size.width / 8 - 6,
@@ -82,14 +114,63 @@ class _AddPatientFormState extends State<AddPatientForm> {
                     boxColor: const Color(0xffE0EAFF),
                   ),
                 ),
-                SizedBox(
-                  width: size.width / 2 - size.width / 8 - 6,
-                  child: infoTextField(
-                    // Make this a drop down later
-                    title: "gender".tr(),
-                    controller: nameController,
-                    boxColor: const Color(0xffE0EAFF),
-                  ),
+                const SizedBox(width: 8),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("gender".tr(),
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    SizedBox(
+                      width: size.width / 2 - size.width / 8 - 23,
+                      height: 40,
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xffE0EAFF),
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(12), // Rounded corners
+                            borderSide:
+                                BorderSide.none, // Removes visible border line
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        value: _selectedGender,
+                        items: [
+                          DropdownMenuItem(
+                            value: "Male",
+                            child: Text("male".tr()),
+                          ),
+                          DropdownMenuItem(
+                            value: "Female",
+                            child: Text("female".tr()),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedGender = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -123,7 +204,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: submitData, // Step 4: Trigger to use the data
-              child: const Text("Submit"),
+              child: const Text("Save"),
             ),
           ],
         ),
