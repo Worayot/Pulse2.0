@@ -475,10 +475,17 @@ class _ExportPageState extends State<ExportPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ElevatedButton.icon(
-                  onPressed: _resetFilters,
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Reset Filters'),
+                InkWell(
+                  onTap: _resetFilters,
+                  child: Text(
+                    'resetFilters'.tr(),
+                    style: TextStyle(
+                        color: Colors.red, // Set text color to red
+                        decoration: TextDecoration.underline, // Add underline
+                        decorationColor:
+                            Colors.red, // Set underline color to red
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton.icon(

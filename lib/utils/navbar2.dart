@@ -85,7 +85,7 @@ class _ItemWidget extends StatelessWidget {
   final Curve curve;
 
   const _ItemWidget({
-    Key? key,
+    super.key,
     required this.item,
     required this.isSelected,
     required this.backgroundColor,
@@ -93,7 +93,7 @@ class _ItemWidget extends StatelessWidget {
     required this.itemCornerRadius,
     required this.iconSize,
     this.curve = Curves.linear,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class _ItemWidget extends StatelessWidget {
       container: true,
       selected: isSelected,
       child: AnimatedContainer(
-        width: isSelected ? 130 : 50,
+        width: isSelected ? 120 : 50,
         height: double.maxFinite,
         duration: animationDuration,
         curve: curve,
@@ -110,43 +110,37 @@ class _ItemWidget extends StatelessWidget {
               isSelected ? item.activeColor.withOpacity(0.2) : backgroundColor,
           borderRadius: BorderRadius.circular(itemCornerRadius),
         ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const NeverScrollableScrollPhysics(),
-          child: Container(
-            width: isSelected ? 130 : 50,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                IconTheme(
-                  data: IconThemeData(
-                    size: iconSize,
-                    color: isSelected
-                        ? item.activeColor.withOpacity(1)
-                        : item.inactiveColor ?? item.activeColor,
-                  ),
-                  child: item.icon,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              IconTheme(
+                data: IconThemeData(
+                  size: iconSize,
+                  color: isSelected
+                      ? item.activeColor.withOpacity(1)
+                      : item.inactiveColor ?? item.activeColor,
                 ),
-                if (isSelected)
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: DefaultTextStyle.merge(
-                        style: TextStyle(
-                          color: item.activeColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        textAlign: item.textAlign,
-                        child: item.title,
-                      ),
+                child: item.icon,
+              ),
+              if (isSelected)
+                const SizedBox(width: 8), // Space between icon and text
+              if (isSelected)
+                Flexible(
+                  child: DefaultTextStyle.merge(
+                    style: TextStyle(
+                      color: item.activeColor,
+                      fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
+                    overflow:
+                        TextOverflow.ellipsis, // Handles overflow with ellipsis
+                    textAlign: item.textAlign,
+                    child: item.title,
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),
