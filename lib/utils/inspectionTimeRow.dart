@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/utils/note_viewer.dart';
 
 class InspectionTimeRow extends StatelessWidget {
   final String time;
@@ -13,7 +14,13 @@ class InspectionTimeRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const NoteViewer();
+                      });
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // Button background color
                   shape: RoundedRectangleBorder(

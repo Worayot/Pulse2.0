@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/MEWsForms.dart';
 import 'package:pulse/utils/actionButton.dart';
+import 'package:pulse/utils/note_viewer.dart';
 import 'package:pulse/utils/nursing.dart';
 import 'package:pulse/utils/patientDetails.dart';
 import 'package:pulse/utils/timeManager.dart';
@@ -340,7 +341,7 @@ class _PatientListState extends State<PatientList> {
                                   Text(
                                     'addMoreTime'.tr(),
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 10),
+                                        color: Colors.white, fontSize: 12),
                                   ),
                                   const SizedBox(width: 5),
                                   const Icon(FontAwesomeIcons.plus,
