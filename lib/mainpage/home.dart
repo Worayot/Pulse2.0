@@ -28,7 +28,7 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 15),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(

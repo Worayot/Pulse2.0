@@ -29,11 +29,12 @@ Widget infoTextField({
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 0),
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 0, left: 12, right: 12),
             child: TextFormField(
               controller: controller,
               maxLines: 2, // Allows for text wrapping to new lines
-              style: const TextStyle(color: Colors.black, fontSize: 12),
+              style: const TextStyle(color: Colors.black, fontSize: 14),
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 isCollapsed: true, // Reduce padding inside the text field

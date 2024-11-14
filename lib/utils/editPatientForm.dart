@@ -4,22 +4,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/genderDropdown.dart';
 import 'package:pulse/utils/infoTextField.dart';
 
-class AddPatientForm extends StatefulWidget {
-  const AddPatientForm({super.key});
+class EditPatientForm extends StatefulWidget {
+  const EditPatientForm({super.key});
 
   @override
-  State<AddPatientForm> createState() => _AddPatientFormState();
+  State<EditPatientForm> createState() => _EditPatientFormState();
 }
 
-class _AddPatientFormState extends State<AddPatientForm> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController surnameController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
-  final TextEditingController wardController = TextEditingController();
-  final TextEditingController hnController = TextEditingController();
-  final TextEditingController bedNumController = TextEditingController();
+class _EditPatientFormState extends State<EditPatientForm> {
+  final TextEditingController nameController =
+      TextEditingController(text: "Chicky");
+  final TextEditingController surnameController =
+      TextEditingController(text: "Chicken");
+  final TextEditingController ageController = TextEditingController(text: "10");
+  final TextEditingController wardController =
+      TextEditingController(text: "C11");
+  final TextEditingController hnController = TextEditingController(text: "602");
+  final TextEditingController bedNumController =
+      TextEditingController(text: "Bedroom");
 
-  String? _selectedGender;
+  String? _selectedGender = "Male";
 
   @override
   void dispose() {
@@ -89,7 +93,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
                 child: Row(
                   children: [
                     Text(
-                      "addPatientData".tr(),
+                      "editPatientData".tr(),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),

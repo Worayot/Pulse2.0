@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:pulse/mainpage/patient_data/patientData.dart';
 import 'package:pulse/utils/actionButton.dart';
 import 'package:pulse/utils/addPatientForm.dart';
+import 'package:pulse/utils/editPatientForm.dart';
 import 'package:pulse/utils/symbolsDialog/infoDialog.dart';
 import 'package:pulse/utils/symbolsDialog/patientSymbols.dart';
 
@@ -140,24 +141,24 @@ class _PatientPageState extends State<PatientPage> {
                       size: 25,
                       color: Colors.white,
                     ),
-                    label: const Align(
+                    label: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Add Patient",
-                        style: TextStyle(
-                            fontSize: 12,
+                        "addPatient".tr(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 14,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
-                        // overflow: TextOverflow.clip,
                         softWrap: true,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff407bff),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
+                        backgroundColor: const Color(0xff407bff),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 10)),
                   ),
                 ),
               ],
@@ -234,7 +235,7 @@ class _PatientPageState extends State<PatientPage> {
                             }, Colors.white, const Color(0xff3362CC)),
                             const SizedBox(width: 10),
                             buildActionButton(FontAwesomeIcons.penClip, () {
-                              editDetail();
+                              editDetail(context);
                             }, Colors.white, const Color(0xff3362CC)),
                             const SizedBox(width: 10),
                             buildActionButton(FontAwesomeIcons.list, () {
@@ -260,7 +261,13 @@ class _PatientPageState extends State<PatientPage> {
   }
 
   // Helper method to build action buttons
+  void editDetail(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const EditPatientForm();
+        });
+  }
 }
 
 void addToCare() {}
-void editDetail() {}

@@ -16,7 +16,7 @@ class Patient {
   final String bedNumber;
   final String hn;
   final String ward;
-  final List<String> additionalInfo;
+  final List<String> note;
 
   Patient({
     required this.name,
@@ -27,7 +27,7 @@ class Patient {
     required this.bedNumber,
     required this.hn,
     required this.ward,
-    this.additionalInfo = const [],
+    this.note = const [],
   });
 }
 
@@ -41,7 +41,7 @@ final List<Patient> _patients = [
     ward: "A1",
     MEWs: 5,
     lastUpdate: DateTime.now().subtract(const Duration(hours: 1)),
-    additionalInfo: ["Info 1", "Info 2"], // Add rows of additional information
+    note: ["Info 1", "Info 2"], // Add rows of additional information
   ),
   Patient(
     name: "Jane",
@@ -52,7 +52,7 @@ final List<Patient> _patients = [
     ward: "B1",
     MEWs: 5,
     lastUpdate: DateTime.now().subtract(const Duration(hours: 2)),
-    additionalInfo: ["Info A", "Info B", "Info C"],
+    note: ["Info A", "Info B", "Info C"],
   ),
   Patient(
     name: "Mike",
@@ -63,7 +63,7 @@ final List<Patient> _patients = [
     bedNumber: "C",
     ward: "C1",
     lastUpdate: DateTime.now().subtract(const Duration(hours: 3)),
-    additionalInfo: ["Detail X", "Detail Y"],
+    note: ["Detail X", "Detail Y"],
   ),
 ];
 
@@ -289,7 +289,7 @@ class _PatientListState extends State<PatientList> {
                       ),
                       child: Column(
                         children: [
-                          ...patient.additionalInfo.map((info) {
+                          ...patient.note.map((info) {
                             return Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: SizedBox(
@@ -315,8 +315,9 @@ class _PatientListState extends State<PatientList> {
                                         borderSide: BorderSide.none,
                                       ),
                                       suffixIcon: const Icon(
-                                        Icons.edit,
+                                        FontAwesomeIcons.pen,
                                         color: Color(0xff565656),
+                                        size: 20,
                                       ),
                                     ),
                                   ),
