@@ -53,6 +53,13 @@ class GenderDropdown extends StatelessWidget {
               ),
               value: selectedGender,
               items: [
+                const DropdownMenuItem(
+                  value: "-",
+                  child: Text(
+                    "-",
+                    style: const TextStyle(color: Colors.black, fontSize: 14),
+                  ),
+                ),
                 DropdownMenuItem(
                   value: "Male",
                   child: Text(

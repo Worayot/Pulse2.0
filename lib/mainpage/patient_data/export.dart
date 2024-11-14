@@ -165,43 +165,83 @@ class _ExportPageState extends State<ExportPage> {
       context: context,
       builder: (context) {
         return Dialog(
-          child: Container(
-            width: 400, // Set the desired width here
-            padding: const EdgeInsets.all(16.0), // Optional: add padding
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+          child: SizedBox(
+            width: 400,
+            child: Stack(
               children: [
-                Text(
-                  'filterPatients'.tr(),
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                _buildFilterInputs(),
-                const SizedBox(height: 16.0),
-                StatefulBuilder(
-                  builder: (context, setState) {
-                    return _buildAgeSlider(setState);
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      child: Text('close'.tr()),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.xmark,
+                      color: Colors.black,
+                      size: 30,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _filterPatients(); // Apply filters
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      child: Text('applyFilters'.tr()),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: ClipRect(
+                    child: SizedBox(
+                      height: 280,
+                      child: Opacity(
+                        opacity: 1, // Set the opacity to 50%
+                        child: Image.asset(
+                          'assets/images/filter.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'filterPatients'.tr(),
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      _buildFilterInputs(),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return _buildAgeSlider(setState);
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _filterPatients(); // Apply filters
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(
+                                  0xff407BFF), // Set the background color (you can change this color)
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    12.0), // Set the border radius
+                              ),
+                            ),
+                            child: Text('applyFilters'.tr(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
+                          )),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -218,14 +258,14 @@ class _ExportPageState extends State<ExportPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             infoTextField(
-                title: "name",
+                title: "name".tr(),
                 controller: _nameController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
                 fillSpace: false),
             const SizedBox(width: 10),
             infoTextField(
-                title: "surname",
+                title: "surname".tr(),
                 controller: _surnameController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
@@ -236,9 +276,7 @@ class _ExportPageState extends State<ExportPage> {
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: GenderDropdown(
             fillSpace: true,
-            selectedGender: _gender.isEmpty
-                ? null
-                : _gender, // Handle default gender as null or empty
+            selectedGender: _gender.isEmpty ? null : _gender,
             size: MediaQuery.of(context).size,
             onGenderChanged: (String? newGender) {
               setState(() {
@@ -252,14 +290,14 @@ class _ExportPageState extends State<ExportPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             infoTextField(
-                title: "hn",
+                title: "hn".tr(),
                 controller: _hnController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
                 fillSpace: false),
             const SizedBox(width: 10),
             infoTextField(
-                title: "bed",
+                title: "bedNumber".tr(),
                 controller: _bedNumController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
@@ -269,12 +307,21 @@ class _ExportPageState extends State<ExportPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: infoTextField(
-              title: "ward",
+              title: "ward".tr(),
               controller: _wardController,
               boxColor: const Color(0xffE0EAFF),
               context: context,
               fillSpace: true),
         ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "age".tr(),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )),
+        )
       ],
     );
   }
@@ -282,43 +329,54 @@ class _ExportPageState extends State<ExportPage> {
   Widget _buildAgeSlider(StateSetter setState) {
     return Column(
       children: [
-        Text(
-          'Filter by Age: ${_minAge.toInt()} - ${_maxAge.toInt()}',
-          style: TextStyle(
-              color: Colors.black), // You can also change the text color here
-        ),
+        // Container(
+        //   padding: const EdgeInsets.all(8.0), // Add padding around the text
+        //   decoration: BoxDecoration(
+        //     color: const Color(0xffE0EAFF), // Set the background color
+        //     borderRadius: BorderRadius.circular(12.0), // Set the border radius
+        //   ),
+
+        //   child: Text(
+        //     'Filter by Age: ${_minAge.toInt()} - ${_maxAge.toInt()}',
+        //     style: const TextStyle(
+        //       color: Colors.black, // Text color
+        //       fontWeight: FontWeight.bold, // Font weight
+        //     ),
+        //   ),
+        // ),
         SliderTheme(
-          data: SliderThemeData(
-              activeTrackColor:
-                  const Color(0xff4672D6), // Color of the active track
-              inactiveTrackColor: Colors.grey, // Color of the inactive track
-              thumbColor: const Color(0xff5677C3), // Color of the thumb circle
-              thumbShape: const RoundSliderThumbShape(
-                  enabledThumbRadius: 16), // Thumb size (radius)
-              overlayColor: Colors.blue.withOpacity(
-                  0.2), // Color of the overlay when the thumb is pressed
-              trackHeight: 6, // Height of the track
-              rangeTrackShape:
-                  const RectangularRangeSliderTrackShape(), // Custom track shape
-              valueIndicatorColor: Colors.transparent),
-          child: RangeSlider(
-            values: RangeValues(_minAge, _maxAge),
-            min: 0,
-            max: 120,
-            divisions: 120,
-            labels: RangeLabels('${_minAge.toInt()}', '${_maxAge.toInt()}'),
-            activeColor: const Color(
-                0xff4672D6), // Set the active color (slider thumb and track)
-            inactiveColor:
-                const Color(0xffE0EAFF), // Set the inactive color (track)
-            onChanged: (values) {
-              setState(() {
-                _minAge = values.start;
-                _maxAge = values.end;
-              });
-            },
-          ),
-        )
+            data: const SliderThemeData(
+                activeTrackColor:
+                    Color(0xff4672D6), // Color of the active track
+                inactiveTrackColor: Colors.grey, // Color of the inactive track
+                thumbColor: Color(0xff5677C3), // Color of the thumb circle
+                thumbShape: RoundSliderThumbShape(
+                    enabledThumbRadius: 16), // Thumb size (radius)
+                overlayColor: Colors
+                    .transparent, // Color of the overlay when the thumb is pressed
+                trackHeight: 6, // Height of the track
+                rangeTrackShape:
+                    RectangularRangeSliderTrackShape(), // Custom track shape
+                valueIndicatorColor: Color(0xff407BFF)),
+            child: RangeSlider(
+              values: RangeValues(_minAge, _maxAge),
+              min: 0,
+              max: 120,
+              divisions: 120,
+              labels: RangeLabels(
+                '${_minAge.toInt()} ${"yrs".tr()}',
+                '${_maxAge.toInt()} ${"yrs".tr()}',
+              ),
+              activeColor: const Color(0xff4672D6),
+              inactiveColor:
+                  const Color(0xffE0EAFF), // Set the inactive color (track)
+              onChanged: (values) {
+                setState(() {
+                  _minAge = values.start;
+                  _maxAge = values.end;
+                });
+              },
+            ))
       ],
     );
   }
