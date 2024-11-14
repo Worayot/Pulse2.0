@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NoteViewer extends StatefulWidget {
-  const NoteViewer({Key? key}) : super(key: key);
+  const NoteViewer({super.key});
 
   @override
   State<NoteViewer> createState() => _NoteViewerState();
@@ -84,21 +84,37 @@ class _NoteViewerState extends State<NoteViewer>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Title at the top
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Text(
-                "note".tr(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(
+                    "note".tr(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  right: -10,
+                  top: -10,
+                  child: IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.xmark, // The icon to display
+                      color: Colors.black, // Icon color
+                      size: 30, // Icon size
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                )
+              ],
             ),
           ),
-
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             height: isSecondButtonSelected ? 100 : 400,
@@ -184,7 +200,6 @@ class _NoteViewerState extends State<NoteViewer>
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: AnimatedContainer(
@@ -195,7 +210,6 @@ class _NoteViewerState extends State<NoteViewer>
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(

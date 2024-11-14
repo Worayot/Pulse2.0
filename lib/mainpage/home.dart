@@ -3,9 +3,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/symbolsDialog/homeSymbols.dart';
-import 'package:pulse/utils/symbolsDialog/infoDialog.dart';
-import 'package:pulse/utils/patientListHome.dart';
+import 'package:pulse/utils/symbols_dialog/home_symbols.dart';
+import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
+import 'package:pulse/utils/patient_list_home.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

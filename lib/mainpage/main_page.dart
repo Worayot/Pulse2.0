@@ -5,7 +5,7 @@ import 'package:pulse/mainpage/home.dart';
 import 'package:pulse/mainpage/patient_data/export.dart';
 import 'package:pulse/mainpage/patient_data/patient.dart';
 import 'package:pulse/mainpage/settings/setting.dart';
-import 'package:pulse/utils/navbar2.dart';
+import 'package:pulse/utils/navbar.dart';
 
 class MainPage extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/genderDropdown.dart';
-import 'package:pulse/utils/infoTextField.dart';
+import 'package:pulse/utils/gender_dropdown.dart';
+import 'package:pulse/utils/info_text_field.dart';
 
 class AddPatientForm extends StatefulWidget {
   const AddPatientForm({super.key});

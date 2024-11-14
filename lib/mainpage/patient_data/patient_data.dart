@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/bulletPoints.dart';
-import 'package:pulse/utils/infoBox.dart';
-import 'package:pulse/utils/inspectionTimeRow.dart';
-import 'package:pulse/utils/symbolsDialog/reportWidget.dart';
+import 'package:pulse/utils/bullet_points.dart';
+import 'package:pulse/utils/info_box.dart';
+import 'package:pulse/utils/inspection_time_row.dart';
+import 'package:pulse/utils/symbols_dialog/report_widget.dart';
 
 class PatientData extends StatefulWidget {
   const PatientData({super.key});

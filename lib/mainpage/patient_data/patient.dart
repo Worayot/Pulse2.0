@@ -4,12 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:pulse/mainpage/patient_data/patientData.dart';
-import 'package:pulse/utils/actionButton.dart';
-import 'package:pulse/utils/addPatientForm.dart';
-import 'package:pulse/utils/editPatientForm.dart';
-import 'package:pulse/utils/symbolsDialog/infoDialog.dart';
-import 'package:pulse/utils/symbolsDialog/patientSymbols.dart';
+import 'package:pulse/mainpage/patient_data/patient_data.dart';
+import 'package:pulse/utils/action_button.dart';
+import 'package:pulse/utils/add_patient_form.dart';
+import 'package:pulse/utils/edit_patient_form.dart';
+import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
+import 'package:pulse/utils/symbols_dialog/patient_symbols.dart';
 
 class Patient {
   final String name;

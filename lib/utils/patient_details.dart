@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/DateNavigation.dart';
-import 'package:pulse/utils/patientListHome.dart';
-import 'package:pulse/utils/swipableTable.dart';
-import 'package:pulse/utils/symbolsDialog/reportWidget.dart';
+import 'package:pulse/utils/date_navigation.dart';
+import 'package:pulse/utils/patient_list_home.dart';
+import 'package:pulse/utils/swipable_table.dart';
+import 'package:pulse/utils/symbols_dialog/report_widget.dart';
 
-void showPatientDetails(BuildContext context, Patient patient) {
+void showPatientDetails(BuildContext context, Patient1 patient) {
   List<String> date =
       DateFormat('HH:mm dd/MM/yyyy').format(patient.lastUpdate).split(" ");
 

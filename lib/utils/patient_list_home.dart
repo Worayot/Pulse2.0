@@ -6,8 +6,31 @@ import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/note_viewer.dart';
 import 'package:pulse/utils/nursing.dart';
 import 'package:pulse/utils/patient_details.dart';
-import 'package:pulse/utils/patient_list_home.dart';
 import 'package:pulse/utils/time_manager.dart';
+
+class Patient1 {
+  final String name;
+  final String surname;
+  final int age;
+  final int MEWs;
+  final DateTime lastUpdate;
+  final String bedNumber;
+  final String hn;
+  final String ward;
+  final List<String> note;
+
+  Patient1({
+    required this.name,
+    required this.surname,
+    required this.age,
+    required this.MEWs,
+    required this.lastUpdate,
+    required this.bedNumber,
+    required this.hn,
+    required this.ward,
+    this.note = const [],
+  });
+}
 
 final List<Patient1> _patients = [
   Patient1(
