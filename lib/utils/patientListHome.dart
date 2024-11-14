@@ -315,10 +315,20 @@ class _PatientListState extends State<PatientList> {
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: BorderSide.none,
                                       ),
-                                      suffixIcon: const Icon(
-                                        FontAwesomeIcons.pen,
-                                        color: Color(0xff565656),
-                                        size: 20,
+                                      suffixIcon: InkWell(
+                                        child: const Icon(
+                                          FontAwesomeIcons.pen,
+                                          color: Color(0xff565656),
+                                          size: 20,
+                                        ),
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return const NoteViewer();
+                                            },
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),

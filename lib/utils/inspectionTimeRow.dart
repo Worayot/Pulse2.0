@@ -14,13 +14,7 @@ class InspectionTimeRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(children: [
               ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const NoteViewer();
-                      });
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // Button background color
                   shape: RoundedRectangleBorder(
@@ -36,14 +30,29 @@ class InspectionTimeRow extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                child: const Icon(FontAwesomeIcons.solidClipboard,
-                    color: Color(0xff3362CC)),
-              )
+              ElevatedButton(
+                onPressed: () {
+                  // Show the dialog when the button is pressed
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const NoteViewer();
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.solidClipboard,
+                  color: Color(0xff3362CC),
+                ),
+              ),
             ])),
       ],
     );

@@ -10,7 +10,7 @@ class NoteViewer extends StatefulWidget {
 }
 
 class _NoteViewerState extends State<NoteViewer> {
-  bool isFirstButtonSelected = true;
+  bool isSecondButtonSelected = false;
   final FocusNode _focusNodeNoteContainer = FocusNode();
   final FocusNode _focusNodeMovingWidget = FocusNode();
   bool isNoteFocused = false;
@@ -51,7 +51,6 @@ class _NoteViewerState extends State<NoteViewer> {
     _focusNodeNoteContainer.dispose();
     _focusNodeMovingWidget.dispose();
 
-    // Dispose all the controllers
     for (var controller in controllers) {
       controller.dispose();
     }
@@ -83,8 +82,8 @@ class _NoteViewerState extends State<NoteViewer> {
                     ),
                   ),
                 ),
-                SizedBox(height: isFirstButtonSelected ? 100 : 10),
-                if (!isFirstButtonSelected) noteContainer(context),
+                SizedBox(height: isSecondButtonSelected ? 100 : 10),
+                if (!isSecondButtonSelected) noteContainer(context),
                 movingWidget(context),
                 const SizedBox(height: 10),
                 Row(
@@ -95,16 +94,14 @@ class _NoteViewerState extends State<NoteViewer> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            isFirstButtonSelected = true;
+                            isSecondButtonSelected = false;
                           });
-                          // Focus on TextField when selected
-                          FocusScope.of(context)
-                              .requestFocus(_focusNodeMovingWidget);
+                          FocusScope.of(context).unfocus();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isFirstButtonSelected
-                              ? const Color(0xFF407BFF) // Selected color
-                              : const Color(0xFF3362CC), // Unselected color
+                          backgroundColor: isSecondButtonSelected
+                              ? const Color(0xFF3362CC) // Selected color
+                              : const Color(0xFF407BFF), // Unselected color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -122,15 +119,15 @@ class _NoteViewerState extends State<NoteViewer> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            isFirstButtonSelected = false;
+                            isSecondButtonSelected = true;
                           });
-
-                          FocusScope.of(context).unfocus();
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodeMovingWidget);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: !isFirstButtonSelected
-                              ? const Color(0xFF407BFF) // Selected color
-                              : const Color(0xFF3362CC), // Unselected color
+                          backgroundColor: !isSecondButtonSelected
+                              ? const Color(0xFF3362CC) // Selected color
+                              : const Color(0xFF407BFF), // Unselected color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -172,7 +169,7 @@ class _NoteViewerState extends State<NoteViewer> {
   Widget noteContainer(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: isFirstButtonSelected ? 100 : 400,
+      height: isSecondButtonSelected ? 100 : 400,
       child: SingleChildScrollView(
         child: Column(
           children: patients.asMap().entries.map((entry) {
@@ -226,7 +223,7 @@ class _NoteViewerState extends State<NoteViewer> {
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 0),
+                          padding: const EdgeInsets.symmetric(vertical: 0),
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
@@ -285,8 +282,26 @@ class _NoteViewerState extends State<NoteViewer> {
                         ),
                       ),
                       focusedIndex == index
-                          ? const Icon(FontAwesomeIcons.solidFloppyDisk,
-                              color: Color(0xffFAD505))
+                          ? Material(
+                              elevation: 1,
+                              shape:
+                                  const CircleBorder(), // Make sure the material has a circular shape
+                              color: Colors
+                                  .transparent, // Set transparent color for material (only shadow is visible)
+                              child: CircleAvatar(
+                                radius: 15,
+                                backgroundColor: const Color(0xffFAD505),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    FontAwesomeIcons
+                                        .solidFloppyDisk, // Icon for the save action
+                                    color: Colors.white, // Icon color
+                                    size: 15, // Icon size
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            )
                           : const Icon(FontAwesomeIcons.penClip,
                               color: Color(0xff3362CC)),
                     ],
@@ -304,7 +319,7 @@ class _NoteViewerState extends State<NoteViewer> {
     return Column(
       children: [
         IgnorePointer(
-          ignoring: !isFirstButtonSelected,
+          ignoring: !isSecondButtonSelected,
           child: Row(
             children: [
               Expanded(
@@ -312,7 +327,7 @@ class _NoteViewerState extends State<NoteViewer> {
                   focusNode: _focusNodeMovingWidget,
                   decoration: InputDecoration(
                     border: const UnderlineInputBorder(),
-                    labelText: isFirstButtonSelected ? 'enterNote'.tr() : "",
+                    labelText: isSecondButtonSelected ? 'enterNote'.tr() : "",
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
@@ -322,10 +337,10 @@ class _NoteViewerState extends State<NoteViewer> {
                   ),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  autofocus: isFirstButtonSelected,
+                  autofocus: isSecondButtonSelected,
                 ),
               ),
-              if (isFirstButtonSelected)
+              if (isSecondButtonSelected)
                 IconButton(
                   icon: const Icon(FontAwesomeIcons.circlePlus,
                       color: Color(0xff407BFF)),
@@ -334,9 +349,9 @@ class _NoteViewerState extends State<NoteViewer> {
             ],
           ),
         ),
-        AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            height: isFirstButtonSelected ? 100 : 0)
+        // AnimatedContainer(
+        //     duration: const Duration(milliseconds: 200),
+        //     height: isSecondButtonSelected ? 175 : 0)
       ],
     );
   }
