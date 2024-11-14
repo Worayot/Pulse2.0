@@ -9,15 +9,21 @@ class NoteViewer extends StatefulWidget {
   State<NoteViewer> createState() => _NoteViewerState();
 }
 
-class _NoteViewerState extends State<NoteViewer> {
+class _NoteViewerState extends State<NoteViewer>
+    with SingleTickerProviderStateMixin {
   bool isSecondButtonSelected = false;
   final FocusNode _focusNodeNoteContainer = FocusNode();
   final FocusNode _focusNodeMovingWidget = FocusNode();
   bool isNoteFocused = false;
 
+  // Animation controller for sliding effect
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+
   // Track the index of the focused note
   int focusedIndex = -1;
 
+  // Patient list with notes
   List<Patient> patients = [
     Patient(editBy: 'Dr. Smith', note: 'Patient is recovering well.'),
     Patient(editBy: 'Dr. Lee', note: 'Patient shows signs of improvement.'),
@@ -28,29 +34,39 @@ class _NoteViewerState extends State<NoteViewer> {
   ];
 
   // List of controllers for each note
-  List<TextEditingController> controllers = [];
+  late List<TextEditingController> controllers;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize a TextEditingController for each note
-    for (var patient in patients) {
-      controllers.add(TextEditingController(text: patient.note));
-    }
+    // Initialize controllers list with a TextEditingController for each patient note
+    controllers =
+        List.generate(patients.length, (index) => TextEditingController());
 
-    _focusNodeNoteContainer.addListener(() {
-      setState(() {
-        isNoteFocused = _focusNodeNoteContainer.hasFocus;
-      });
-    });
+    // Initialize the AnimationController
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500), // Duration for sliding
+    );
+
+    // Initialize the slide animation
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1), // Start below the screen
+      end: Offset.zero, // End at normal position
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut, // Smooth sliding
+    ));
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     _focusNodeNoteContainer.dispose();
     _focusNodeMovingWidget.dispose();
 
+    // Dispose controllers to avoid memory leaks
     for (var controller in controllers) {
       controller.dispose();
     }
@@ -65,144 +81,207 @@ class _NoteViewerState extends State<NoteViewer> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Stack(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
+          // Title at the top
+          Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: Center(
+              child: Text(
+                "note".tr(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+            ),
+          ),
+
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: isSecondButtonSelected ? 100 : 400,
+            child: isSecondButtonSelected
+                ? Container() // Hide patient notes when adding a new note
+                : SingleChildScrollView(
+                    child: Column(
+                      children: patients.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        Patient patient = entry.value;
+                        return noteEditor(
+                            context, _focusNodeNoteContainer, patient, index);
+                      }).toList(),
+                    ),
+                  ),
+          ),
+          SlideTransition(
+            position: _slideAnimation,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // Top spacing that animates
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: isSecondButtonSelected ? 70 : 0,
+                  ),
+
+                  Row(
+                    children: [
+                      // Expanded TextField to take up available space
+                      if (isSecondButtonSelected)
+                        Expanded(
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: focusedIndex >= 0
+                                    ? controllers[focusedIndex]
+                                    : null,
+                                focusNode: _focusNodeMovingWidget,
+                                maxLines: null,
+                                enabled: isSecondButtonSelected,
+                                decoration: InputDecoration(
+                                  hintText: 'enterYourNote'.tr(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      // CirclePlus Icon
+                      if (isSecondButtonSelected)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Material(
+                            elevation: 2,
+                            shape: const CircleBorder(),
+                            color: Colors.transparent,
+                            child: CircleAvatar(
+                              radius: 18,
+                              backgroundColor:
+                                  const Color(0xff407BFF), // Customize color
+                              child: IconButton(
+                                icon: const Icon(
+                                  FontAwesomeIcons.plus,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  // Bottom spacing that animates
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: isSecondButtonSelected ? 225 : 0,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: !isSecondButtonSelected ? 1.5 : 0,
+              width: double.infinity,
+              color: const Color(0xff3362CC),
+              margin: const EdgeInsets.symmetric(horizontal: 16.0),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Center(
-                  child: Text(
-                    "note".tr(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                // First Button
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isSecondButtonSelected = false;
+                      });
+                      // Reverse the animation when switching to view mode
+                      _animationController.reverse();
+                      FocusScope.of(context).unfocus();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isSecondButtonSelected
+                          ? const Color(0xFF3362CC) // Selected color
+                          : const Color(0xFF407BFF), // Unselected color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                    ),
+                    child: Text(
+                      'view/edit'.tr(),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: isSecondButtonSelected ? 100 : 10),
-                if (!isSecondButtonSelected) noteContainer(context),
-                movingWidget(context),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // First Button
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isSecondButtonSelected = false;
-                          });
-                          FocusScope.of(context).unfocus();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isSecondButtonSelected
-                              ? const Color(0xFF3362CC) // Selected color
-                              : const Color(0xFF407BFF), // Unselected color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                        ),
-                        child: Text(
-                          'view/edit'.tr(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                const SizedBox(width: 10),
+                // Second Button
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isSecondButtonSelected = true;
+                      });
+                      // Trigger animation when the button is pressed
+                      _animationController.forward();
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodeMovingWidget);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: !isSecondButtonSelected
+                          ? const Color(0xFF3362CC) // Unselected color
+                          : const Color(0xFF407BFF), // Selected color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
                       ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 1),
                     ),
-                    const SizedBox(width: 10),
-                    // Second Button
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isSecondButtonSelected = true;
-                          });
-                          FocusScope.of(context)
-                              .requestFocus(_focusNodeMovingWidget);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: !isSecondButtonSelected
-                              ? const Color(0xFF3362CC) // Selected color
-                              : const Color(0xFF407BFF), // Unselected color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 1),
-                        ),
-                        child: Text(
-                          'addNote'.tr(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    child: Text(
+                      'addNote'.tr(),
+                      style: const TextStyle(color: Colors.white),
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 20),
               ],
             ),
           ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: IconButton(
-              icon: const Icon(
-                FontAwesomeIcons.xmark, // Close icon
-                color: Colors.black,
-                size: 30,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
 
-  // Separate method for noteContainer
-  Widget noteContainer(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      height: isSecondButtonSelected ? 100 : 400,
-      child: SingleChildScrollView(
-        child: Column(
-          children: patients.asMap().entries.map((entry) {
-            int index = entry.key;
-            Patient patient = entry.value;
-            return noteEditor(context, _focusNodeNoteContainer, patient, index);
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  // Update noteEditor to show editable text field when tapped
   Widget noteEditor(BuildContext context, _focusNodeNoteContainer,
       Patient patient, int index) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          // Set the focused index when a note is tapped
           focusedIndex = index;
         });
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
         child: Row(
           children: [
             Expanded(
               child: Container(
-                padding: const EdgeInsets.only(right: 10.0),
                 decoration: BoxDecoration(
                   color: focusedIndex == index
-                      ? const Color(
-                          0xffFFF9AD) // Yellow background when focused
+                      ? const Color(0xffFFF9AD)
                       : const Color(0xffE0EAFF), // Default color
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(5),
@@ -242,7 +321,7 @@ class _NoteViewerState extends State<NoteViewer> {
                       const SizedBox(width: 10),
                       Flexible(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                           child: focusedIndex == index
                               ? TextField(
                                   controller: controllers[index],
@@ -251,9 +330,9 @@ class _NoteViewerState extends State<NoteViewer> {
                                   style: const TextStyle(
                                       fontSize:
                                           14), // Set your desired font size here
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Enter your note...',
+                                    hintText: patient.note,
                                   ),
                                 )
                               : Column(
@@ -282,28 +361,40 @@ class _NoteViewerState extends State<NoteViewer> {
                         ),
                       ),
                       focusedIndex == index
-                          ? Material(
-                              elevation: 1,
-                              shape:
-                                  const CircleBorder(), // Make sure the material has a circular shape
-                              color: Colors
-                                  .transparent, // Set transparent color for material (only shadow is visible)
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundColor: const Color(0xffFAD505),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    FontAwesomeIcons
-                                        .solidFloppyDisk, // Icon for the save action
-                                    color: Colors.white, // Icon color
-                                    size: 15, // Icon size
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Material(
+                                elevation: 1,
+                                shape: const CircleBorder(),
+                                color: Colors.transparent,
+                                child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: const Color(0xffFAD505),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      FontAwesomeIcons.solidFloppyDisk,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                    onPressed: () {
+                                      // Add save functionality here
+                                    },
                                   ),
-                                  onPressed: () {},
                                 ),
                               ),
                             )
-                          : const Icon(FontAwesomeIcons.penClip,
-                              color: Color(0xff3362CC)),
+                          : IconButton(
+                              icon: const Icon(
+                                FontAwesomeIcons.penClip, // Edit Icon
+                                color: Color(0xff3362CC),
+                              ),
+                              onPressed: () {
+                                // Handle edit functionality
+                                setState(() {
+                                  focusedIndex = index;
+                                });
+                              },
+                            ),
                     ],
                   ),
                 ),
@@ -314,55 +405,11 @@ class _NoteViewerState extends State<NoteViewer> {
       ),
     );
   }
-
-  Widget movingWidget(BuildContext context) {
-    return Column(
-      children: [
-        IgnorePointer(
-          ignoring: !isSecondButtonSelected,
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  focusNode: _focusNodeMovingWidget,
-                  decoration: InputDecoration(
-                    border: const UnderlineInputBorder(),
-                    labelText: isSecondButtonSelected ? 'enterNote'.tr() : "",
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  autofocus: isSecondButtonSelected,
-                ),
-              ),
-              if (isSecondButtonSelected)
-                IconButton(
-                  icon: const Icon(FontAwesomeIcons.circlePlus,
-                      color: Color(0xff407BFF)),
-                  onPressed: () {},
-                ),
-            ],
-          ),
-        ),
-        // AnimatedContainer(
-        //     duration: const Duration(milliseconds: 200),
-        //     height: isSecondButtonSelected ? 175 : 0)
-      ],
-    );
-  }
 }
 
+// Patient class for demonstration
 class Patient {
-  String editBy;
-  String note;
-
-  Patient({
-    required this.editBy,
-    required this.note,
-  });
+  final String editBy;
+  final String note;
+  Patient({required this.editBy, required this.note});
 }
