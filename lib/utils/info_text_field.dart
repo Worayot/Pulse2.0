@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-Widget infoTextField({
-  required String title,
-  required TextEditingController controller,
-  required Color boxColor,
-}) {
+Widget infoTextField(
+    {required String title,
+    required TextEditingController controller,
+    required Color boxColor,
+    required double minWidth}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -22,7 +22,7 @@ Widget infoTextField({
         Container(
           // Remove fixed width and let it take available space
           constraints:
-              const BoxConstraints(maxWidth: double.infinity, minWidth: 140),
+              BoxConstraints(maxWidth: double.infinity, minWidth: minWidth),
           height: 40,
           decoration: BoxDecoration(
             color: boxColor,

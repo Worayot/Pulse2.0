@@ -5,13 +5,14 @@ class GenderDropdown extends StatelessWidget {
   final String? selectedGender;
   final ValueChanged<String?> onGenderChanged;
   final Size size;
+  final bool fillSpace;
 
-  const GenderDropdown({
-    super.key,
-    required this.size,
-    required this.selectedGender,
-    required this.onGenderChanged,
-  });
+  const GenderDropdown(
+      {super.key,
+      required this.size,
+      required this.selectedGender,
+      required this.onGenderChanged,
+      required this.fillSpace});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,9 @@ class GenderDropdown extends StatelessWidget {
         ),
         const SizedBox(height: 3),
         SizedBox(
-          width: size.width / 2 - size.width / 8 - 23,
+          width: fillSpace
+              ? double.infinity
+              : size.width / 2 - size.width / 8 - 23,
           child: SizedBox(
             height: 40,
             child: DropdownButtonFormField<String>(

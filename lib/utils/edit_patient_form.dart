@@ -121,18 +121,18 @@ class _EditPatientFormState extends State<EditPatientForm> {
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                            title: "name".tr(),
-                            controller: nameController,
-                            boxColor: const Color(0xffE0EAFF),
-                          ),
+                              title: "name".tr(),
+                              controller: nameController,
+                              boxColor: const Color(0xffE0EAFF),
+                              minWidth: 140),
                         ),
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                            title: "surname".tr(),
-                            controller: surnameController,
-                            boxColor: const Color(0xffE0EAFF),
-                          ),
+                              title: "surname".tr(),
+                              controller: surnameController,
+                              boxColor: const Color(0xffE0EAFF),
+                              minWidth: 140),
                         ),
                       ],
                     ),
@@ -142,15 +142,16 @@ class _EditPatientFormState extends State<EditPatientForm> {
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                            title: "age".tr(),
-                            controller: ageController,
-                            boxColor: const Color(0xffE0EAFF),
-                          ),
+                              title: "age".tr(),
+                              controller: ageController,
+                              boxColor: const Color(0xffE0EAFF),
+                              minWidth: 140),
                         ),
                         const SizedBox(width: 8),
                         GenderDropdown(
                           size: size,
                           selectedGender: _selectedGender,
+                          fillSpace: false,
                           onGenderChanged: (value) {
                             setState(() {
                               _selectedGender = value;
@@ -164,28 +165,28 @@ class _EditPatientFormState extends State<EditPatientForm> {
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                            title: "hnNo".tr(),
-                            controller: hnController,
-                            boxColor: const Color(0xffE0EAFF),
-                          ),
+                              title: "hnNo".tr(),
+                              controller: hnController,
+                              boxColor: const Color(0xffE0EAFF),
+                              minWidth: 140),
                         ),
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                            title: "bedNumber".tr(),
-                            controller: bedNumController,
-                            boxColor: const Color(0xffE0EAFF),
-                          ),
+                              title: "bedNumber".tr(),
+                              controller: bedNumController,
+                              boxColor: const Color(0xffE0EAFF),
+                              minWidth: 140),
                         ),
                       ],
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: infoTextField(
-                        title: "ward".tr(),
-                        controller: wardController,
-                        boxColor: const Color(0xffE0EAFF),
-                      ),
+                          title: "ward".tr(),
+                          controller: wardController,
+                          boxColor: const Color(0xffE0EAFF),
+                          minWidth: 140),
                     ),
                     const SizedBox(height: 10),
                     Align(

@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/action_button.dart';
+import 'package:pulse/utils/gender_dropdown.dart';
+import 'package:pulse/utils/info_text_field_filter.dart';
 import 'package:pulse/utils/symbols_dialog/export_symbols.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
 
@@ -31,6 +33,13 @@ class Patient {
 }
 
 class _ExportPageState extends State<ExportPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _wardController = TextEditingController();
+  final TextEditingController _hnController = TextEditingController();
+  final TextEditingController _bedNumController = TextEditingController();
+  String _gender = "-";
+
   final List<Patient> _patients = [
     Patient(
         fullName: "John Doe",
@@ -72,12 +81,6 @@ class _ExportPageState extends State<ExportPage> {
 
   List<Patient> _filteredPatients = [];
   String _fullNameFilter = '';
-  String _nameFilter = '';
-  String _surnameFilter = '';
-  String _wardFilter = '';
-  String _genderFilter = '';
-  String _hnFilter = '';
-  String _bedNumFilter = '';
   double _minAge = 0;
   double _maxAge = 120;
 
@@ -87,6 +90,16 @@ class _ExportPageState extends State<ExportPage> {
     _filteredPatients = _patients;
   }
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _wardController.dispose();
+    _hnController.dispose();
+    _bedNumController.dispose();
+    super.dispose();
+  }
+
   void _filterPatients() {
     setState(() {
       _filteredPatients = _patients.where((patient) {
@@ -94,38 +107,40 @@ class _ExportPageState extends State<ExportPage> {
             patient.fullName
                 .toLowerCase()
                 .contains(_fullNameFilter.toLowerCase());
-        final matchesName = _nameFilter.isEmpty ||
+        final matchesName = _nameController.text.isEmpty ||
             patient.fullName
                 .split(" ")[0]
                 .toLowerCase()
-                .contains(_nameFilter.toLowerCase());
-        final matchesSurname = _surnameFilter.isEmpty ||
+                .contains(_nameController.text.toLowerCase());
+        final matchesSurname = _surnameController.text.isEmpty ||
             patient.fullName
                 .split(" ")[1]
                 .toLowerCase()
-                .contains(_surnameFilter.toLowerCase());
-        final matchesWard = _wardFilter.isEmpty ||
-            patient.ward.toLowerCase().contains(_wardFilter.toLowerCase());
-        final matchesGender = _genderFilter.isEmpty ||
-            patient.gender.toLowerCase() == (_genderFilter.toLowerCase());
-        final matchesHospitalNumber = _hnFilter.isEmpty ||
+                .contains(_surnameController.text.toLowerCase());
+        final matchesWard = _wardController.text.isEmpty ||
+            patient.ward
+                .toLowerCase()
+                .contains(_wardController.text.toLowerCase());
+        final matchesGender =
+            patient.gender.toLowerCase() == _gender.toLowerCase();
+        final matchesHospitalNumber = _hnController.text.isEmpty ||
             patient.hospitalNumber
                 .toLowerCase()
-                .contains(_hnFilter.toLowerCase());
-        final matchesBedNumber = _bedNumFilter.isEmpty ||
+                .contains(_hnController.text.toLowerCase());
+        final matchesBedNumber = _bedNumController.text.isEmpty ||
             patient.bedNumber
                 .toLowerCase()
-                .contains(_bedNumFilter.toLowerCase());
+                .contains(_bedNumController.text.toLowerCase());
         final matchesAge = patient.age >= _minAge && patient.age <= _maxAge;
 
-        return matchesFullName &&
-            matchesName &&
+        return matchesName &&
             matchesSurname &&
             matchesWard &&
             matchesGender &&
             matchesHospitalNumber &&
             matchesBedNumber &&
-            matchesAge;
+            matchesAge &&
+            matchesFullName;
       }).toList();
     });
   }
@@ -133,19 +148,19 @@ class _ExportPageState extends State<ExportPage> {
   void _resetFilters() {
     setState(() {
       _fullNameFilter = '';
-      _nameFilter = '';
-      _surnameFilter = '';
-      _wardFilter = '';
-      _genderFilter = '';
-      _hnFilter = '';
-      _bedNumFilter = '';
+      _nameController.text = '';
+      _surnameController.text = '';
+      _wardController.text = '';
+      _gender = '';
+      _hnController.text = '';
+      _bedNumController.text = '';
       _minAge = 0;
       _maxAge = 120;
       _filteredPatients = _patients;
     });
   }
 
-  void showFilterDialog() {
+  void showFilterDialog(context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -157,7 +172,7 @@ class _ExportPageState extends State<ExportPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Filter Patients',
+                  'filterPatients'.tr(),
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -184,7 +199,7 @@ class _ExportPageState extends State<ExportPage> {
                         _filterPatients(); // Apply filters
                         Navigator.of(context).pop(); // Close the dialog
                       },
-                      child: Text('Apply Filters'),
+                      child: Text('applyFilters'.tr()),
                     ),
                   ],
                 ),
@@ -199,47 +214,66 @@ class _ExportPageState extends State<ExportPage> {
   Widget _buildFilterInputs() {
     return Column(
       children: [
-        TextField(
-          decoration: InputDecoration(labelText: 'Filter by Name'),
-          onChanged: (value) {
-            _nameFilter = value;
-            _filterPatients(); // Apply filter immediately
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            infoTextField(
+                title: "name",
+                controller: _nameController,
+                boxColor: const Color(0xffE0EAFF),
+                context: context,
+                fillSpace: false),
+            const SizedBox(width: 10),
+            infoTextField(
+                title: "surname",
+                controller: _surnameController,
+                boxColor: const Color(0xffE0EAFF),
+                context: context,
+                fillSpace: false),
+          ],
         ),
-        TextField(
-          decoration: InputDecoration(labelText: 'Filter by Surname'),
-          onChanged: (value) {
-            _surnameFilter = value;
-            _filterPatients();
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+          child: GenderDropdown(
+            fillSpace: true,
+            selectedGender: _gender.isEmpty
+                ? null
+                : _gender, // Handle default gender as null or empty
+            size: MediaQuery.of(context).size,
+            onGenderChanged: (String? newGender) {
+              setState(() {
+                _gender = newGender ??
+                    ''; // Set _gender to empty if newGender is null
+              });
+            },
+          ),
         ),
-        TextField(
-          decoration: InputDecoration(labelText: 'Filter by Gender'),
-          onChanged: (value) {
-            _genderFilter = value;
-            _filterPatients(); // Apply filter immediately
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            infoTextField(
+                title: "hn",
+                controller: _hnController,
+                boxColor: const Color(0xffE0EAFF),
+                context: context,
+                fillSpace: false),
+            const SizedBox(width: 10),
+            infoTextField(
+                title: "bed",
+                controller: _bedNumController,
+                boxColor: const Color(0xffE0EAFF),
+                context: context,
+                fillSpace: false),
+          ],
         ),
-        TextField(
-          decoration: InputDecoration(labelText: 'Filter by Ward'),
-          onChanged: (value) {
-            _wardFilter = value;
-            _filterPatients(); // Apply filter immediately
-          },
-        ),
-        TextField(
-          decoration: InputDecoration(labelText: 'Filter by Hospital number'),
-          onChanged: (value) {
-            _hnFilter = value;
-            _filterPatients(); // Apply filter immediately
-          },
-        ),
-        TextField(
-          decoration: InputDecoration(labelText: 'Filter by Bed number'),
-          onChanged: (value) {
-            _bedNumFilter = value;
-            _filterPatients(); // Apply filter immediately
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+          child: infoTextField(
+              title: "ward",
+              controller: _wardController,
+              boxColor: const Color(0xffE0EAFF),
+              context: context,
+              fillSpace: true),
         ),
       ],
     );
@@ -248,20 +282,43 @@ class _ExportPageState extends State<ExportPage> {
   Widget _buildAgeSlider(StateSetter setState) {
     return Column(
       children: [
-        Text('Filter by Age: ${_minAge.toInt()} - ${_maxAge.toInt()}'),
-        RangeSlider(
-          values: RangeValues(_minAge, _maxAge),
-          min: 0,
-          max: 120,
-          divisions: 120,
-          labels: RangeLabels('${_minAge.toInt()}', '${_maxAge.toInt()}'),
-          onChanged: (values) {
-            setState(() {
-              _minAge = values.start;
-              _maxAge = values.end;
-            });
-          },
+        Text(
+          'Filter by Age: ${_minAge.toInt()} - ${_maxAge.toInt()}',
+          style: TextStyle(
+              color: Colors.black), // You can also change the text color here
         ),
+        SliderTheme(
+          data: SliderThemeData(
+              activeTrackColor:
+                  const Color(0xff4672D6), // Color of the active track
+              inactiveTrackColor: Colors.grey, // Color of the inactive track
+              thumbColor: const Color(0xff5677C3), // Color of the thumb circle
+              thumbShape: const RoundSliderThumbShape(
+                  enabledThumbRadius: 16), // Thumb size (radius)
+              overlayColor: Colors.blue.withOpacity(
+                  0.2), // Color of the overlay when the thumb is pressed
+              trackHeight: 6, // Height of the track
+              rangeTrackShape:
+                  const RectangularRangeSliderTrackShape(), // Custom track shape
+              valueIndicatorColor: Colors.transparent),
+          child: RangeSlider(
+            values: RangeValues(_minAge, _maxAge),
+            min: 0,
+            max: 120,
+            divisions: 120,
+            labels: RangeLabels('${_minAge.toInt()}', '${_maxAge.toInt()}'),
+            activeColor: const Color(
+                0xff4672D6), // Set the active color (slider thumb and track)
+            inactiveColor:
+                const Color(0xffE0EAFF), // Set the inactive color (track)
+            onChanged: (values) {
+              setState(() {
+                _minAge = values.start;
+                _maxAge = values.end;
+              });
+            },
+          ),
+        )
       ],
     );
   }
@@ -450,7 +507,7 @@ class _ExportPageState extends State<ExportPage> {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    showFilterDialog();
+                    showFilterDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
