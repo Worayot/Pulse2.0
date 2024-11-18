@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pulse/authentication/login.dart';
+// import 'package:pulse/authentication/login.dart';
 import 'package:pulse/mainpage/main_page.dart';
 import 'package:pulse/mainpage/patient_data/patient_data.dart';
-import 'package:pulse/temp/dashboard.dart';
 import 'package:pulse/utils/symbols_dialog/report_widget.dart';
 
 void main() async {

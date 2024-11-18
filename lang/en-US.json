@@ -54,6 +54,7 @@
   "name": "Name",
   "nextInspectionTime": "Next Inspection Time",
   "notifications": "Notifications",
+  "nurseNumber": "Nurse Number",
   "nursing": "Nursing",
   "nursingHigh": "• Observe symptoms every 15-30 minutes for 3 times (every 15 minutes if score unchanged) and follow nursing standards.\n• Report to the shift supervisor and manage nursing activities based on symptoms.\n• Report to the intern or first-call doctor to review symptoms within 30 minutes/issue treatment orders.\n • If no improvement, report to the second-call & third-call doctors within 15 minutes to review symptoms and issue treatment orders.\n • Consider adding I/O recording every 2 hours if urine output <50 cc. in 2 hours, and report to the doctor.\n • If the MEWS score is 5 for 3 consecutive times, consult with the doctor regarding the possibility of transferring the patient to the ICU.",
   "nursingLow": "• Observe and assess symptoms, record vital signs every 8 hours, and monitor according to nursing standards.",

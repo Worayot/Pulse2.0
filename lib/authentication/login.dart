@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pulse/temp/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -61,9 +60,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => DashboardScreen()),
-    );
     if (_formKey.currentState?.validate() ?? false) {
       print("Email: ${_emailController.text}");
       print("Password: ${_passwordController.text}");

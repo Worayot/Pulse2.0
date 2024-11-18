@@ -36,7 +36,8 @@ class CustomAnimatedBottomBar extends StatelessWidget {
     return Container(
       height: 110,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         color: bgColor,
         boxShadow: [
           if (showElevation)

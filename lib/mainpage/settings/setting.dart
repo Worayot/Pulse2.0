@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/mainpage/settings/aboutapp.dart';
 import 'package:pulse/mainpage/settings/language.dart';
 import 'package:pulse/mainpage/settings/profile.dart';
@@ -10,72 +14,237 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  late Future<List<Map<String, String>>> quotes; // Quotes Future
+
+  @override
+  void initState() {
+    super.initState();
+    quotes = loadQuotes();
+  }
+
+  Future<List<Map<String, String>>> loadQuotes() async {
+    try {
+      final String response =
+          await rootBundle.loadString('assets/quotes/quotes.json');
+      final List<dynamic> data = json.decode(response);
+
+      // Ensure every dynamic map is safely cast to Map<String, String>
+      return data.map((item) {
+        if (item is Map<String, dynamic>) {
+          return {
+            'quote': item['quote'].toString(),
+            'author': item['author'].toString(),
+          };
+        } else {
+          throw const FormatException("Invalid JSON format");
+        }
+      }).toList();
+    } catch (e) {
+      print('Error loading quotes.json: $e');
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // User's name
+    const String fullName = 'วรยศ เลี่ยมแก้ว';
+    const String userId = '112203';
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('settings'.tr()),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            ListTile(
-              title: Text('profileSetting'.tr()),
-              leading: const Icon(Icons.account_circle),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfileSettingsPage()),
-                );
-              },
-            ),
-            Divider(), // Divider between items
-            ListTile(
-              title: Text('aboutApp'.tr()),
-              leading: Icon(Icons.privacy_tip),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutAppPage()),
-                );
-              },
-            ),
-            Divider(), // Divider between items
-            ListTile(
-              title: Text('language'.tr()),
-              leading: Icon(Icons.language),
-              onTap: () async {
-                // Push the language selection page and wait for the result
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LanguageSelectPage()),
-                );
-
-                // After returning, trigger the language refresh
-                setState(() {});
-              },
-            ),
-            const Divider(),
-            const SizedBox(height: 40),
-            Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: _logout,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 28,
                 child: Text(
-                  "logout".tr(),
-                  style: const TextStyle(color: Colors.red, fontSize: 18),
+                  fullName.isNotEmpty ? fullName[0] : '',
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
-            )
-          ],
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    fullName,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text("${'nurseNumber'.tr()}: $userId",
+                      style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                // User Info Section
+                const SizedBox(height: 40),
+                // Menu ListTiles
+                _buildSettingsTile(
+                  title: 'profileSetting'.tr(),
+                  leadingIcon: FontAwesomeIcons.solidAddressBook,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileSettingsPage()),
+                  ),
+                ),
+                _buildSettingsTile(
+                  title: 'aboutApp'.tr(),
+                  leadingIcon: FontAwesomeIcons.circleInfo,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutAppPage()),
+                  ),
+                ),
+                _buildSettingsTile(
+                  title: 'language'.tr(),
+                  leadingIcon: FontAwesomeIcons.globe,
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LanguageSelectPage()),
+                    );
+                    setState(() {}); // Refresh UI after language change.
+                  },
+                ),
+
+                const SizedBox(height: 30),
+
+                // Logout Button
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: _logout,
+                    child: Text(
+                      "logout".tr(),
+                      style: const TextStyle(color: Colors.red, fontSize: 18),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                // Random Quote Section using FutureBuilder
+                FutureBuilder<List<Map<String, String>>>(
+                  future: quotes,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        'Error loading quotes: ${snapshot.error}',
+                        style: const TextStyle(color: Colors.red),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('No quotes found.');
+                    }
+
+                    final loadedQuotes = snapshot.data!;
+                    final random = Random();
+                    final selectedQuote =
+                        loadedQuotes[random.nextInt(loadedQuotes.length)];
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 180,
+                                child: Text.rich(TextSpan(children: [
+                                  const TextSpan(
+                                      text: '"',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.8,
+                                      )),
+                                  TextSpan(
+                                    text: selectedQuote['quote']![0],
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.8,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                      text:
+                                          '${selectedQuote['quote']!.substring(1)}"',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.8,
+                                      ))
+                                ])),
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: 180,
+                                child: Text(
+                                  selectedQuote['author']!,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 40,
+            right: -110,
+            child: Image.asset(
+              'assets/images/hospital.png', // Ensure this path is correct
+              width: 400, // Increased width
+              height: 300, // Increased height
+              fit: BoxFit.contain,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSettingsTile({
+    required String title,
+    required IconData leadingIcon,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      title: Text(title),
+      leading: FaIcon(
+        leadingIcon,
+        color: const Color(0xff3362CC),
+      ),
+      trailing: const FaIcon(FontAwesomeIcons.arrowRight),
+      onTap: onTap,
     );
   }
 
   void _logout() {
     // Implement logout functionality here
+    print('Logout tapped');
   }
 }
