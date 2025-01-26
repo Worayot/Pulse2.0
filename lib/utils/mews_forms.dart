@@ -93,7 +93,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide.none,
@@ -196,7 +196,8 @@ class _MEWsFormsState extends State<MEWsForms> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: "-",
-                    suffix: const Text("bpm"),
+                    suffix: const Text("bpm",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(

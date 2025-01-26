@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Widget exportSymbols() {
   return Container(
-    width: 800,
+    width: 400,
     constraints: const BoxConstraints(
       maxHeight: 210,
     ),

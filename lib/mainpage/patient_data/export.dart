@@ -103,25 +103,30 @@ class _ExportPageState extends State<ExportPage> {
   void _filterPatients() {
     setState(() {
       _filteredPatients = _patients.where((patient) {
+        // Safe handling of split and name
+        final nameParts = patient.fullName.split(" ");
+        final firstName = nameParts.isNotEmpty ? nameParts[0] : "";
+        final lastName = nameParts.length > 1 ? nameParts[1] : "";
+
+        // Apply filters
         final matchesFullName = _fullNameFilter.isEmpty ||
             patient.fullName
                 .toLowerCase()
                 .contains(_fullNameFilter.toLowerCase());
         final matchesName = _nameController.text.isEmpty ||
-            patient.fullName
-                .split(" ")[0]
+            firstName
                 .toLowerCase()
                 .contains(_nameController.text.toLowerCase());
         final matchesSurname = _surnameController.text.isEmpty ||
-            patient.fullName
-                .split(" ")[1]
+            lastName
                 .toLowerCase()
                 .contains(_surnameController.text.toLowerCase());
         final matchesWard = _wardController.text.isEmpty ||
             patient.ward
                 .toLowerCase()
                 .contains(_wardController.text.toLowerCase());
-        final matchesGender =
+        final matchesGender = _gender.isEmpty ||
+            _gender == "-" ||
             patient.gender.toLowerCase() == _gender.toLowerCase();
         final matchesHospitalNumber = _hnController.text.isEmpty ||
             patient.hospitalNumber
@@ -131,8 +136,9 @@ class _ExportPageState extends State<ExportPage> {
             patient.bedNumber
                 .toLowerCase()
                 .contains(_bedNumController.text.toLowerCase());
-        final matchesAge = patient.age >= _minAge && patient.age <= _maxAge;
+        final matchesAge = (patient.age >= _minAge) && (patient.age <= _maxAge);
 
+        // Combine all conditions
         return matchesName &&
             matchesSurname &&
             matchesWard &&
@@ -280,8 +286,7 @@ class _ExportPageState extends State<ExportPage> {
             size: MediaQuery.of(context).size,
             onGenderChanged: (String? newGender) {
               setState(() {
-                _gender = newGender ??
-                    ''; // Set _gender to empty if newGender is null
+                _gender = newGender ?? '';
               });
             },
           ),
@@ -329,21 +334,6 @@ class _ExportPageState extends State<ExportPage> {
   Widget _buildAgeSlider(StateSetter setState) {
     return Column(
       children: [
-        // Container(
-        //   padding: const EdgeInsets.all(8.0), // Add padding around the text
-        //   decoration: BoxDecoration(
-        //     color: const Color(0xffE0EAFF), // Set the background color
-        //     borderRadius: BorderRadius.circular(12.0), // Set the border radius
-        //   ),
-
-        //   child: Text(
-        //     'Filter by Age: ${_minAge.toInt()} - ${_maxAge.toInt()}',
-        //     style: const TextStyle(
-        //       color: Colors.black, // Text color
-        //       fontWeight: FontWeight.bold, // Font weight
-        //     ),
-        //   ),
-        // ),
         SliderTheme(
             data: const SliderThemeData(
                 activeTrackColor:
@@ -355,8 +345,7 @@ class _ExportPageState extends State<ExportPage> {
                 overlayColor: Colors
                     .transparent, // Color of the overlay when the thumb is pressed
                 trackHeight: 6, // Height of the track
-                rangeTrackShape:
-                    RectangularRangeSliderTrackShape(), // Custom track shape
+                rangeTrackShape: RectangularRangeSliderTrackShape(),
                 valueIndicatorColor: Color(0xff407BFF)),
             child: RangeSlider(
               values: RangeValues(_minAge, _maxAge),
@@ -503,6 +492,7 @@ class _ExportPageState extends State<ExportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -517,12 +507,12 @@ class _ExportPageState extends State<ExportPage> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25),
+            padding: EdgeInsets.only(right: screenWidth * 0.04),
             child: IconButton(
-              icon: const FaIcon(
+              icon: FaIcon(
                 FontAwesomeIcons.circleInfo,
-                size: 25,
-                color: Color(0xff3362CC),
+                size: screenWidth * 0.08,
+                color: const Color(0xff3362CC),
               ),
               onPressed: () {
                 showInfoDialog(context, exportSymbols());
@@ -545,19 +535,20 @@ class _ExportPageState extends State<ExportPage> {
                         _filterPatients();
                       });
                     },
-                    decoration: const InputDecoration(
-                      hintText: "Search...",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      hintText: "${"search".tr()}...",
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide.none,
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         FontAwesomeIcons.magnifyingGlass,
                         color: Colors.black,
                       ),
                       filled: true, // Enables the background color
-                      fillColor: Color(0xffCADBFF), // Sets the background color
-                      labelStyle: TextStyle(color: Colors.black),
+                      fillColor:
+                          const Color(0xffCADBFF), // Sets the background color
+                      labelStyle: const TextStyle(color: Colors.black),
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),

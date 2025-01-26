@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/utils/note_viewer.dart';
 
 void showResultDialog(BuildContext context, int MEWs) {
   List<dynamic> components = getComponent(MEWs);
@@ -103,7 +104,7 @@ void showResultDialog(BuildContext context, int MEWs) {
                               SingleChildScrollView(
                                 child: Text(
                                   nursing,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.black,
                                   ),
@@ -122,7 +123,14 @@ void showResultDialog(BuildContext context, int MEWs) {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const NoteViewer();
+                                },
+                              );
+                            },
                             icon: const Icon(FontAwesomeIcons.solidPenToSquare,
                                 color: Colors.white),
                             label: Text(

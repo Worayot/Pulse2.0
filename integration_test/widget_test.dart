@@ -6,6 +6,9 @@
 // import 'package:pulse/main.dart' as app;
 // import 'package:pulse/temp/dashboard.dart';
 
+// // flutter test ../integration_test/widget_test.dart นี่คือลิงค์ Test
+// // กูกะโอ๊ตไปกินข้าวนะ เดะเปิดทิ้งไว้ให้
+
 // void main() {
 //   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -106,7 +109,7 @@
 //     // Verify that an AlertDialog is displayed
 //     expect(find.byType(AlertDialog), findsOneWidget);
 //     expect(find.text('จำแนกด้วยเพศ'), findsOneWidget);
-
+// // 
 //     // tap back to dashboard
 //     await tester.tap(find.byIcon(FontAwesomeIcons.xmark));
 //     await tester.pumpAndSettle();

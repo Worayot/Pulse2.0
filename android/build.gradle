@@ -1,3 +1,17 @@
+buildscript {
+    ext {
+        javaVersion = JavaVersion.VERSION_17
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Use the latest version of the Android Gradle Plugin
+        classpath 'com.android.tools.build:gradle:8.2.0'
+    }
+}
+
 allprojects {
     repositories {
         google()

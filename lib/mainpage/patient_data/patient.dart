@@ -8,6 +8,7 @@ import 'package:pulse/mainpage/patient_data/patient_data.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/add_patient_form.dart';
 import 'package:pulse/utils/edit_patient_form.dart';
+import 'package:pulse/utils/mews_forms.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
 import 'package:pulse/utils/symbols_dialog/patient_symbols.dart';
 
@@ -72,24 +73,40 @@ class _PatientPageState extends State<PatientPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Getting screen size information
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    // Adjusting the UI elements based on screen size
+    double paddingSize = screenWidth * 0.04; // Responsive padding
+    double iconSize = screenWidth * 0.08; // Responsive icon size
+    double buttonHeight = screenHeight * 0.065; // Button height
+    double searchBoxHeight = screenHeight * 0.06; // Search box height, unused
+
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "patientInList".tr(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ))),
+          padding: EdgeInsets.only(left: paddingSize),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "patientInList".tr(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: screenWidth * 0.05, // Responsive text size
+              ),
+            ),
+          ),
+        ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25),
+            padding: EdgeInsets.only(right: paddingSize),
             child: IconButton(
-              icon: const FaIcon(FontAwesomeIcons.circleInfo,
-                  size: 25, // Size of the icon
-                  color: Color(0xff3362CC) // Color of the icon
-                  ),
+              icon: FaIcon(
+                FontAwesomeIcons.circleInfo,
+                size: iconSize, // Responsive icon size
+                color: const Color(0xff3362CC),
+              ),
               onPressed: () {
                 showInfoDialog(context, patientSymbols());
               },
@@ -98,7 +115,7 @@ class _PatientPageState extends State<PatientPage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(paddingSize),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -107,19 +124,19 @@ class _PatientPageState extends State<PatientPage> {
                 Expanded(
                   child: TextField(
                     onChanged: _filterPatients,
-                    decoration: const InputDecoration(
-                      hintText: "Search...",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      hintText: "${"search".tr()}...",
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide.none,
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         FontAwesomeIcons.magnifyingGlass,
                         color: Colors.black,
                       ),
-                      filled: true, // Enables the background color
-                      fillColor: Color(0xffCADBFF), // Sets the background color
-                      labelStyle: TextStyle(color: Colors.black),
+                      filled: true,
+                      fillColor: const Color(0xffCADBFF),
+                      labelStyle: const TextStyle(color: Colors.black),
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),
@@ -127,14 +144,15 @@ class _PatientPageState extends State<PatientPage> {
                 const SizedBox(width: 10),
                 SizedBox(
                   width: 120,
-                  height: 55,
+                  height: buttonHeight,
                   child: ElevatedButton.icon(
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const AddPatientForm();
-                          });
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const AddPatientForm();
+                        },
+                      );
                     },
                     icon: const Icon(
                       FontAwesomeIcons.userPlus,
@@ -147,18 +165,21 @@ class _PatientPageState extends State<PatientPage> {
                         "addPatient".tr(),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                         softWrap: true,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff407bff),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 10)),
+                      backgroundColor: const Color(0xff407bff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 0),
+                    ),
                   ),
                 ),
               ],
@@ -181,26 +202,38 @@ class _PatientPageState extends State<PatientPage> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${patient.name} ${patient.surname}",
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return const MEWsForms();
+                                            });
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${patient.name} ${patient.surname}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: screenWidth *
+                                                  0.04, // Responsive text size
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          "Bed Number: ${patient.bedNumber}",
-                                          style: const TextStyle(fontSize: 11),
-                                        ),
-                                        Text(
-                                          "Last Updated: ${DateFormat('dd/MM/yyyy HH:mm').format(patient.lastUpdate)}",
-                                          style: const TextStyle(fontSize: 11),
-                                        ),
-                                      ],
+                                          Text(
+                                            "Bed Number: ${patient.bedNumber}",
+                                            style: TextStyle(
+                                                fontSize: screenWidth * 0.032),
+                                          ),
+                                          Text(
+                                            "Last Updated: ${DateFormat('dd/MM/yyyy HH:mm').format(patient.lastUpdate)}",
+                                            style: TextStyle(
+                                                fontSize: screenWidth * 0.027),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

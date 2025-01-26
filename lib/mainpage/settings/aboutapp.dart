@@ -1,76 +1,138 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/utils/custom_header.dart';
 
 class AboutAppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About App'),
+        automaticallyImplyLeading: false, // Remove the default back button
+        title: header(),
+        toolbarHeight: 80, // Make the header bigger
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Center(
-              child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              Stack(
                 children: [
-                  // App Icon
-                  Icon(
-                    Icons.info,
-                    size: 80,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(height: 16),
-
-                  // App Name
-                  Text(
-                    'My App',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    height: 570,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFB2C2E5),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
-                  SizedBox(height: 4),
-
-                  // App Version
-                  Text(
-                    'Version 1.0.0',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: IgnorePointer(
+                            child: Image.asset(
+                              "assets/images/doctor.png",
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      FontAwesomeIcons.backward,
+                                      color: Colors.black,
+                                      size: 25,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      'back'.tr(),
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Center(
+                                child: Text(
+                                  'aboutSoftware'.tr(),
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              // White container
+                              Container(
+                                padding: const EdgeInsets.all(30.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // Position of the shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "application".tr(),
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'contactDev'.tr(),
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
+                                      style: TextStyle(fontSize: 14),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: 24),
-
-            // Description
-            Text(
-              'My App is a simple app designed to help you manage your tasks, '
-              'track progress, and stay organized. We aim to make your daily tasks easier!',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 24),
-
-            // Contact Section
-            Text(
-              'Contact Us',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            ListTile(
-              leading: Icon(Icons.email),
-              title: Text('support@myapp.com'),
-              onTap: () {
-                // Add email functionality or link here
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.web),
-              title: Text('Visit our website'),
-              onTap: () {
-                // Add website link functionality here
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

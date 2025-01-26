@@ -8,7 +8,7 @@ Widget infoBox({
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the left
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Align(
           alignment: Alignment.centerLeft,

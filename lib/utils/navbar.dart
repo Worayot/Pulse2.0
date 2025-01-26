@@ -15,6 +15,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
     required this.items,
     required this.onItemSelected,
     this.curve = Curves.linear,
+    required double height,
   }) : assert(items.length >= 2 && items.length <= 5);
 
   final int selectedIndex;

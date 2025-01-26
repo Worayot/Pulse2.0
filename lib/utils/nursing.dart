@@ -3,28 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void showNursing(BuildContext context, String MEWs) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
   showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-            child: Padding(
-          padding: const EdgeInsets.only(bottom: 0),
+    context: context,
+    builder: (BuildContext context) {
+      return SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: screenHeight * 0.01),
           child: AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), // Adjust radius here
+              borderRadius: BorderRadius.circular(screenWidth * 0.04),
             ),
             title: Row(
               children: [
                 Text(
                   "nursing".tr(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: screenWidth * 0.05,
+                  ),
                 ),
                 const Spacer(),
                 IconButton(
-                  icon: const Icon(
-                    FontAwesomeIcons.xmark, // The icon to display
-                    color: Colors.black, // Icon color
-                    size: 30, // Icon size
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.black,
+                    size: screenWidth * 0.06,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -32,23 +38,34 @@ void showNursing(BuildContext context, String MEWs) {
                 ),
               ],
             ),
-            contentPadding:
-                const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+            contentPadding: EdgeInsets.only(
+              left: screenWidth * 0.08,
+              right: screenWidth * 0.08,
+              bottom: screenHeight * 0.02,
+            ),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                buildNursingDetails(MEWs),
+                buildNursingDetails(context, MEWs),
               ],
             ),
           ),
-        ));
-      });
+        ),
+      );
+    },
+  );
 }
 
-Widget buildNursingDetails(String MEWs) {
+Widget buildNursingDetails(BuildContext context, String MEWs) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
   // Process MEWs
   String nursing = "";
-  int? _MEWs = int.parse(MEWs);
-  if (_MEWs <= 1) {
+  int? _MEWs = int.tryParse(MEWs);
+  if (_MEWs == null) {
+    nursing = "nursingInvalid".tr(); // Provide a fallback for invalid MEWs
+  } else if (_MEWs <= 1) {
     nursing = "nursingLow".tr();
   } else if (_MEWs == 2) {
     nursing = "nursingLowMedium".tr();
@@ -61,30 +78,36 @@ Widget buildNursingDetails(String MEWs) {
   }
 
   return SizedBox(
-    width: 260,
+    width: screenWidth * 0.7,
     child: Column(
       children: [
-        const SizedBox(height: 25),
+        SizedBox(height: screenHeight * 0.03),
         Row(
           children: [
             Text(
               "${"latestMEWs".tr()} : ",
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: screenWidth * 0.06,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  MEWs,
-                  style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold),
-                )),
+              padding: EdgeInsets.only(bottom: screenHeight * 0.01),
+              child: Text(
+                MEWs,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.1,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ],
         ),
         Align(
           alignment: Alignment.topLeft,
           child: Text(
             nursing,
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: screenWidth * 0.045),
             textAlign: TextAlign.left,
             softWrap: true,
           ),

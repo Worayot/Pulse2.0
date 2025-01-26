@@ -9,44 +9,50 @@ class MewsResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Process MEWs
-    String nursing = "";
-    int? _MEWs = int.tryParse(mews);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final baseFontSize = screenWidth * 0.05;
 
-    if (_MEWs == null) {
-      return const SizedBox(); // Return an empty widget if MEWs is not a valid integer
+    String nursing = "";
+    final int? parsedMews = int.tryParse(mews);
+
+    if (parsedMews == null) {
+      return const SizedBox();
     }
 
-    if (_MEWs <= 1) {
+    if (parsedMews <= 1) {
       nursing = "nursingLow".tr();
-    } else if (_MEWs == 2) {
+    } else if (parsedMews == 2) {
       nursing = "nursingLowMedium".tr();
-    } else if (_MEWs == 3) {
+    } else if (parsedMews == 3) {
       nursing = "nursingMedium".tr();
-    } else if (_MEWs == 4) {
+    } else if (parsedMews == 4) {
       nursing = "nursingMediumHigh".tr();
-    } else if (_MEWs >= 5) {
+    } else if (parsedMews >= 5) {
       nursing = "nursingHigh".tr();
     }
 
     return SizedBox(
-      width: 260,
+      width: screenWidth * 0.7,
       child: Column(
         children: [
-          const SizedBox(height: 25),
+          SizedBox(height: screenWidth * 0.05),
           Row(
             children: [
               Text(
                 "${"latestMEWs".tr()} : ",
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: baseFontSize * 0.8,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: screenWidth * 0.02),
                 child: Text(
                   mews,
-                  style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: baseFontSize * 1.5,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -55,7 +61,9 @@ class MewsResultWidget extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               nursing,
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: baseFontSize * 0.6,
+              ),
               textAlign: TextAlign.left,
               softWrap: true,
             ),

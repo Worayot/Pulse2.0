@@ -32,6 +32,17 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Getting screen size information
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    // Adjusting sizes based on screen width (responsive design)
+    double iconSize =
+        screenWidth * 0.06; // Relative icon size based on screen width
+    double bottomBarHeight = screenHeight * 0.1; // Responsive bottom bar height
+
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: CustomAnimatedBottomBar(
@@ -39,30 +50,47 @@ class _MainPageState extends State<MainPage> {
         onItemSelected: _onItemTapped, // Handle item selection
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.house, size: 20),
-            title: Text('home'.tr()),
+            icon: Icon(FontAwesomeIcons.house, size: iconSize),
+            title: Text(
+              'home'.tr(),
+              style: TextStyle(
+                  fontSize: screenWidth * 0.035), // Relative text size
+            ),
             activeColor: const Color(0xffFEFEFE),
             inactiveColor: const Color(0xffC6D8FF),
           ),
           BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.users, size: 20),
-            title: Text('patient'.tr()),
+            icon: Icon(FontAwesomeIcons.users, size: iconSize),
+            title: Text(
+              'patient'.tr(),
+              style: TextStyle(
+                  fontSize: screenWidth * 0.035), // Relative text size
+            ),
             activeColor: const Color(0xffFEFEFE),
             inactiveColor: const Color(0xffC6D8FF),
           ),
           BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.fileArrowDown, size: 20),
-            title: Text('data'.tr()),
+            icon: Icon(FontAwesomeIcons.fileArrowDown, size: iconSize),
+            title: Text(
+              'data'.tr(),
+              style: TextStyle(
+                  fontSize: screenWidth * 0.035), // Relative text size
+            ),
             activeColor: const Color(0xffFEFEFE),
             inactiveColor: const Color(0xffC6D8FF),
           ),
           BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.gear, size: 20),
-            title: Text('settings'.tr()),
+            icon: Icon(FontAwesomeIcons.gear, size: iconSize),
+            title: Text(
+              'settings'.tr(),
+              style: TextStyle(
+                  fontSize: screenWidth * 0.035), // Relative text size
+            ),
             activeColor: const Color(0xffFEFEFE),
             inactiveColor: const Color(0xffC6D8FF),
           ),
         ],
+        height: bottomBarHeight, // Adjusting bottom bar height responsively
       ),
     );
   }

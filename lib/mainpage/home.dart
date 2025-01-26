@@ -16,8 +16,6 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  // List of GlobalKeys for expanded content
-
   @override
   void initState() {
     super.initState();
@@ -25,24 +23,41 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Getting screen size information
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    // Adjusting text size based on screen width
+    double appBarTextSize = screenWidth * 0.05;
+    double iconSize =
+        screenWidth * 0.08; // Scaling icon size based on screen width
+    double paddingSize =
+        screenWidth * 0.04; // Scaling padding based on screen width
+
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "home".tr(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ))),
+          padding: EdgeInsets.only(left: paddingSize),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "home".tr(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: appBarTextSize, // Responsive text size
+              ),
+            ),
+          ),
+        ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25),
+            padding: EdgeInsets.only(right: paddingSize),
             child: IconButton(
-              icon: const FaIcon(FontAwesomeIcons.circleInfo,
-                  size: 25, // Size of the icon
-                  color: Color(0xff3362CC) // Color of the icon
-                  ),
+              icon: FaIcon(
+                FontAwesomeIcons.circleInfo,
+                size: iconSize, // Responsive icon size
+                color: const Color(0xff3362CC),
+              ),
               onPressed: () {
                 showInfoDialog(context, homeSymbols());
               },
@@ -50,10 +65,17 @@ class _NotificationPageState extends State<NotificationPage> {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: screenHeight * 0.02,
+          left: paddingSize,
+          right: paddingSize,
+        ),
         child: Column(
-          children: [SizedBox(height: 20), PatientList()],
+          children: [
+            SizedBox(height: screenHeight * 0.02), // Adjusting vertical spacing
+            const PatientList(),
+          ],
         ),
       ),
     );

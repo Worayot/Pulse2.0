@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Widget homeSymbols() {
   return Container(
-    width: 800,
+    width: 700,
     constraints: const BoxConstraints(
       maxHeight: 210,
     ),
@@ -13,29 +13,31 @@ Widget homeSymbols() {
         const SizedBox(height: 30),
         Column(
           children: [
-            Row(
-              children: [
-                const Text('•',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text(
-                  ' ${'clicking'.tr()}',
-                  style: const TextStyle(fontSize: 16),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text.rich(
+                TextSpan(
+                  style: const TextStyle(fontSize: 16), // Default style
+                  children: [
+                    const TextSpan(
+                      text: '• ',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: '${'clicking'.tr()} ',
+                    ),
+                    TextSpan(
+                      text: '${'patientName'.tr()} ',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: '${'willGoToMEWsCalScreen'.tr()}',
+                    ),
+                  ],
                 ),
-                Text(
-                  ' ${'patientName'.tr()}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                Text(' ${'willGoToMEWsCalScreen'.tr()}',
-                    style: const TextStyle(fontSize: 16), softWrap: true),
-              ],
-            ),
-            Row(
-              children: [
-                Text('\t\t${'MEWsCalScreen'.tr()}',
-                    style: const TextStyle(fontSize: 16))
-              ],
+                softWrap: true,
+              ),
             ),
             Row(
               children: [

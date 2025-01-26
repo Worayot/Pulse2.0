@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/mainpage/settings/aboutapp.dart';
+import 'package:pulse/mainpage/settings/admin.dart';
 import 'package:pulse/mainpage/settings/language.dart';
 import 'package:pulse/mainpage/settings/profile.dart';
+import 'package:pulse/utils/custom_header.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -47,40 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // User's name
-    const String fullName = 'วรยศ เลี่ยมแก้ว';
-    const String userId = '112203';
-
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 28,
-                child: Text(
-                  fullName.isNotEmpty ? fullName[0] : '',
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    fullName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Text("${'nurseNumber'.tr()}: $userId",
-                      style: const TextStyle(fontSize: 14, color: Colors.grey)),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: AppBar(title: header()),
       body: Stack(
         children: [
           Padding(
@@ -116,20 +86,31 @@ class _SettingsPageState extends State<SettingsPage> {
                       MaterialPageRoute(
                           builder: (context) => LanguageSelectPage()),
                     );
-                    setState(() {}); // Refresh UI after language change.
+                    setState(() {});
+                  },
+                ),
+                _buildSettingsTile(
+                  title: 'admin'.tr(),
+                  leadingIcon: FontAwesomeIcons.userTie,
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AdminPage()),
+                    );
                   },
                 ),
 
                 const SizedBox(height: 30),
-
-                // Logout Button
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
                     onTap: _logout,
                     child: Text(
                       "logout".tr(),
-                      style: const TextStyle(color: Colors.red, fontSize: 18),
+                      style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -176,7 +157,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   TextSpan(
                                     text: selectedQuote['quote']![0],
                                     style: const TextStyle(
-                                      fontSize: 25,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       height: 1.8,
                                     ),
@@ -185,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       text:
                                           '${selectedQuote['quote']!.substring(1)}"',
                                       style: const TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         height: 1.8,
                                       ))
@@ -244,7 +225,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _logout() {
-    // Implement logout functionality here
     print('Logout tapped');
   }
 }

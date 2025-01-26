@@ -25,7 +25,7 @@ class _NoteViewerState extends State<NoteViewer>
 
   // Patient list with notes
   List<Patient> patients = [
-    Patient(editBy: 'Dr. Smith', note: 'Patient is recovering well.'),
+    Patient(editBy: 'Dr. Smith', note: 'Hello World.'),
     Patient(editBy: 'Dr. Lee', note: 'Patient shows signs of improvement.'),
     Patient(editBy: 'Dr. Johnson', note: 'Patient needs further tests.'),
     Patient(editBy: 'Dr. Smith', note: 'Patient is recovering well.'),

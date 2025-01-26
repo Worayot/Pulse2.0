@@ -1,30 +1,39 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/date_navigation.dart';
 import 'package:pulse/utils/patient_list_home.dart';
-import 'package:pulse/utils/swipable_table.dart';
-import 'package:pulse/utils/symbols_dialog/report_widget.dart';
+import 'package:pulse/utils/report_widget.dart';
 
 void showPatientDetails(BuildContext context, Patient1 patient) {
   List<String> date =
       DateFormat('HH:mm dd/MM/yyyy').format(patient.lastUpdate).split(" ");
 
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(screenWidth * 0.04),
+        ),
         title: Row(
           children: [
             Text(
               'details'.tr(),
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: screenWidth * 0.05,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const Spacer(),
             IconButton(
-              icon: const Icon(FontAwesomeIcons.xmark,
-                  color: Colors.black, size: 30),
+              icon: Icon(
+                FontAwesomeIcons.xmark,
+                color: Colors.black,
+                size: screenWidth * 0.06,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -48,30 +57,34 @@ void showPatientDetails(BuildContext context, Patient1 patient) {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.08,
+                vertical: screenHeight * 0.02,
+              ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Align(
                     alignment: Alignment.topCenter,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 20),
+                        SizedBox(height: screenHeight * 0.02),
                         Text.rich(
                           TextSpan(
                             children: [
                               TextSpan(
                                 text: " ${patient.name} ${patient.surname}",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                                  fontSize: screenWidth * 0.05,
                                 ),
                               ),
                               TextSpan(
-                                text: "(${patient.age} ${"years".tr()})\n",
-                                style: const TextStyle(
+                                text: " (${patient.age} ${"yrs".tr()})\n",
+                                style: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 18,
+                                  fontSize: screenWidth * 0.045,
                                 ),
                               ),
                             ],
@@ -80,35 +93,48 @@ void showPatientDetails(BuildContext context, Patient1 patient) {
                         ),
                         Text(
                           "hn".tr(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 18),
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: screenWidth * 0.045,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           "${"bedNumber".tr()}: ${patient.bedNumber} ${"ward".tr()}: ${patient.ward}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 18),
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: screenWidth * 0.045,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           "${"latestInspection".tr()} ${date[0]} ${"oClock".tr()} ${date[1]}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 18),
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: screenWidth * 0.045,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           "overallMEWS".tr(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.normal, fontSize: 18),
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: screenWidth * 0.045,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         Text(
                           "${patient.MEWs}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 50),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.12,
+                          ),
                           textAlign: TextAlign.center,
                         ),
-                        const ReportWidget(tableHeight: 250)
+                        SizedBox(
+                          height: screenHeight * 0.35,
+                          child: ReportWidget(tableHeight: screenHeight / 4),
+                        ),
                       ],
                     ),
                   ),

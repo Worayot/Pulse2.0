@@ -127,7 +127,7 @@ class _PatientListState extends State<PatientList> {
                                 vertical: 17.0, horizontal: 12.0),
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Color(0xffFAD505),
+                                color: Color(0xffF44336),
                                 shape: BoxShape.circle,
                               ),
                               width: 45,
@@ -337,7 +337,9 @@ class _PatientListState extends State<PatientList> {
                           SizedBox(
                             height: 30,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showTimeManager(context);
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xff3362CC),
                                   shape: RoundedRectangleBorder(

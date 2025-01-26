@@ -9,6 +9,9 @@ class MewsResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+
     // Process MEWs
     String nursing = "";
     int? MEWs = int.tryParse(mews);
@@ -30,23 +33,30 @@ class MewsResultWidget extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 260,
+      width: screenWidth * 0.8, // Adjust width dynamically
       child: Column(
         children: [
           const SizedBox(height: 25),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${"latestMEWs".tr()} : ",
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Flexible(
+                child: Text(
+                  "${"latestMEWs".tr()} : ",
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.06, // Dynamic font size
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   mews,
-                  style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.1, // Dynamic font size
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -55,7 +65,8 @@ class MewsResultWidget extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               nursing,
-              style: const TextStyle(fontSize: 16),
+              style:
+                  TextStyle(fontSize: screenWidth * 0.045), // Dynamic font size
               textAlign: TextAlign.left,
               softWrap: true,
             ),
