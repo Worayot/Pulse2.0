@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/func/requests/send_MEWs_parameters.dart';
+import 'package:pulse/func/requests/sendMEWsParameters.dart';
 import 'package:pulse/results/result_screens.dart';
 
 class MEWsForms extends StatefulWidget {

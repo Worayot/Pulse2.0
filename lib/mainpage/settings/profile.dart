@@ -11,17 +11,17 @@ class ProfileSettingsPage extends StatefulWidget {
 
 class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   String _name = "";
-  String _contactInfo = "";
-  String _email = "";
   String _nurseId = "";
+  String _position = "";
+  String _password = "";
 
   // Track if a field is being edited
   bool _isEditingName = false;
-  bool _isEditingContact = false;
+  bool _isEditingPassword = false;
 
   // Controllers to track TextField changes
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _contactController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -33,13 +33,13 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _name = prefs.getString('name') ?? "N/A";
-      _contactInfo = prefs.getString('contactInfo') ?? "N/A";
-      _email = prefs.getString('email') ?? "N/A";
+      _position = prefs.getString('position') ?? "N/A";
+      _password = prefs.getString('password') ?? "N/A";
       _nurseId = prefs.getString('nurseId') ?? "N/A";
 
       // Initialize the controllers with saved data
       _nameController.text = _name;
-      _contactController.text = _contactInfo;
+      _passwordController.text = _password;
     });
   }
 
@@ -57,10 +57,10 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           _saveChanges('name', _nameController.text);
         }
       } else if (field == 'contact') {
-        _isEditingContact = !_isEditingContact;
-        if (!_isEditingContact) {
+        _isEditingPassword = !_isEditingPassword;
+        if (!_isEditingPassword) {
           // Save changes when exiting edit mode
-          _saveChanges('contact', _contactController.text);
+          _saveChanges('password', _passwordController.text);
         }
       }
     });
@@ -70,15 +70,18 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     if (field == 'name') {
       _name = newValue;
       _saveProfileData('name', newValue);
-    } else if (field == 'contact') {
-      _contactInfo = newValue;
-      _saveProfileData('contact', newValue);
+      _isEditingName = !_isEditingName;
+    } else if (field == 'password') {
+      _password = newValue;
+      _saveProfileData('password', newValue);
+      _isEditingPassword = !_isEditingPassword;
     }
-    setState(() {}); // Refresh the state to display the updated name/contact
+    setState(() {}); // Refresh the state to display the updated name/password
   }
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -92,7 +95,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           children: [
             const SizedBox(height: 16),
             Container(
-              height: 600,
+              height: size.height * 0.7,
               decoration: BoxDecoration(
                 color: const Color(0xFFB2C2E5),
                 borderRadius: BorderRadius.circular(12),
@@ -140,12 +143,14 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                       const SizedBox(height: 16),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 50), // White box outer padding
+                            horizontal: 35), // White box outer padding
                         child: Container(
-                          padding: const EdgeInsets.all(12.0),
+                          height: size.height * 0.54,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 10),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.75),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.1),
@@ -182,25 +187,31 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                     color: Colors.black),
                                               ),
                                               const SizedBox(height: 4),
-                                              _isEditingName
-                                                  ? TextField(
-                                                      onSubmitted: (newValue) =>
-                                                          _saveChanges(
-                                                              'name', newValue),
-                                                      controller:
-                                                          _nameController,
-                                                      decoration:
-                                                          const InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
+                                              SizedBox(
+                                                height: 20,
+                                                child: _isEditingName
+                                                    ? TextField(
+                                                        onSubmitted:
+                                                            (newValue) =>
+                                                                _saveChanges(
+                                                                    'name',
+                                                                    newValue),
+                                                        controller:
+                                                            _nameController,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          border:
+                                                              UnderlineInputBorder(),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        _name,
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black54),
                                                       ),
-                                                    )
-                                                  : Text(
-                                                      _name,
-                                                      style: const TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black),
-                                                    ),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -210,8 +221,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                               ? IconButton(
                                                   onPressed: () => _saveChanges(
                                                       'name',
-                                                      _nameController
-                                                          .text), // Save the new name
+                                                      _nameController.text),
                                                   icon: const Icon(
                                                       FontAwesomeIcons
                                                           .chevronRight),
@@ -226,7 +236,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 12), // Adjusted spacing
+                                const SizedBox(height: 3), // Adjusted spacing
 
                                 // Contact Information
                                 InkWell(
@@ -242,49 +252,53 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'contact'.tr(),
+                                                'password'.tr(),
                                                 style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black),
                                               ),
                                               const SizedBox(height: 4),
-                                              _isEditingContact
-                                                  ? TextField(
-                                                      onSubmitted: (newValue) =>
-                                                          _saveChanges(
-                                                              'contact',
-                                                              newValue),
-                                                      controller:
-                                                          _contactController,
-                                                      decoration:
-                                                          const InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
+                                              SizedBox(
+                                                height: 20,
+                                                child: _isEditingPassword
+                                                    ? TextField(
+                                                        onSubmitted:
+                                                            (newValue) =>
+                                                                _saveChanges(
+                                                                    'password',
+                                                                    newValue),
+                                                        controller:
+                                                            _passwordController,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          border:
+                                                              UnderlineInputBorder(),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        _position,
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black54),
                                                       ),
-                                                    )
-                                                  : Text(
-                                                      _contactInfo,
-                                                      style: const TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black),
-                                                    ),
+                                              )
                                             ],
                                           ),
                                         ),
                                         // Align icons
                                         Align(
                                           alignment: Alignment.centerRight,
-                                          child: _isEditingContact
+                                          child: _isEditingPassword
                                               ? IconButton(
                                                   onPressed: () => _saveChanges(
-                                                      'contact',
-                                                      _contactController
-                                                          .text), // Save the new contact
+                                                      'password',
+                                                      _passwordController.text),
                                                   icon: const Icon(
                                                       FontAwesomeIcons
                                                           .chevronRight),
-                                                  color: Colors.black,
+                                                  color: Colors.black54,
                                                 )
                                               : const Icon(
                                                   Icons.edit,
@@ -295,7 +309,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 12), // Adjusted spacing
+                                const SizedBox(height: 3), // Adjusted spacing
 
                                 // Email
                                 Row(
@@ -306,7 +320,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'email'.tr(),
+                                            'position'.tr(),
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
@@ -314,17 +328,17 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            _email,
+                                            _position,
                                             style: const TextStyle(
                                                 fontSize: 16,
-                                                color: Colors.black),
+                                                color: Colors.black54),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 12), // Adjusted spacing
+                                const SizedBox(height: 9), // Adjusted spacing
 
                                 // Nurse ID
                                 Row(
@@ -347,7 +361,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                             _nurseId,
                                             style: const TextStyle(
                                                 fontSize: 16,
-                                                color: Colors.black),
+                                                color: Colors.black54),
                                           ),
                                         ],
                                       ),

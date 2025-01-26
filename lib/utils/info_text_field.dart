@@ -4,7 +4,8 @@ Widget infoTextField(
     {required String title,
     required TextEditingController controller,
     required Color boxColor,
-    required double minWidth}) {
+    required double minWidth,
+    String? hintText}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -35,10 +36,10 @@ Widget infoTextField(
               controller: controller,
               maxLines: 2, // Allows for text wrapping to new lines
               style: const TextStyle(color: Colors.black, fontSize: 14),
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                isCollapsed: true, // Reduce padding inside the text field
-              ),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  isCollapsed: true, // Reduce padding inside the text field
+                  hintText: hintText),
             ),
           ),
         ),

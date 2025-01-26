@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/authentication/login.dart';
 import 'package:pulse/mainpage/settings/aboutapp.dart';
 import 'package:pulse/mainpage/settings/admin.dart';
 import 'package:pulse/mainpage/settings/language.dart';
@@ -95,25 +96,26 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () async {
                     await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AdminPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const AdminPage()),
+                    );
+                  },
+                ),
+                _buildSettingsTile(
+                  title: 'logout'.tr(),
+                  leadingIcon: FontAwesomeIcons.rightFromBracket,
+                  color: const Color(0xffFF0000),
+                  onTap: () async {
+                    await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                      (Route<dynamic> route) =>
+                          false, // Removes all previous screens
                     );
                   },
                 ),
 
-                const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.center,
-                  child: InkWell(
-                    onTap: _logout,
-                    child: Text(
-                      "logout".tr(),
-                      style: const TextStyle(
-                          color: Colors.red,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 40),
 
                 // Random Quote Section using FutureBuilder
@@ -196,11 +198,13 @@ class _SettingsPageState extends State<SettingsPage> {
           Positioned(
             bottom: 40,
             right: -110,
-            child: Image.asset(
-              'assets/images/hospital.png', // Ensure this path is correct
-              width: 400, // Increased width
-              height: 300, // Increased height
-              fit: BoxFit.contain,
+            child: IgnorePointer(
+              child: Image.asset(
+                'assets/images/hospital.png', // Ensure this path is correct
+                width: 400, // Increased width
+                height: 300, // Increased height
+                fit: BoxFit.contain,
+              ),
             ),
           )
         ],
@@ -212,14 +216,21 @@ class _SettingsPageState extends State<SettingsPage> {
     required String title,
     required IconData leadingIcon,
     required VoidCallback onTap,
+    Color? color,
   }) {
     return ListTile(
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(color: color ?? Colors.black),
+      ),
       leading: FaIcon(
         leadingIcon,
-        color: const Color(0xff3362CC),
+        color: color ?? const Color(0xff3362CC),
       ),
-      trailing: const FaIcon(FontAwesomeIcons.arrowRight),
+      trailing: FaIcon(
+        FontAwesomeIcons.arrowRight,
+        color: color ?? Colors.black,
+      ),
       onTap: onTap,
     );
   }

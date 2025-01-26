@@ -6,6 +6,7 @@ import 'package:pulse/utils/gender_dropdown.dart';
 import 'package:pulse/utils/info_text_field_filter.dart';
 import 'package:pulse/utils/symbols_dialog/export_symbols.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
+import 'package:pulse/utils/toggle_button.dart';
 
 class ExportPage extends StatefulWidget {
   const ExportPage({super.key});
@@ -38,7 +39,8 @@ class _ExportPageState extends State<ExportPage> {
   final TextEditingController _wardController = TextEditingController();
   final TextEditingController _hnController = TextEditingController();
   final TextEditingController _bedNumController = TextEditingController();
-  String _gender = "-";
+  bool _maleToggle = false;
+  bool _femaleToggle = false;
 
   final List<Patient> _patients = [
     Patient(
@@ -103,12 +105,12 @@ class _ExportPageState extends State<ExportPage> {
   void _filterPatients() {
     setState(() {
       _filteredPatients = _patients.where((patient) {
-        // Safe handling of split and name
+        // Extract patient names safely
         final nameParts = patient.fullName.split(" ");
         final firstName = nameParts.isNotEmpty ? nameParts[0] : "";
         final lastName = nameParts.length > 1 ? nameParts[1] : "";
 
-        // Apply filters
+        // Apply name and other filters
         final matchesFullName = _fullNameFilter.isEmpty ||
             patient.fullName
                 .toLowerCase()
@@ -125,9 +127,13 @@ class _ExportPageState extends State<ExportPage> {
             patient.ward
                 .toLowerCase()
                 .contains(_wardController.text.toLowerCase());
-        final matchesGender = _gender.isEmpty ||
-            _gender == "-" ||
-            patient.gender.toLowerCase() == _gender.toLowerCase();
+
+        // Gender filter logic
+        final matchesGender = (_maleToggle && _femaleToggle) ||
+            (_maleToggle && patient.gender.toLowerCase() == "male") ||
+            (_femaleToggle && patient.gender.toLowerCase() == "female");
+
+        // Other filters
         final matchesHospitalNumber = _hnController.text.isEmpty ||
             patient.hospitalNumber
                 .toLowerCase()
@@ -157,7 +163,8 @@ class _ExportPageState extends State<ExportPage> {
       _nameController.text = '';
       _surnameController.text = '';
       _wardController.text = '';
-      _gender = '';
+      _maleToggle = false;
+      _femaleToggle = false;
       _hnController.text = '';
       _bedNumController.text = '';
       _minAge = 0;
@@ -176,11 +183,11 @@ class _ExportPageState extends State<ExportPage> {
             child: Stack(
               children: [
                 Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 5,
+                  right: 5,
                   child: IconButton(
                     icon: const Icon(
-                      FontAwesomeIcons.xmark,
+                      Icons.close,
                       color: Colors.black,
                       size: 30,
                     ),
@@ -241,7 +248,7 @@ class _ExportPageState extends State<ExportPage> {
                                     12.0), // Set the border radius
                               ),
                             ),
-                            child: Text('applyFilters'.tr(),
+                            child: Text('filterData'.tr(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white)),
@@ -260,6 +267,7 @@ class _ExportPageState extends State<ExportPage> {
   Widget _buildFilterInputs() {
     return Column(
       children: [
+        const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -268,29 +276,63 @@ class _ExportPageState extends State<ExportPage> {
                 controller: _nameController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
-                fillSpace: false),
+                fillSpace: false,
+                hintText: "-"),
             const SizedBox(width: 10),
             infoTextField(
                 title: "surname".tr(),
                 controller: _surnameController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
-                fillSpace: false),
+                fillSpace: false,
+                hintText: "-"),
           ],
         ),
+        const SizedBox(height: 8),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-          child: GenderDropdown(
-            fillSpace: true,
-            selectedGender: _gender.isEmpty ? null : _gender,
-            size: MediaQuery.of(context).size,
-            onGenderChanged: (String? newGender) {
-              setState(() {
-                _gender = newGender ?? '';
-              });
-            },
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "gender".tr(),
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 3),
+                Row(
+                  children: [
+                    ToggleButton(
+                      text: "male".tr(),
+                      icon: Icons.male,
+                      activeColor: const Color(0xff5C9FEE),
+                      inactiveColor: const Color(0xffE0EAFF),
+                      onToggle: (value) {
+                        _maleToggle = value;
+                      },
+                      preferenceKey:
+                          "male_toggle_state", // Unique key for male toggle
+                    ),
+                    const Spacer(),
+                    ToggleButton(
+                      text: "female".tr(),
+                      icon: Icons.female,
+                      activeColor: const Color(0xffD63A67),
+                      inactiveColor: const Color(0xffF9AEC3),
+                      onToggle: (value) {
+                        _femaleToggle = value;
+                      },
+                      preferenceKey:
+                          "female_toggle_state", // Unique key for female toggle
+                    ),
+                  ],
+                ),
+              ],
+            )),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -299,16 +341,19 @@ class _ExportPageState extends State<ExportPage> {
                 controller: _hnController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
-                fillSpace: false),
+                fillSpace: false,
+                hintText: "-"),
             const SizedBox(width: 10),
             infoTextField(
                 title: "bedNumber".tr(),
                 controller: _bedNumController,
                 boxColor: const Color(0xffE0EAFF),
                 context: context,
-                fillSpace: false),
+                fillSpace: false,
+                hintText: "-"),
           ],
         ),
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: infoTextField(
@@ -316,8 +361,10 @@ class _ExportPageState extends State<ExportPage> {
               controller: _wardController,
               boxColor: const Color(0xffE0EAFF),
               context: context,
-              fillSpace: true),
+              fillSpace: true,
+              hintText: "-"),
         ),
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8),
           child: Align(
@@ -505,21 +552,6 @@ class _ExportPageState extends State<ExportPage> {
             ),
           ),
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: screenWidth * 0.04),
-            child: IconButton(
-              icon: FaIcon(
-                FontAwesomeIcons.circleInfo,
-                size: screenWidth * 0.08,
-                color: const Color(0xff3362CC),
-              ),
-              onPressed: () {
-                showInfoDialog(context, exportSymbols());
-              },
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [

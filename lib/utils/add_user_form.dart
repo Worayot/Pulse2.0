@@ -13,16 +13,14 @@ class AddUserForm extends StatefulWidget {
 class _AddUserFormState extends State<AddUserForm> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surnameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController contactController = TextEditingController();
+  final TextEditingController positionController = TextEditingController();
   final TextEditingController nurseIDController = TextEditingController();
 
   @override
   void dispose() {
     nameController.dispose();
     surnameController.dispose();
-    emailController.dispose();
-    contactController.dispose();
+    positionController.dispose();
     nurseIDController.dispose();
     super.dispose();
   }
@@ -30,11 +28,13 @@ class _AddUserFormState extends State<AddUserForm> {
   void submitData() {
     String name = nameController.text.trim();
     String surname = surnameController.text.trim();
-    String email = emailController.text.trim();
-    String contact = contactController.text.trim();
+    String position = positionController.text.trim();
     String nurseID = nurseIDController.text.trim();
 
-    if (name.isEmpty || surname.isEmpty || email.isEmpty || nurseID.isEmpty) {
+    if (name.isEmpty ||
+        surname.isEmpty ||
+        position.isEmpty ||
+        nurseID.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -69,7 +69,7 @@ class _AddUserFormState extends State<AddUserForm> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: SizedBox(
-          height: 475,
+          height: size.height * 0.46,
           child: Column(
             children: [
               Padding(
@@ -105,44 +105,40 @@ class _AddUserFormState extends State<AddUserForm> {
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                              title: "${"name".tr()} *",
+                              title: "name".tr(),
                               controller: nameController,
                               boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                              minWidth: 140,
+                              hintText: "fillInName".tr()),
                         ),
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                              title: "${"surname".tr()} *",
+                              title: "surname".tr(),
                               controller: surnameController,
                               boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                              minWidth: 140,
+                              hintText: "fillInSurname".tr()),
                         ),
                       ],
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: infoTextField(
-                          title: "${"email".tr()} *",
-                          controller: emailController,
+                          title: "position".tr(),
+                          controller: positionController,
                           boxColor: const Color(0xffE0EAFF),
-                          minWidth: 140),
+                          minWidth: 140,
+                          hintText: "fillInPosition".tr()),
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: infoTextField(
-                          title: "${"nurseID".tr()} *",
+                          title: "nurseID".tr(),
                           controller: nurseIDController,
                           boxColor: const Color(0xffE0EAFF),
-                          minWidth: 140),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: infoTextField(
-                          title: "contact".tr(),
-                          controller: contactController,
-                          boxColor: const Color(0xffE0EAFF),
-                          minWidth: 140),
+                          minWidth: 140,
+                          hintText: "fillInNurseID".tr()),
                     ),
                     const SizedBox(height: 10),
                     Align(

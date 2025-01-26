@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pulse/mainpage/home.dart';
+import 'package:pulse/mainpage/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -60,14 +62,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() {
-    if (_formKey.currentState?.validate() ?? false) {
-      print("Email: ${_emailController.text}");
-      print("Password: ${_passwordController.text}");
-    }
-  }
-
-  void _forgotPassword() {
-    print("Forgot Password tapped");
+    // if (_formKey.currentState?.validate() ?? false) {
+    //   print("Email: ${_emailController.text}");
+    //   print("Password: ${_passwordController.text}");
+    // }
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              MainPage()), // For example, navigating to the Login screen
+      (Route<dynamic> route) => false, // Removes all previous screens
+    );
   }
 
   @override
@@ -96,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 30),
                   Card(
                     elevation: 5,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(20),
                       ),
@@ -178,36 +183,6 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               return null;
                             },
-                          ),
-                          const SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: _forgotPassword,
-                                    child: Text(
-                                      "forgotPassword".tr(),
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        decoration: TextDecoration.underline,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    "?", // This part will not have an underline and won't be clickable
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
                           const SizedBox(height: 40),
                           SizedBox(

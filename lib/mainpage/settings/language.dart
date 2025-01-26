@@ -132,19 +132,24 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
                                             ? const Color(0xff407BFF)
                                             : Colors.grey[300],
                                   ),
-                                  child: const Align(
+                                  child: Align(
                                     alignment: Alignment
                                         .centerLeft, // Align text to the left
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8.0), // Add padding
                                       child: Padding(
-                                        padding: EdgeInsets.only(left: 12.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 12.0),
                                         child: Text(
                                           'ไทย',
                                           style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              color: _selectedLocale
+                                                          ?.languageCode ==
+                                                      'th'
+                                                  ? Colors.white
+                                                  : Colors.black,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -178,19 +183,24 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
                                             ? const Color(0xff407BFF)
                                             : Colors.grey[300],
                                   ),
-                                  child: const Align(
+                                  child: Align(
                                     alignment: Alignment
                                         .centerLeft, // Align text to the left
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8.0), // Add padding
                                       child: Padding(
-                                        padding: EdgeInsets.only(left: 12.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 12.0),
                                         child: Text(
                                           'English',
                                           style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              color: _selectedLocale
+                                                          ?.languageCode ==
+                                                      'en'
+                                                  ? Colors.white
+                                                  : Colors.black,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),

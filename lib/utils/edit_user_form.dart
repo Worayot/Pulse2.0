@@ -15,10 +15,8 @@ class _EditUserFormState extends State<EditUserForm> {
       TextEditingController(text: "Worayot");
   final TextEditingController surnameController =
       TextEditingController(text: "Liamkaew");
-  final TextEditingController emailController =
-      TextEditingController(text: "worayot01@gmail.com");
-  final TextEditingController contactController =
-      TextEditingController(text: "C11");
+  final TextEditingController positionController =
+      TextEditingController(text: "Nurse");
   final TextEditingController nurseIDController =
       TextEditingController(text: "602");
 
@@ -26,8 +24,7 @@ class _EditUserFormState extends State<EditUserForm> {
   void dispose() {
     nameController.dispose();
     surnameController.dispose();
-    emailController.dispose();
-    contactController.dispose();
+    positionController.dispose();
     nurseIDController.dispose();
     super.dispose();
   }
@@ -35,14 +32,12 @@ class _EditUserFormState extends State<EditUserForm> {
   void submitData() {
     String name = nameController.text.trim();
     String surname = surnameController.text.trim();
-    String email = emailController.text.trim();
-    String contact = contactController.text.trim();
+    String position = positionController.text.trim();
     String nurseID = nurseIDController.text.trim();
 
     if (name.isEmpty ||
         surname.isEmpty ||
-        email.isEmpty ||
-        contact.isEmpty ||
+        position.isEmpty ||
         nurseID.isEmpty) {
       showDialog(
         context: context,
@@ -78,7 +73,7 @@ class _EditUserFormState extends State<EditUserForm> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: SizedBox(
-          height: 475,
+          height: size.height * 0.46,
           child: Column(
             children: [
               Padding(
@@ -93,7 +88,7 @@ class _EditUserFormState extends State<EditUserForm> {
                     const Spacer(),
                     IconButton(
                       icon: const Icon(
-                        FontAwesomeIcons.xmark,
+                        Icons.close,
                         color: Colors.black,
                         size: 30,
                       ),
@@ -132,8 +127,8 @@ class _EditUserFormState extends State<EditUserForm> {
                     SizedBox(
                       width: double.infinity,
                       child: infoTextField(
-                          title: "email".tr(),
-                          controller: emailController,
+                          title: "position".tr(),
+                          controller: positionController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140),
                     ),
@@ -142,14 +137,6 @@ class _EditUserFormState extends State<EditUserForm> {
                       child: infoTextField(
                           title: "nurseID".tr(),
                           controller: nurseIDController,
-                          boxColor: const Color(0xffE0EAFF),
-                          minWidth: 140),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: infoTextField(
-                          title: "contact".tr(),
-                          controller: contactController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140),
                     ),

@@ -12,16 +12,14 @@ import 'package:pulse/utils/symbols_dialog/user_manager_symbols.dart';
 class User {
   final String name;
   final String surname;
-  final String email;
   final String nurseID;
-  final String contact;
+  final String position;
 
   User(
       {required this.name,
       required this.surname,
-      required this.email,
       required this.nurseID,
-      required this.contact});
+      required this.position});
 }
 
 class AdminPage extends StatefulWidget {
@@ -34,24 +32,17 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   final List<User> _users = [
-    User(
-        name: "John",
-        surname: "Doe",
-        email: "banana@hotmail.com",
-        nurseID: "123123",
-        contact: "C11XXX"),
+    User(name: "John", surname: "Doe", nurseID: "123123", position: "Admin"),
     User(
         name: "Worayot",
         surname: "Liamkaew",
-        email: "banana@hotmail.com",
         nurseID: "123123",
-        contact: "C11XXX"),
+        position: "Nurse"),
     User(
         name: "Minecraft",
         surname: "Java",
-        email: "banana@hotmail.com",
         nurseID: "123123",
-        contact: "C11XXX"),
+        position: "Nurse"),
   ];
 
   List<User> _filteredUsers = [];
@@ -106,13 +97,6 @@ class _AdminPageState extends State<AdminPage> {
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const Spacer(),
-                  IconButton(
-                    icon: const FaIcon(FontAwesomeIcons.circleInfo,
-                        size: 25, color: Color(0xff3362CC)),
-                    onPressed: () {
-                      showInfoDialog(context, userManagerSymbols());
-                    },
-                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -210,6 +194,26 @@ class _AdminPageState extends State<AdminPage> {
                                             TextSpan(
                                               children: <TextSpan>[
                                                 TextSpan(
+                                                  text: "${"position".tr()} ",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 11),
+                                                ),
+                                                TextSpan(
+                                                  text: "${user.position} ",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 11),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Text.rich(
+                                            TextSpan(
+                                              children: <TextSpan>[
+                                                TextSpan(
                                                   text: "${"nurseID".tr()} ",
                                                   style: const TextStyle(
                                                       fontWeight:
@@ -226,40 +230,6 @@ class _AdminPageState extends State<AdminPage> {
                                               ],
                                             ),
                                           ),
-                                          Text.rich(
-                                            TextSpan(
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: "${"email".tr()} ",
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 11),
-                                                ),
-                                                TextSpan(
-                                                  text: "${user.email} ",
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 11),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text.rich(TextSpan(children: [
-                                            TextSpan(
-                                              text: "${"contact".tr()} ",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 11),
-                                            ),
-                                            TextSpan(
-                                              text: user.contact,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 11),
-                                            ),
-                                          ])),
                                         ],
                                       ),
                                     ),
@@ -270,9 +240,9 @@ class _AdminPageState extends State<AdminPage> {
                           ),
                         ),
                         Positioned(
-                          right: 0,
+                          right: -1,
                           top: 0,
-                          bottom: -10,
+                          bottom: 8,
                           child: IgnorePointer(
                             child: SizedBox(
                               height: 180, // Adjust the height
@@ -292,13 +262,40 @@ class _AdminPageState extends State<AdminPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              buildActionButton(FontAwesomeIcons.penClip, () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return const EditUserForm();
-                                    });
-                              }, Colors.white, const Color(0xff3362CC)),
+                              SizedBox(
+                                height: 30,
+                                width: 55,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: const Color(0xff3362CC),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      // fixedSize: const Size(10, 30),
+                                      elevation: 0),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const EditUserForm();
+                                      },
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 0),
+                                    child: Text(
+                                      'edit'.tr(), // Replace with your text
+                                      style: const TextStyle(
+                                          color: Color(0xff3362CC),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(width: 10),
                               buildActionButton(FontAwesomeIcons.userMinus, () {
                                 showDeleteUserDialog(context);

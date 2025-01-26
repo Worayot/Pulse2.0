@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 Widget buildActionButton(
     IconData icon, VoidCallback onPressed, Color bgColor, Color iconColor) {
   return SizedBox(
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     child: ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -13,7 +13,7 @@ Widget buildActionButton(
         padding: const EdgeInsets.only(left: 0),
         elevation: 0,
       ),
-      child: Center(child: Icon(icon, size: 22, color: iconColor)),
+      child: Center(child: Icon(icon, size: 18, color: iconColor)),
     ),
   );
 }

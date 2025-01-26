@@ -32,7 +32,8 @@ Future<String> sendMEWsValues({
 
     if (httpResponse.statusCode == 200) {
       var mewsScore = jsonDecode(httpResponse.body)['mews_score'];
-      response = '$mewsScore'; // Update the response with the MEWS score
+      response =
+          'MEWS Score: $mewsScore'; // Update the response with the MEWS score
     } else {
       response = 'Error: ${httpResponse.statusCode} - ${httpResponse.body}';
     }
