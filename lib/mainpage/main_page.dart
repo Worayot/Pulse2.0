@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/mainpage/home.dart';
 import 'package:pulse/mainpage/patient_data/export.dart';
 import 'package:pulse/mainpage/patient_data/patient.dart';
@@ -17,16 +18,20 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   // Different pages for each tab
-  static List<Widget> _pages = <Widget>[
-    NotificationPage(),
-    PatientPage(),
-    ExportPage(),
+  static final List<Widget> _pages = <Widget>[
+    const NotificationPage(),
+    const PatientPage(),
+    const ExportPage(),
     SettingsPage()
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 2) {
+        savePreference("male_toggle_state", false);
+        savePreference("female_toggle_state", false);
+      }
     });
   }
 
@@ -50,45 +55,45 @@ class _MainPageState extends State<MainPage> {
         onItemSelected: _onItemTapped, // Handle item selection
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            icon: Icon(FontAwesomeIcons.house, size: iconSize),
-            title: Text(
-              'home'.tr(),
-              style: TextStyle(
-                  fontSize: screenWidth * 0.035), // Relative text size
-            ),
-            activeColor: const Color(0xffFEFEFE),
-            inactiveColor: const Color(0xffC6D8FF),
-          ),
+              icon: Icon(FontAwesomeIcons.users, size: iconSize),
+              title: Text(
+                "\t${'patientsInSystem'.tr()}",
+                style: TextStyle(
+                    fontSize: screenWidth * 0.035), // Relative text size
+              ),
+              activeColor: const Color(0xffFEFEFE),
+              inactiveColor: const Color(0xffC6D8FF),
+              boxWidth: 190),
           BottomNavyBarItem(
-            icon: Icon(FontAwesomeIcons.users, size: iconSize),
-            title: Text(
-              'patient'.tr(),
-              style: TextStyle(
-                  fontSize: screenWidth * 0.035), // Relative text size
-            ),
-            activeColor: const Color(0xffFEFEFE),
-            inactiveColor: const Color(0xffC6D8FF),
-          ),
+              icon: Icon(FontAwesomeIcons.solidBell, size: iconSize),
+              title: Text(
+                "\t${'patientInMonitoring'.tr()}",
+                style: TextStyle(
+                    fontSize: screenWidth * 0.035), // Relative text size
+              ),
+              activeColor: const Color(0xffFEFEFE),
+              inactiveColor: const Color(0xffC6D8FF),
+              boxWidth: 190),
           BottomNavyBarItem(
-            icon: Icon(FontAwesomeIcons.fileArrowDown, size: iconSize),
-            title: Text(
-              'data'.tr(),
-              style: TextStyle(
-                  fontSize: screenWidth * 0.035), // Relative text size
-            ),
-            activeColor: const Color(0xffFEFEFE),
-            inactiveColor: const Color(0xffC6D8FF),
-          ),
+              icon: Icon(FontAwesomeIcons.fileArrowDown, size: iconSize),
+              title: Text(
+                'data'.tr(),
+                style: TextStyle(
+                    fontSize: screenWidth * 0.035), // Relative text size
+              ),
+              activeColor: const Color(0xffFEFEFE),
+              inactiveColor: const Color(0xffC6D8FF),
+              boxWidth: 120),
           BottomNavyBarItem(
-            icon: Icon(FontAwesomeIcons.gear, size: iconSize),
-            title: Text(
-              'settings'.tr(),
-              style: TextStyle(
-                  fontSize: screenWidth * 0.035), // Relative text size
-            ),
-            activeColor: const Color(0xffFEFEFE),
-            inactiveColor: const Color(0xffC6D8FF),
-          ),
+              icon: Icon(FontAwesomeIcons.gear, size: iconSize),
+              title: Text(
+                'settings'.tr(),
+                style: TextStyle(
+                    fontSize: screenWidth * 0.035), // Relative text size
+              ),
+              activeColor: const Color(0xffFEFEFE),
+              inactiveColor: const Color(0xffC6D8FF),
+              boxWidth: 120),
         ],
         height: bottomBarHeight, // Adjusting bottom bar height responsively
       ),

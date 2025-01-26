@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/custom_header.dart';
+import 'package:pulse/func/pref/pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
@@ -20,8 +21,8 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   bool _isEditingPassword = false;
 
   // Controllers to track TextField changes
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -43,10 +44,10 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     });
   }
 
-  Future<void> _saveProfileData(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
-  }
+  // Future<void> _saveProfileData(String key, String value) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString(key, value);
+  // }
 
   void _toggleEditMode(String field) {
     setState(() {
@@ -56,7 +57,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
           // Save changes when exiting edit mode
           _saveChanges('name', _nameController.text);
         }
-      } else if (field == 'contact') {
+      } else if (field == 'password') {
         _isEditingPassword = !_isEditingPassword;
         if (!_isEditingPassword) {
           // Save changes when exiting edit mode
@@ -69,11 +70,11 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   void _saveChanges(String field, String newValue) {
     if (field == 'name') {
       _name = newValue;
-      _saveProfileData('name', newValue);
+      saveStringPreference('name', newValue);
       _isEditingName = !_isEditingName;
     } else if (field == 'password') {
       _password = newValue;
-      _saveProfileData('password', newValue);
+      saveStringPreference('password', newValue);
       _isEditingPassword = !_isEditingPassword;
     }
     setState(() {}); // Refresh the state to display the updated name/password
@@ -85,7 +86,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: header(),
+        title: const Header(),
         toolbarHeight: 80,
       ),
       body: Padding(
@@ -202,6 +203,9 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                             const InputDecoration(
                                                           border:
                                                               UnderlineInputBorder(),
+                                                          contentPadding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 13),
                                                         ),
                                                       )
                                                     : Text(
@@ -218,14 +222,20 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                         Align(
                                           alignment: Alignment.centerRight,
                                           child: _isEditingName
-                                              ? IconButton(
-                                                  onPressed: () => _saveChanges(
-                                                      'name',
-                                                      _nameController.text),
-                                                  icon: const Icon(
-                                                      FontAwesomeIcons
-                                                          .chevronRight),
-                                                  color: Colors.black,
+                                              ? Transform.translate(
+                                                  offset: const Offset(8.0,
+                                                      0.0), // Move 8 pixels to the right
+                                                  child: IconButton(
+                                                    onPressed: () =>
+                                                        _saveChanges(
+                                                            'name',
+                                                            _nameController
+                                                                .text),
+                                                    icon: const Icon(
+                                                        FontAwesomeIcons
+                                                            .chevronRight),
+                                                    color: Colors.black,
+                                                  ),
                                                 )
                                               : const Icon(
                                                   Icons.edit,
@@ -238,9 +248,8 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                 ),
                                 const SizedBox(height: 3), // Adjusted spacing
 
-                                // Contact Information
                                 InkWell(
-                                  onTap: () => _toggleEditMode('contact'),
+                                  onTap: () => _toggleEditMode('password'),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 8.0),
@@ -274,10 +283,13 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                             const InputDecoration(
                                                           border:
                                                               UnderlineInputBorder(),
+                                                          contentPadding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 13),
                                                         ),
                                                       )
                                                     : Text(
-                                                        _position,
+                                                        _password,
                                                         style: const TextStyle(
                                                             fontSize: 16,
                                                             color:
@@ -291,14 +303,20 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                         Align(
                                           alignment: Alignment.centerRight,
                                           child: _isEditingPassword
-                                              ? IconButton(
-                                                  onPressed: () => _saveChanges(
-                                                      'password',
-                                                      _passwordController.text),
-                                                  icon: const Icon(
-                                                      FontAwesomeIcons
-                                                          .chevronRight),
-                                                  color: Colors.black54,
+                                              ? Transform.translate(
+                                                  offset: const Offset(8.0,
+                                                      0.0), // Move 8 pixels to the right
+                                                  child: IconButton(
+                                                    onPressed: () =>
+                                                        _saveChanges(
+                                                            'password',
+                                                            _passwordController
+                                                                .text),
+                                                    icon: const Icon(
+                                                        FontAwesomeIcons
+                                                            .chevronRight),
+                                                    color: Colors.black,
+                                                  ),
                                                 )
                                               : const Icon(
                                                   Icons.edit,
@@ -311,7 +329,6 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                 ),
                                 const SizedBox(height: 3), // Adjusted spacing
 
-                                // Email
                                 Row(
                                   children: [
                                     Expanded(

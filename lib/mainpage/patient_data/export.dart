@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/gender_dropdown.dart';
 import 'package:pulse/utils/info_text_field_filter.dart';
@@ -171,6 +172,8 @@ class _ExportPageState extends State<ExportPage> {
       _maxAge = 120;
       _filteredPatients = _patients;
     });
+    savePreference("male_toggle_state", false);
+    savePreference("female_toggle_state", false);
   }
 
   void showFilterDialog(context) {
@@ -539,7 +542,6 @@ class _ExportPageState extends State<ExportPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Padding(

@@ -51,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: header()),
+      appBar: AppBar(title: const Header()),
       body: Stack(
         children: [
           Padding(

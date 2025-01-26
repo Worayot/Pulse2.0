@@ -109,6 +109,8 @@ class _PatientListState extends State<PatientList> {
               SizedBox(
                 height: 80,
                 child: Card(
+                  // color: const Color(0xffe0eaff),
+
                   color: const Color(0xffE0EAFF),
                   margin: EdgeInsets.zero,
                   shape: const RoundedRectangleBorder(
@@ -200,19 +202,13 @@ class _PatientListState extends State<PatientList> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                buildActionButton(FontAwesomeIcons.solidClock,
-                                    () {
+                                buildActionButton(FontAwesomeIcons.plus, () {
                                   showTimeManager(context);
                                 }, Colors.white, const Color(0xff3362CC)),
                                 const SizedBox(width: 4),
-                                buildActionButton(FontAwesomeIcons.userNurse,
-                                    () {
-                                  showNursing(context, "1");
-                                }, Colors.white, const Color(0xff3362CC)),
-                                const SizedBox(width: 4),
                                 buildActionButton(
-                                    FontAwesomeIcons.clipboardList, () {
-                                  showPatientDetails(context, patient);
+                                    FontAwesomeIcons.solidClipboard, () {
+                                  showNursing(context, "1");
                                 }, Colors.white, const Color(0xff3362CC)),
                                 const SizedBox(width: 4),
                                 buildActionButton(FontAwesomeIcons.xmark, () {

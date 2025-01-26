@@ -52,7 +52,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: containerHeight,
-          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
             children: items.map((item) {
@@ -67,6 +67,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
                   itemCornerRadius: itemCornerRadius,
                   animationDuration: animationDuration,
                   curve: curve,
+                  boxWidth: item.boxWidth,
                 ),
               );
             }).toList(),
@@ -85,6 +86,7 @@ class _ItemWidget extends StatelessWidget {
   final double itemCornerRadius;
   final Duration animationDuration;
   final Curve curve;
+  final double boxWidth;
 
   const _ItemWidget({
     super.key,
@@ -94,6 +96,7 @@ class _ItemWidget extends StatelessWidget {
     required this.animationDuration,
     required this.itemCornerRadius,
     required this.iconSize,
+    required this.boxWidth, // Accept boxWidth from parent
     this.curve = Curves.linear,
   });
 
@@ -103,7 +106,7 @@ class _ItemWidget extends StatelessWidget {
       container: true,
       selected: isSelected,
       child: AnimatedContainer(
-        width: isSelected ? 120 : 50,
+        width: isSelected ? boxWidth : 50,
         height: double.maxFinite,
         duration: animationDuration,
         curve: curve,
@@ -151,17 +154,18 @@ class _ItemWidget extends StatelessWidget {
 }
 
 class BottomNavyBarItem {
-  BottomNavyBarItem({
-    required this.icon,
-    required this.title,
-    this.activeColor = const Color(0xff407BFF),
-    this.textAlign,
-    this.inactiveColor,
-  });
+  BottomNavyBarItem(
+      {required this.icon,
+      required this.title,
+      this.activeColor = const Color(0xff407BFF),
+      this.textAlign,
+      this.inactiveColor,
+      required this.boxWidth});
 
   final Widget icon;
   final Widget title;
   final Color activeColor;
   final Color? inactiveColor;
   final TextAlign? textAlign;
+  final double boxWidth;
 }

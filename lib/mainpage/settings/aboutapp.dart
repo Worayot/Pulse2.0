@@ -9,7 +9,7 @@ class AboutAppPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove the default back button
-        title: header(),
+        title: const Header(),
         toolbarHeight: 80, // Make the header bigger
       ),
       body: Padding(
