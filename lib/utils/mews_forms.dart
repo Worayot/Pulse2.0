@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/func/calculateMEWs.dart';
 import 'package:pulse/func/requests/sendMEWsParameters.dart';
 import 'package:pulse/results/result_screens.dart';
 
@@ -113,7 +114,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                       child: Text("-"),
                     ),
                     DropdownMenuItem(
-                      value: "Consciousness",
+                      value: "Conscious",
                       child: Text("conscious".tr()),
                     ),
                     DropdownMenuItem(
@@ -502,29 +503,50 @@ class _MEWsFormsState extends State<MEWsForms> {
                         ),
                       ),
                       onPressed: () async {
-                        String hr = heartRateController.text;
-                        String temp = temperatureController.text;
-                        String sBp = sysBloodPressureController.text;
-                        String dBp = diaBloodPressureController.text;
-                        String spO2 = spo2Controller.text;
-                        String rr = respiratoryRateController.text;
-                        String urine = urineController.text;
+                        String hr = heartRateController.text.trim();
+                        String temp = temperatureController.text.trim();
+                        String sBp = sysBloodPressureController.text.trim();
+                        String dBp = diaBloodPressureController.text.trim();
+                        String spO2 = spo2Controller.text.trim();
+                        String rr = respiratoryRateController.text.trim();
+                        String urine = urineController.text.trim();
                         String conscious = consciousnessValue ?? '';
 
-                        String response = await sendMEWsValues(
+                        // String response = await sendMEWsValues(
+                        //     consciousness: conscious,
+                        //     heart_rate: hr,
+                        //     temperature: temp,
+                        //     systolic_bp: sBp,
+                        //     spo2: spO2,
+                        //     respiratory_rate: rr,
+                        //     urine: urine);
+                        print(
+                            "$hr, $temp, $sBp, $spO2, $rr, $urine, $conscious");
+
+                        int MEWs = calculateMEWs(
                             consciousness: conscious,
-                            heart_rate: hr,
-                            temperature: temp,
-                            systolic_bp: sBp,
-                            spo2: spO2,
-                            respiratory_rate: rr,
-                            urine: urine);
+                            heartRate: (hr != '-' && hr != ' ')
+                                ? int.tryParse(hr)
+                                : null,
+                            temperature: (temp != '-' && temp != ' ')
+                                ? double.tryParse(temp)
+                                : null,
+                            respiratoryRate: (rr != '-' && rr != ' ')
+                                ? int.tryParse(rr)
+                                : null,
+                            systolicBp: (sBp != '-' && sBp != ' ')
+                                ? int.tryParse(sBp)
+                                : null,
+                            spo2: (spO2 != '-' && spO2 != ' ')
+                                ? int.tryParse(spO2)
+                                : null,
+                            urine: (urine != '-' && urine != ' ')
+                                ? int.tryParse(urine)
+                                : null);
 
                         Navigator.pop(context);
 
-                        // print("${response}");
-                        //! TODO: handle response error.
-                        showResultDialog(context, int.parse(response));
+                        showResultDialog(context, MEWs);
                       },
                       child: Text(
                         'calculate'.tr(),

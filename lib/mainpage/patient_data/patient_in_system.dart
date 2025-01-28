@@ -237,7 +237,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
                                   child: _isExpanded[index]
                                       ? PatientIndData(
                                           age: age,
-                                          gender: gender,
+                                          gender: gender.tr(),
                                           hn: hn,
                                           bedNum: bedNum,
                                           ward: ward,
@@ -255,124 +255,152 @@ class _PatientInSystemState extends State<PatientInSystem> {
                             color: const Color(0xffE0EAFF),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Stack(
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isExpanded[index] =
-                                        !_isExpanded[index]; // Toggle state
-                                  });
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                              Positioned(
+                                bottom: 0, // Adjust the vertical position
+                                right: 0, // Adjust the horizontal position
+                                child: IgnorePointer(
+                                  child: Image.asset(
+                                    "assets/images/therapy3.png",
+                                    // width: 100, // Adjust the image size
+                                    // height: 100, // Adjust the image size
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _isExpanded[index] = !_isExpanded[
+                                              index]; // Toggle state
+                                        });
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "$name $surname",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              shadows: [
-                                                Shadow(
-                                                  color: Colors.black.withOpacity(
-                                                      0.25), // Shadow color with opacity
-                                                  offset: const Offset(0.8,
-                                                      0.8), // Horizontal and vertical offset
-                                                  blurRadius: 1, // Blur radius
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "$name $surname",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                    shadows: [
+                                                      Shadow(
+                                                        color: Colors.black
+                                                            .withOpacity(
+                                                                0.25), // Shadow color with opacity
+                                                        offset: const Offset(
+                                                            0.8,
+                                                            0.8), // Horizontal and vertical offset
+                                                        blurRadius:
+                                                            1, // Blur radius
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
+                                                RichText(
+                                                    text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text:
+                                                          "${"bedNumber".tr()} ",
+                                                      style: const TextStyle(
+                                                          fontSize: 11,
+                                                          color: Colors.black),
+                                                    ),
+                                                    TextSpan(
+                                                      text:
+                                                          bedNum, // Another styled text
+                                                      style: const TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ],
+                                                )),
+                                                Text(
+                                                  "${"latestInspection".tr()} $time${"n".tr()}",
+                                                  style: const TextStyle(
+                                                      fontSize: 11),
+                                                ),
+                                                const SizedBox(height: 2),
                                               ],
                                             ),
                                           ),
-                                          RichText(
-                                              text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "${"bedNumber".tr()} ",
-                                                style: const TextStyle(
-                                                    fontSize: 11,
-                                                    color: Colors.black),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    bedNum, // Another styled text
-                                                style: const TextStyle(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          )),
-                                          Text(
-                                            "${"latestInspection".tr()} $time${"n".tr()}",
-                                            style:
-                                                const TextStyle(fontSize: 11),
+                                          ToggleIconButton(func: () {}),
+                                          const SizedBox(width: 8),
+                                          buildActionButton(
+                                            FontAwesomeIcons.clipboardList,
+                                            () {
+                                              showPatientDetails(
+                                                  context, patient);
+                                            },
+                                            Colors.white,
+                                            const Color(0xff3362CC),
                                           ),
-                                          const SizedBox(height: 2),
+                                          const SizedBox(width: 8),
+                                          SizedBox(
+                                            height: 30,
+                                            child: OutlinedButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const EditPatientForm();
+                                                    });
+                                              },
+                                              style: OutlinedButton.styleFrom(
+                                                backgroundColor: Colors
+                                                    .white, // White background
+                                                side: const BorderSide(
+                                                    color: Colors
+                                                        .white), // Blue border
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8), // Rounded corners
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 2,
+                                                        vertical: 4), // Padding
+                                              ),
+                                              child: Text(
+                                                "edit".tr(),
+                                                style: const TextStyle(
+                                                  color: Color(
+                                                      0xff3362CC), // Blue text
+                                                  fontSize: 16, // Font size
+                                                  fontWeight: FontWeight
+                                                      .bold, // Font weight
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
-                                    ToggleIconButton(func: () {}),
-                                    const SizedBox(width: 8),
-                                    buildActionButton(
-                                      FontAwesomeIcons.clipboardList,
-                                      () {
-                                        showPatientDetails(context, patient);
-                                      },
-                                      Colors.white,
-                                      const Color(0xff3362CC),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    SizedBox(
-                                      height: 30,
-                                      child: OutlinedButton(
-                                        onPressed: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return const EditPatientForm();
-                                              });
-                                        },
-                                        style: OutlinedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.white, // White background
-                                          side: const BorderSide(
-                                              color:
-                                                  Colors.white), // Blue border
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                8), // Rounded corners
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 2,
-                                              vertical: 4), // Padding
-                                        ),
-                                        child: Text(
-                                          "edit".tr(),
-                                          style: const TextStyle(
-                                            color:
-                                                Color(0xff3362CC), // Blue text
-                                            fontSize: 16, // Font size
-                                            fontWeight:
-                                                FontWeight.bold, // Font weight
-                                          ),
-                                        ),
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
+
                         Positioned(
                           top: 69, // Adjust the position to fit your layout
 
@@ -387,7 +415,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
                               ),
                             ],
                           ),
-                        )
+                        ),
 
                         // Assess Text and Icon
                       ],

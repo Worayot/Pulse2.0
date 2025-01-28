@@ -4,96 +4,43 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Widget homeSymbols() {
   return Container(
-    width: 700,
-    constraints: const BoxConstraints(
-      maxHeight: 210,
-    ),
+    // width: 400,
+    // constraints: const BoxConstraints(
+    //   maxHeight: 130,
+    // ),
     child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(height: 30),
         Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text.rich(
-                TextSpan(
-                  style: const TextStyle(fontSize: 16), // Default style
-                  children: [
-                    const TextSpan(
-                      text: '• ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${'clicking'.tr()} ',
-                    ),
-                    TextSpan(
-                      text: '${'patientName'.tr()} ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: '${'willGoToMEWsCalScreen'.tr()}',
-                    ),
-                  ],
-                ),
-                softWrap: true,
-              ),
-            ),
             Row(
               children: [
-                const Text('• ',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const Icon(FontAwesomeIcons.solidClock,
+                const Icon(FontAwesomeIcons.plus,
                     size: 16, color: Color(0xff3362CC)),
-                Text(' ${'manageNotify'.tr()}',
+                Text('  ${'addToWatchList'.tr()}',
                     style: const TextStyle(fontSize: 16))
               ],
             ),
             Row(
               children: [
-                const Text('• ',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const Icon(FontAwesomeIcons.userNurse,
-                    size: 16, color: Color(0xff3362CC)),
-                Text(' ${'nursing'.tr()}', style: const TextStyle(fontSize: 16))
-              ],
-            ),
-            Row(
-              children: [
-                const Text('• ',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 const Icon(FontAwesomeIcons.clipboardList,
                     size: 16, color: Color(0xff3362CC)),
-                Text(' ${'patientDetails'.tr()}',
+                Text('  ${'observerRecords'.tr()}',
                     style: const TextStyle(fontSize: 16))
               ],
             ),
             Row(
               children: [
-                const Text('• ',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Container(
-                    width: 17,
-                    height: 17,
-                    decoration: const BoxDecoration(
-                      color: Colors.red, // Background color
-                      shape: BoxShape.circle, // Make it circular
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.xmark,
-                      size: 15,
-                      color: Colors.white, // Icon color
-                    ),
+                const Icon(FontAwesomeIcons.minus, size: 16, color: Colors.red),
+                Flexible(
+                  child: Text(
+                    '  ${'deletePatientInCare'.tr()}',
+                    style: const TextStyle(fontSize: 16),
+                    softWrap: true, // Allows text to wrap to a new line
+                    overflow: TextOverflow
+                        .visible, // Ensures the text isn't truncated
                   ),
-                ),
-                Text(' ${'deletePatientInCare'.tr()}',
-                    style: const TextStyle(fontSize: 16))
+                )
               ],
             ),
           ],

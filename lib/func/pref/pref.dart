@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pulse/provider/user_data_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Function to save a boolean preference
@@ -7,9 +10,16 @@ Future<void> savePreference(String key, bool value) async {
 }
 
 // Function to save a string preference
-Future<void> saveStringPreference(String key, String value) async {
+Future<void> saveStringPreference(
+    String key, String value, BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(key, value); // Save the string value
+
+  // If you need to notify the UI that a preference has changed, do it here:
+  final userDataProvider =
+      Provider.of<UserDataProvider>(context, listen: false);
+  userDataProvider.updateUserData(value,
+      userDataProvider.nurseID); // If you're saving name or other user data
 }
 
 // Function to save an integer preference
@@ -35,6 +45,7 @@ Future<int?> loadIntPreference(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getInt(key); // Returns null if no value exists
 }
+
 
 // // Save a boolean preference
 // savePreference('isLoggedIn', true);

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/utils/note_viewer.dart';
 
 class SwipableTable extends StatelessWidget {
   const SwipableTable({super.key});
@@ -28,7 +30,7 @@ class SwipableTable extends StatelessWidget {
             5: FixedColumnWidth(80),
             6: FixedColumnWidth(100),
             7: FixedColumnWidth(60),
-            8: FixedColumnWidth(170),
+            8: FixedColumnWidth(120),
             9: FixedColumnWidth(60),
             10: FixedColumnWidth(120),
           },
@@ -37,7 +39,7 @@ class SwipableTable extends StatelessWidget {
             TableRow(
               decoration: const BoxDecoration(color: Color(0xFFC6D8FF)),
               children: [
-                _buildHeaderCell('Time'),
+                _buildHeaderCell('time'.tr()),
                 _buildHeaderCell('C'),
                 _buildHeaderCell('T'),
                 _buildHeaderCell('P'),
@@ -45,7 +47,7 @@ class SwipableTable extends StatelessWidget {
                 _buildHeaderCell('BP'),
                 _buildHeaderCell('O2, Sat'),
                 _buildHeaderCell('Urine'),
-                _buildHeaderCell('Total Score (MEWs)'),
+                _buildHeaderCell('MEWs Score'),
                 _buildHeaderCell('CVP'),
                 _buildHeaderCell('Management'),
               ],
@@ -67,7 +69,7 @@ class SwipableTable extends StatelessWidget {
                   _buildContainerCell('0.5L', index),
                   _buildContainerCell('3', index),
                   _buildContainerCell('14', index),
-                  _buildButtonCell(index),
+                  _buildButtonCell(index, context),
                 ],
               );
             }),
@@ -104,29 +106,23 @@ class SwipableTable extends StatelessWidget {
   }
 
   // Builds the button cell with fixed height and reduced padding
-  Widget _buildButtonCell(int index) {
+  Widget _buildButtonCell(int index, BuildContext context) {
     return Container(
       height: 35, // Reduced height for button cell
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        boxShadow: [
-          // BoxShadow(
-          //   color: Colors.black.withOpacity(0.2), // Shadow color
-          //   blurRadius: 3, // Blur radius
-          //   spreadRadius: 1,
 
-          //   offset: const Offset(
-          //       0, 1), // Shadow only at the bottom (vertical offset)
-          // ),
-        ],
-      ),
       child: IconButton(
         icon: const Icon(
           FontAwesomeIcons.solidBookmark,
           color: Color(0xffFCAD00),
         ),
         onPressed: () {
-          print('Favorite button pressed for row $index');
+          // print('Favorite button pressed for row $index');
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const NoteViewer();
+              });
         },
       ),
     );

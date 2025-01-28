@@ -70,11 +70,11 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   void _saveChanges(String field, String newValue) {
     if (field == 'name') {
       _name = newValue;
-      saveStringPreference('name', newValue);
+      saveStringPreference('name', newValue, context);
       _isEditingName = !_isEditingName;
     } else if (field == 'password') {
       _password = newValue;
-      saveStringPreference('password', newValue);
+      saveStringPreference('password', newValue, context);
       _isEditingPassword = !_isEditingPassword;
     }
     setState(() {}); // Refresh the state to display the updated name/password

@@ -3,6 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/authentication/element_setting/sizes.dart';
 import 'package:pulse/utils/symbols_dialog/home_symbols.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
 import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
@@ -28,7 +29,6 @@ class _NotificationPageState extends State<NotificationPage> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     // Adjusting text size based on screen width
-    double appBarTextSize = screenWidth * 0.05;
     double iconSize =
         screenWidth * 0.08; // Scaling icon size based on screen width
     double paddingSize =
@@ -41,10 +41,10 @@ class _NotificationPageState extends State<NotificationPage> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "home".tr(),
+                "patientsInSystem".tr(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: appBarTextSize, // Responsive text size
+                  fontSize: getPageTitleSize(context), // Responsive text size
                 ),
               ),
             ),

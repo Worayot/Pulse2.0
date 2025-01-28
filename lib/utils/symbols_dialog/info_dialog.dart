@@ -6,54 +6,53 @@ void showInfoDialog(BuildContext context, Widget widget) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15), // Adjust radius here
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const FaIcon(
-                  FontAwesomeIcons.circleInfo,
-                  size: 25, // Size of the icon
-                  color: Color(0xff3362CC), // Color of the icon
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  'symbolDescription'.tr(),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header with Icon and Title
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.circleInfo,
+                        size: 25, // Size of the icon
+                        color: Color(0xff3362CC), // Color of the icon
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        'symbolDescription'.tr(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            IconButton(
-              icon: const Icon(
-                FontAwesomeIcons.xmark, // The icon to display
-                color: Colors.black, // Icon color
-                size: 30, // Icon size
+                  IconButton(
+                    icon: const Icon(
+                      Icons.close, // The icon to display
+                      color: Colors.black, // Icon color
+                      size: 30, // Icon size
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-        contentPadding: const EdgeInsets.only(
-          left: 30,
-          right: 30,
-          bottom: 30,
-        ),
-        content: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: 600,
-          ),
-          child: SingleChildScrollView(
-            child: widget, // This is your dynamic widget content
+              const SizedBox(height: 20),
+              // Dialog content
+              widget,
+            ],
           ),
         ),
       );

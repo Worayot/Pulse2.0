@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 import 'package:pulse/mainpage/main_page.dart';
+import 'package:pulse/provider/user_data_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
+  // Initialize and load user data
   runApp(
-    EasyLocalization(
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('th', 'TH'),
-      ],
-      path: 'lang',
-      fallbackLocale: const Locale('th', 'TH'),
-      child: const MyApp(),
+    ChangeNotifierProvider(
+      create: (context) =>
+          UserDataProvider()..loadUserData(), // Load data at startup
+      child: EasyLocalization(
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('th', 'TH'),
+        ],
+        path: 'lang', // Path for translations
+        fallbackLocale: const Locale('th', 'TH'),
+        child: const MyApp(),
+      ),
     ),
   );
 }

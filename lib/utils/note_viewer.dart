@@ -1,12 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class NoteAdder extends StatelessWidget {
-  final VoidCallback onSave;
-
-  const NoteAdder({
+class NoteViewer extends StatelessWidget {
+  const NoteViewer({
     super.key,
-    required this.onSave,
   });
 
   @override
@@ -49,41 +46,10 @@ class NoteAdder extends StatelessWidget {
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
                         ),
+                        readOnly: true,
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Save Button
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: onSave,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color(0xff407BFF), // Blue background
-                              foregroundColor: Colors.white, // White text
-                              // side: const BorderSide(
-                              //   color: Colors.white, // White border color
-                              //   width: 1, // Border width
-                              // ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(8), // Rounded corners
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12), // Padding
-                            ),
-                            child: Text(
-                              'save'.tr(),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )),
-                    ),
                   ],
                 ),
               ),
