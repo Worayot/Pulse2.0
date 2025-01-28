@@ -1,5 +1,6 @@
 {
   "aboutApp": "About app",
+  "aboutAppContent": "The application for assessing the critical condition of patients in the emergency department of Thammasat Chaloem Phra Kiat Hospital is a newly developed software designed as a tool for evaluating the critical condition of patients using the MEWS score calculation method, which will replace the manual tool used for recording patient crisis condition assessments.",
   "aboutSoftware": "About software",
   "addMoreTime": "Add more time",
   "addNote": "Add note",
@@ -30,6 +31,7 @@
   "consciousness": "Consciousness",
   "contact": "Contact",
   "contactDev": "Contact developer",
+  "contactDevContent": "worayot.lia@dome.tu.ac.th",
   "data": "Data",
   "deletePatient": "Delete this patient",
   "deletePatientInCare": "Remove from the watchlist",

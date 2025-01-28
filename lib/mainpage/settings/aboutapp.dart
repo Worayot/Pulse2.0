@@ -104,9 +104,9 @@ class AboutAppPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(height: 10),
-                                    const Text(
-                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-                                      style: TextStyle(fontSize: 14),
+                                    Text(
+                                      "aboutAppContent".tr(),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
@@ -116,9 +116,9 @@ class AboutAppPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(height: 10),
-                                    const Text(
-                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-                                      style: TextStyle(fontSize: 14),
+                                    Text(
+                                      "contactDevContent".tr(),
+                                      style: const TextStyle(fontSize: 14),
                                     )
                                   ],
                                 ),

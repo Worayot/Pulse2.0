@@ -224,27 +224,34 @@ class _PatientInSystemState extends State<PatientInSystem> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   16), // Match the container's radius
-                              child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 250),
-                                  curve: Curves.easeInOut,
-                                  padding: const EdgeInsets.only(top: 16),
-                                  height: _isExpanded[index] ? 400 : 82,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff98B1E8),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: _isExpanded[index]
-                                      ? PatientIndData(
-                                          age: age,
-                                          gender: gender.tr(),
-                                          hn: hn,
-                                          bedNum: bedNum,
-                                          ward: ward,
-                                          MEWs: MEWs,
-                                          time: time,
-                                        )
-                                      : const SizedBox()),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _isExpanded[index] = !_isExpanded[index];
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 250),
+                                    curve: Curves.easeInOut,
+                                    padding: const EdgeInsets.only(top: 16),
+                                    height: _isExpanded[index] ? 400 : 82,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xff98B1E8),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: _isExpanded[index]
+                                        ? PatientIndData(
+                                            age: age,
+                                            gender: gender.tr(),
+                                            hn: hn,
+                                            bedNum: bedNum,
+                                            ward: ward,
+                                            MEWs: MEWs,
+                                            time: time,
+                                          )
+                                        : const SizedBox()),
+                              ),
                             ),
                           ),
                         ),
@@ -403,7 +410,6 @@ class _PatientInSystemState extends State<PatientInSystem> {
 
                         Positioned(
                           top: 69, // Adjust the position to fit your layout
-
                           left: size.width / 2.6,
                           child: Row(
                             children: [

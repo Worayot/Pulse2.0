@@ -201,49 +201,59 @@ class _PatientPageState extends State<PatientPage> {
                     child: Stack(
                       children: [
                         // Expanded Content
-
                         Positioned(
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   16), // Match the container's radius
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                curve: Curves.easeInOut,
-                                padding: const EdgeInsets.only(top: 16),
-                                height:
-                                    isExpanded ? 86 + (data_length * 40) : 86,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff98B1E8),
-                                  borderRadius: BorderRadius.circular(16),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _expandedStates[index] =
+                                        !_expandedStates[index]; // Toggle state
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut,
+                                  padding: const EdgeInsets.only(top: 16),
+                                  height:
+                                      isExpanded ? 86 + (data_length * 40) : 86,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff98B1E8),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: isExpanded
+                                      ? SizedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 70),
+                                              Flexible(
+                                                // Prevent overflow by constraining height
+                                                child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  itemCount: data_length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    String MEWs =
+                                                        previous_MEWs[index];
+                                                    String time = times[index];
+                                                    return TableRowWidget(
+                                                        MEWs: MEWs, time: time);
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : const SizedBox(),
                                 ),
-                                child: isExpanded
-                                    ? Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 70),
-                                          Flexible(
-                                            // Prevent overflow by constraining height
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemCount: data_length,
-                                              itemBuilder: (context, index) {
-                                                String MEWs =
-                                                    previous_MEWs[index];
-                                                String time = times[index];
-                                                return TableRowWidget(
-                                                    MEWs: MEWs, time: time);
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    : const SizedBox(),
                               ),
                             ),
                           ),
