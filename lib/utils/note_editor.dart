@@ -1,53 +1,106 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Widget _buildNoteEditor(BuildContext context) {
-  return Stack(
-    children: [
-      Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: const Color(0xffC6D8FF),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 100, // Adjust the max height as needed
-          ),
-          child: Scrollbar(
-            thumbVisibility: true, // Show scrollbar for better UX
-            child: SingleChildScrollView(
-              child: TextField(
-                maxLines: null, // Allows for multi-line input
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                  hintText: '',
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(color: Colors.grey.shade700),
-                ),
-                style: TextStyle(
-                  color: Colors.grey.shade800,
-                  fontSize: 16,
+class NoteEditor extends StatelessWidget {
+  final VoidCallback onSave;
+
+  const NoteEditor({
+    super.key,
+    required this.onSave,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.only(top: size.height / 4),
+      child: Stack(
+        children: [
+          SizedBox(
+            height: size.height * 0.4,
+            child: Card(
+              margin: const EdgeInsets.all(16.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 4.0,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title and Close Button Row
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "note".tr(),
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 60),
+
+                    // Text Editor Field
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: UnderlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Save Button
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20),
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: onSave,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color(0xff407BFF), // Blue background
+                              foregroundColor: Colors.white, // White text
+                              // side: const BorderSide(
+                              //   color: Colors.white, // White border color
+                              //   width: 1, // Border width
+                              // ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(8), // Rounded corners
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12), // Padding
+                            ),
+                            child: Text(
+                              'saveAgain'.tr(),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ),
+          Positioned(
+            top: 15,
+            right: 15,
+            child: IconButton(
+              icon: Icon(Icons.close, size: size.height / 25),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          )
+        ],
       ),
-      Positioned(
-        top: -5,
-        right: -5,
-        child: IconButton(
-          icon: Icon(
-            FontAwesomeIcons.solidPenToSquare,
-            color: Colors.blue.shade800,
-            size: 24,
-          ),
-          onPressed: () {
-            // Define the action when the icon is pressed
-          },
-        ),
-      ),
-    ],
-  );
+    );
+  }
 }

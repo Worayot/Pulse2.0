@@ -1,149 +1,140 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/patient_list_home.dart';
+import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
 import 'package:pulse/utils/report_widget.dart';
 
 void showPatientDetails(BuildContext context, Patient1 patient) {
-  List<String> date =
-      DateFormat('HH:mm dd/MM/yyyy').format(patient.lastUpdate).split(" ");
-
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
 
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(screenWidth * 0.04),
         ),
-        title: Row(
-          children: [
-            Text(
-              'details'.tr(),
-              style: TextStyle(
-                fontSize: screenWidth * 0.05,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: Icon(
-                FontAwesomeIcons.xmark,
-                color: Colors.black,
-                size: screenWidth * 0.06,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-        contentPadding: EdgeInsets.zero,
-        content: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Opacity(
-                opacity: 0.8,
-                child: Image.asset(
-                  "assets/images/therapy.png",
-                  fit: BoxFit.contain,
+        child: Container(
+          width: double.infinity, // Set your desired width here
+          height: double.infinity,
+          padding: const EdgeInsets.all(16),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Positioned(
+                top: 0,
+                child: Text(
+                  'report'.tr(),
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.05,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.08,
-                vertical: screenHeight * 0.02,
+              Positioned(
+                top: -15,
+                right: -15,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.black,
+                    size: screenWidth * 0.06,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Opacity(
+                  opacity: 0.8,
+                  child: Image.asset(
+                    "assets/images/therapy.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Column(
                 children: [
+                  const SizedBox(height: 40),
                   Align(
                     alignment: Alignment.topCenter,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: screenHeight * 0.02),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: " ${patient.name} ${patient.surname}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: screenWidth * 0.05,
-                                ),
+                        displayData(context, "name-surname".tr(),
+                            "${patient.name} ${patient.surname}"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment
+                              .start, // Aligns children to the start
+                          crossAxisAlignment: CrossAxisAlignment
+                              .center, // Ensures vertical alignment is centered
+                          children: [
+                            Expanded(
+                              child: displayData(
+                                context,
+                                "age".tr(),
+                                "${patient.age}",
                               ),
-                              TextSpan(
-                                text: " (${patient.age} ${"yrs".tr()})\n",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: screenWidth * 0.045,
-                                ),
+                            ),
+                            const SizedBox(
+                                width:
+                                    10), // Adds space between the two displayData widgets
+                            Expanded(
+                              child: displayData(
+                                context,
+                                "gender".tr(),
+                                patient.gender.tr(),
                               ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        Text(
-                          "hn".tr(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: screenWidth * 0.045,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "${"bedNumber".tr()}: ${patient.bedNumber} ${"ward".tr()}: ${patient.ward}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: screenWidth * 0.045,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "${"latestInspection".tr()} ${date[0]} ${"oClock".tr()} ${date[1]}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: screenWidth * 0.045,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "overallMEWS".tr(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: screenWidth * 0.045,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "${patient.MEWs}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: screenWidth * 0.12,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        displayData(
+                            context, "bedNumber".tr(), patient.bedNumber),
+                        displayData(context, "hn".tr(), patient.hn),
+                        displayData(context, "ward".tr(), patient.ward),
                         SizedBox(
-                          height: screenHeight * 0.35,
-                          child: ReportWidget(tableHeight: screenHeight / 4),
+                          height: screenHeight * 0.6,
+                          child: ReportWidget(tableHeight: screenHeight * 0.5),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     },
+  );
+}
+
+Widget displayData(BuildContext context, String title, String content) {
+  return SizedBox(
+    width: double.infinity,
+    child: Row(
+      children: [
+        Text(title),
+        const SizedBox(
+            width: 8), // Optional: adds space between title and text field
+        Expanded(
+          // This ensures TextField takes up the remaining space
+          child: TextField(
+            readOnly: true, // Makes the text field non-editable
+            controller: TextEditingController(text: content),
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+              isDense: true,
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }

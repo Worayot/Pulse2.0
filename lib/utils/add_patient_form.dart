@@ -96,7 +96,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
                     const Spacer(),
                     IconButton(
                       icon: const Icon(
-                        FontAwesomeIcons.xmark,
+                        Icons.close,
                         color: Colors.black,
                         size: 30,
                       ),

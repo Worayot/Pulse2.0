@@ -14,6 +14,7 @@ class ReportWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
+          const SizedBox(height: 10),
           const DateNavigation(),
           const SizedBox(height: 20),
           SizedBox(height: tableHeight, child: const SwipableTable())

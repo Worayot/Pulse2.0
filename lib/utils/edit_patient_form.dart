@@ -189,24 +189,42 @@ class _EditPatientFormState extends State<EditPatientForm> {
                           minWidth: 140),
                     ),
                     const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton.icon(
-                        onPressed: submitData,
-                        label: Text('save'.tr(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'deletePatient'.tr(),
                             style: const TextStyle(
-                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff407BFF),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  12), // Set border radius
-                            ),
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20)),
-                      ),
+                                color: Colors.red, // Red text color
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.red // Underline
+                                ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton.icon(
+                            onPressed: submitData,
+                            label: Text('save'.tr(),
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xff407BFF),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      12), // Set border radius
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20)),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
                     ),
                   ],
                 ),

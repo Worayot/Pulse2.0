@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/utils/symbols_dialog/home_symbols.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
-import 'package:pulse/utils/patient_list_home.dart';
+import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -35,49 +35,36 @@ class _NotificationPageState extends State<NotificationPage> {
         screenWidth * 0.04; // Scaling padding based on screen width
 
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: EdgeInsets.only(left: paddingSize),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "home".tr(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: appBarTextSize, // Responsive text size
+        appBar: AppBar(
+          title: Padding(
+            padding: EdgeInsets.only(left: paddingSize),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "home".tr(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: appBarTextSize, // Responsive text size
+                ),
               ),
             ),
           ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: paddingSize),
-            child: IconButton(
-              icon: FaIcon(
-                FontAwesomeIcons.circleInfo,
-                size: iconSize, // Responsive icon size
-                color: const Color(0xff3362CC),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: paddingSize),
+              child: IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.circleInfo,
+                  size: iconSize, // Responsive icon size
+                  color: const Color(0xff3362CC),
+                ),
+                onPressed: () {
+                  showInfoDialog(context, homeSymbols());
+                },
               ),
-              onPressed: () {
-                showInfoDialog(context, homeSymbols());
-              },
             ),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: screenHeight * 0.02,
-          left: paddingSize,
-          right: paddingSize,
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: screenHeight * 0.02), // Adjusting vertical spacing
-            const PatientList(),
           ],
         ),
-      ),
-    );
+        body: const PatientInSystem());
   }
 }

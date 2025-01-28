@@ -130,7 +130,7 @@ class _ExportPageState extends State<ExportPage> {
                 .contains(_wardController.text.toLowerCase());
 
         // Gender filter logic
-        final matchesGender = (_maleToggle && _femaleToggle) ||
+        final matchesGender = (_maleToggle == _femaleToggle) ||
             (_maleToggle && patient.gender.toLowerCase() == "male") ||
             (_femaleToggle && patient.gender.toLowerCase() == "female");
 
@@ -434,7 +434,7 @@ class _ExportPageState extends State<ExportPage> {
           child: Stack(
             children: [
               Card(
-                elevation: 1,
+                elevation: 0,
                 color: const Color(0xffE0EAFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

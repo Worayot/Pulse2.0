@@ -7,19 +7,20 @@ import 'package:intl/intl.dart';
 import 'package:pulse/func/get_color.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/circle_with_num.dart';
+import 'package:pulse/utils/table_row.dart';
+import 'package:pulse/utils/time_manager.dart';
 
 class Patient {
   final String name;
   final String surname;
-  final int MEWs;
   final DateTime? nextMonitoring;
+  final List<Map<String, dynamic>>? previousData;
 
-  Patient({
-    required this.name,
-    required this.surname,
-    required this.MEWs,
-    this.nextMonitoring,
-  });
+  Patient(
+      {required this.name,
+      required this.surname,
+      this.nextMonitoring,
+      this.previousData});
 }
 
 class PatientPage extends StatefulWidget {
@@ -32,41 +33,74 @@ class PatientPage extends StatefulWidget {
 class _PatientPageState extends State<PatientPage> {
   final List<Patient> _patients = [
     Patient(
-      name: "John",
-      surname: "Doe",
-      MEWs: 1,
-      nextMonitoring: DateTime.now().add(const Duration(hours: 3)),
-    ),
+        name: "Mike",
+        surname: "Johnson",
+        nextMonitoring: DateTime.now(),
+        previousData: [
+          {"4:30": "2"},
+          {"5:30": "1"}
+        ]),
     Patient(
-      name: "Jane",
-      surname: "Smith",
-      MEWs: 2,
-      nextMonitoring: DateTime.now().add(const Duration(hours: 2)),
-    ),
+        name: "John",
+        surname: "Doe",
+        nextMonitoring: DateTime.now().add(const Duration(hours: 3)),
+        previousData: [
+          {"1:30": "5"},
+          {"2:30": "4"},
+          {"3:30": "3"},
+          {"4:30": "2"},
+          {"5:30": "-"}
+        ]),
     Patient(
-      name: "Mike",
-      surname: "Johnson",
-      MEWs: 3,
-      nextMonitoring: DateTime.now(),
-    ),
+        name: "Chicky",
+        surname: "Cutie",
+        nextMonitoring: DateTime.now(),
+        previousData: [
+          {"1:30": "3"},
+        ]),
     Patient(
-      name: "Mike",
-      surname: "Johnson",
-      MEWs: 4,
-      nextMonitoring: DateTime.now(),
-    ),
+        name: "Jane",
+        surname: "Smith",
+        nextMonitoring: DateTime.now().add(const Duration(hours: 2)),
+        previousData: [
+          {"1:30": "5"},
+          {"2:30": "4"},
+          {"3:30": "-"},
+        ]),
     Patient(
-      name: "Mike",
-      surname: "Johnson",
-      MEWs: 5,
-      nextMonitoring: DateTime.now(),
-    ),
+        name: "Mike",
+        surname: "Johnson",
+        nextMonitoring: DateTime.now(),
+        previousData: []),
     Patient(
-      name: "Mike",
-      surname: "Johnson",
-      MEWs: 6,
-      nextMonitoring: DateTime.now(),
-    ),
+        name: "Mike",
+        surname: "Johnson",
+        nextMonitoring: DateTime.now(),
+        previousData: [
+          {"5:30": '-'}
+        ]),
+    Patient(
+        name: "วรยศ",
+        surname: "เลี่ยมแก้ว",
+        nextMonitoring: DateTime.now(),
+        previousData: [
+          {"1:30": "7"},
+        ]),
+    Patient(
+        name: "Hello",
+        surname: "World",
+        nextMonitoring: DateTime.now(),
+        previousData: [
+          {"1:30": "5"},
+          {"2:30": "4"},
+          {"3:30": "3"},
+          {"4:30": "2"},
+          {"1:30": "5"},
+          {"2:30": "4"},
+          {"3:30": "3"},
+          {"4:30": "2"},
+          {"5:30": "-"}
+        ]),
   ];
 
   final List<bool> _expandedStates = [];
@@ -109,7 +143,7 @@ class _PatientPageState extends State<PatientPage> {
                 itemCount: _patients.length,
                 itemBuilder: (context, index) {
                   Patient patient = _patients[index];
-                  int MEWs = patient.MEWs;
+
                   DateTime monitorTime =
                       patient.nextMonitoring ?? DateTime.now();
                   String formattedDatetime =
@@ -135,20 +169,50 @@ class _PatientPageState extends State<PatientPage> {
                   }
 
                   bool isExpanded = _expandedStates[index];
+                  List<Map<String, dynamic>> data = patient.previousData ?? [];
+                  int data_length = data.length;
+                  List<String> times = [];
+                  List<String> previous_MEWs = [];
+
+                  for (var map in data) {
+                    for (var entry in map.entries) {
+                      times.add(entry.key);
+                      previous_MEWs.add(entry.value);
+                    }
+                  }
+
+                  String latest_MEWs = "";
+                  if (previous_MEWs.isEmpty) {
+                    latest_MEWs = "-";
+                  } else if (previous_MEWs.length == 1) {
+                    latest_MEWs = previous_MEWs[0];
+                  } else if (previous_MEWs.length > 1 &&
+                      previous_MEWs.last == "-") {
+                    latest_MEWs = previous_MEWs[previous_MEWs.length - 2];
+                  } else {
+                    latest_MEWs = previous_MEWs.last;
+                  }
+
+                  bool hasData = data.isEmpty;
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Stack(
                       children: [
                         // Expanded Content
+
                         Positioned(
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
-                            child: AnimatedContainer(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  16), // Match the container's radius
+                              child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 250),
                                 curve: Curves.easeInOut,
                                 padding: const EdgeInsets.only(top: 16),
-                                height: isExpanded ? 160 : 90,
+                                height:
+                                    isExpanded ? 86 + (data_length * 40) : 86,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: const Color(0xff98B1E8),
@@ -159,17 +223,31 @@ class _PatientPageState extends State<PatientPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            "Additional details can go here...",
-                                            style: TextStyle(
-                                                fontSize: screenWidth * 0.03),
-                                          ),
+                                          const SizedBox(height: 70),
+                                          Flexible(
+                                            // Prevent overflow by constraining height
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: data_length,
+                                              itemBuilder: (context, index) {
+                                                String MEWs =
+                                                    previous_MEWs[index];
+                                                String time = times[index];
+                                                return TableRowWidget(
+                                                    MEWs: MEWs, time: time);
+                                              },
+                                            ),
+                                          )
                                         ],
                                       )
-                                    : const SizedBox()),
+                                    : const SizedBox(),
+                              ),
+                            ),
                           ),
                         ),
+
                         // Collapsed Header
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 0),
@@ -196,7 +274,9 @@ class _PatientPageState extends State<PatientPage> {
                                       padding: const EdgeInsets.only(
                                           left: 4.0, right: 12),
                                       child: CircleWithNumber(
-                                          number: MEWs, color: getColor(MEWs)),
+                                        number: latest_MEWs,
+                                        color: getColor(latest_MEWs),
+                                      ),
                                     ),
                                     Expanded(
                                       child: Column(
@@ -208,9 +288,17 @@ class _PatientPageState extends State<PatientPage> {
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: screenWidth * 0.04,
+                                              shadows: [
+                                                Shadow(
+                                                  color: Colors.black.withOpacity(
+                                                      0.25), // Shadow color with opacity
+                                                  offset: const Offset(0.8,
+                                                      0.8), // Horizontal and vertical offset
+                                                  blurRadius: 1, // Blur radius
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          const SizedBox(height: 4),
                                           Text(
                                             "nextInspectionTime".tr(),
                                             style: TextStyle(
@@ -218,7 +306,7 @@ class _PatientPageState extends State<PatientPage> {
                                           ),
                                           const SizedBox(height: 2),
                                           Text(
-                                            "$formattedDatetime ${"n".tr()} $formattedTime",
+                                            "$formattedDatetime${"n".tr()} $formattedTime",
                                             style: TextStyle(
                                                 fontSize: screenWidth * 0.03),
                                           ),
@@ -227,7 +315,9 @@ class _PatientPageState extends State<PatientPage> {
                                     ),
                                     buildActionButton(
                                       FontAwesomeIcons.solidClock,
-                                      () {},
+                                      () {
+                                        showTimeManager(context);
+                                      },
                                       Colors.white,
                                       const Color(0xff3362CC),
                                     )
@@ -237,22 +327,23 @@ class _PatientPageState extends State<PatientPage> {
                             ],
                           ),
                         ),
-                        Positioned(
-                          top: 77, // Adjust the position to fit your layout
 
-                          left: screenWidth / 2.5,
-
-                          child: Row(
-                            children: [
-                              Text("assess".tr()), // This stays in place
-                              Icon(
-                                isExpanded
-                                    ? Icons.expand_less
-                                    : Icons.expand_more,
-                              )
-                            ],
+                        // Assess Text and Icon
+                        if (!hasData)
+                          Positioned(
+                            top: 73, // Adjust the position to fit your layout
+                            left: screenWidth / 2.5,
+                            child: Row(
+                              children: [
+                                Text("assess".tr()), // This stays in place
+                                Icon(
+                                  isExpanded
+                                      ? Icons.expand_less
+                                      : Icons.expand_more,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   );

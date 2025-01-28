@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
         onItemSelected: _onItemTapped, // Handle item selection
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-              icon: Icon(FontAwesomeIcons.users, size: iconSize),
+              icon: Icon(FontAwesomeIcons.house, size: iconSize),
               title: Text(
                 "\t${'patientsInSystem'.tr()}",
                 style: TextStyle(
@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage> {
               inactiveColor: const Color(0xffC6D8FF),
               boxWidth: 190),
           BottomNavyBarItem(
-              icon: Icon(FontAwesomeIcons.solidBell, size: iconSize),
+              icon: Icon(FontAwesomeIcons.users, size: iconSize),
               title: Text(
                 "\t${'patientInMonitoring'.tr()}",
                 style: TextStyle(
