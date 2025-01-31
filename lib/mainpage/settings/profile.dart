@@ -13,7 +13,7 @@ class ProfileSettingsPage extends StatefulWidget {
 class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   String _name = "";
   String _nurseId = "";
-  String _position = "";
+  String _role = "";
   String _password = "";
 
   // Track if a field is being edited
@@ -34,7 +34,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _name = prefs.getString('name') ?? "N/A";
-      _position = prefs.getString('position') ?? "N/A";
+      _role = prefs.getString('role') ?? "N/A";
       _password = prefs.getString('password') ?? "N/A";
       _nurseId = prefs.getString('nurseId') ?? "N/A";
 
@@ -337,7 +337,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'position'.tr(),
+                                            'role'.tr(),
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
@@ -345,7 +345,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            _position,
+                                            _role,
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black54),

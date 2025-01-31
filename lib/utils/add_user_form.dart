@@ -13,14 +13,14 @@ class AddUserForm extends StatefulWidget {
 class _AddUserFormState extends State<AddUserForm> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surnameController = TextEditingController();
-  final TextEditingController positionController = TextEditingController();
+  final TextEditingController roleController = TextEditingController();
   final TextEditingController nurseIDController = TextEditingController();
 
   @override
   void dispose() {
     nameController.dispose();
     surnameController.dispose();
-    positionController.dispose();
+    roleController.dispose();
     nurseIDController.dispose();
     super.dispose();
   }
@@ -28,13 +28,10 @@ class _AddUserFormState extends State<AddUserForm> {
   void submitData() {
     String name = nameController.text.trim();
     String surname = surnameController.text.trim();
-    String position = positionController.text.trim();
+    String role = roleController.text.trim();
     String nurseID = nurseIDController.text.trim();
 
-    if (name.isEmpty ||
-        surname.isEmpty ||
-        position.isEmpty ||
-        nurseID.isEmpty) {
+    if (name.isEmpty || surname.isEmpty || role.isEmpty || nurseID.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -125,11 +122,11 @@ class _AddUserFormState extends State<AddUserForm> {
                     SizedBox(
                       width: double.infinity,
                       child: infoTextField(
-                          title: "position".tr(),
-                          controller: positionController,
+                          title: "role".tr(),
+                          controller: roleController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140,
-                          hintText: "fillInPosition".tr()),
+                          hintText: "fillInRole".tr()),
                     ),
                     SizedBox(
                       width: double.infinity,

@@ -15,7 +15,7 @@ class _EditUserFormState extends State<EditUserForm> {
       TextEditingController(text: "Worayot");
   final TextEditingController surnameController =
       TextEditingController(text: "Liamkaew");
-  final TextEditingController positionController =
+  final TextEditingController roleController =
       TextEditingController(text: "Nurse");
   final TextEditingController nurseIDController =
       TextEditingController(text: "602");
@@ -24,7 +24,7 @@ class _EditUserFormState extends State<EditUserForm> {
   void dispose() {
     nameController.dispose();
     surnameController.dispose();
-    positionController.dispose();
+    roleController.dispose();
     nurseIDController.dispose();
     super.dispose();
   }
@@ -32,13 +32,10 @@ class _EditUserFormState extends State<EditUserForm> {
   void submitData() {
     String name = nameController.text.trim();
     String surname = surnameController.text.trim();
-    String position = positionController.text.trim();
+    String role = roleController.text.trim();
     String nurseID = nurseIDController.text.trim();
 
-    if (name.isEmpty ||
-        surname.isEmpty ||
-        position.isEmpty ||
-        nurseID.isEmpty) {
+    if (name.isEmpty || surname.isEmpty || role.isEmpty || nurseID.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -127,8 +124,8 @@ class _EditUserFormState extends State<EditUserForm> {
                     SizedBox(
                       width: double.infinity,
                       child: infoTextField(
-                          title: "position".tr(),
-                          controller: positionController,
+                          title: "role".tr(),
+                          controller: roleController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140),
                     ),

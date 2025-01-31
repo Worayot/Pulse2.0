@@ -13,13 +13,13 @@ class User {
   final String name;
   final String surname;
   final String nurseID;
-  final String position;
+  final String role;
 
   User(
       {required this.name,
       required this.surname,
       required this.nurseID,
-      required this.position});
+      required this.role});
 }
 
 class AdminPage extends StatefulWidget {
@@ -32,17 +32,10 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   final List<User> _users = [
-    User(name: "John", surname: "Doe", nurseID: "123123", position: "Admin"),
+    User(name: "John", surname: "Doe", nurseID: "123123", role: "Admin"),
     User(
-        name: "Worayot",
-        surname: "Liamkaew",
-        nurseID: "123123",
-        position: "Nurse"),
-    User(
-        name: "Minecraft",
-        surname: "Java",
-        nurseID: "123123",
-        position: "Nurse"),
+        name: "Worayot", surname: "Liamkaew", nurseID: "123123", role: "Nurse"),
+    User(name: "Minecraft", surname: "Java", nurseID: "123123", role: "Nurse"),
   ];
 
   List<User> _filteredUsers = [];
@@ -170,6 +163,7 @@ class _AdminPageState extends State<AdminPage> {
                     return Stack(
                       children: [
                         Card(
+                          elevation: 0,
                           margin: const EdgeInsets.symmetric(vertical: 8),
                           color: const Color(0xffE0EAFF),
                           child: ListTile(
@@ -194,14 +188,14 @@ class _AdminPageState extends State<AdminPage> {
                                             TextSpan(
                                               children: <TextSpan>[
                                                 TextSpan(
-                                                  text: "${"position".tr()} ",
+                                                  text: "${"role".tr()} ",
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       fontSize: 11),
                                                 ),
                                                 TextSpan(
-                                                  text: "${user.position} ",
+                                                  text: "${user.role} ",
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
