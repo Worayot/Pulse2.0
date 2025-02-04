@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/mainpage/patient_data/patient_ind_data.dart';
 import 'package:pulse/utils/edit_patient_form.dart';
 import 'package:pulse/utils/action_button.dart';
@@ -116,86 +117,90 @@ class _PatientInSystemState extends State<PatientInSystem> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    SearchBarSetting sbs = SearchBarSetting(context: context);
+    ButtonNextToSearchBarSetting btnsb =
+        ButtonNextToSearchBarSetting(context: context);
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 65,
-        title: Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 50,
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: "${"search".tr()}...",
-                    fillColor:
-                        const Color(0xffCADBFF), // Set the background color
-                    filled: true, // Enable background color
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(12), // Rounded corners
-                      borderSide: BorderSide.none, // Remove border
-                    ),
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 3),
-                      child: Icon(Icons.search, size: 40),
-                    ),
-                    prefixIconConstraints: const BoxConstraints(
-                      minWidth:
-                          60, // Minimum width of the prefix icon container
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 16),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 15),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 1.0),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const AddPatientForm();
-                      });
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.userPlus, // Your desired icon
-                  color: Colors.white, // Icon color
-                  size: 22, // Icon size
-                ),
-                label: Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
-                  child: Text(
-                    "addPatient".tr(),
-                    style: const TextStyle(
-                      color: Colors.white, // Text color
-                      fontSize: 16, // Font size
-                      fontWeight: FontWeight.bold, // Font weight
-                    ),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff407BFF), // Background color
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12), // Button padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Rounded corners
-                  ),
-                  elevation: 0, // Shadow depth
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: sbs.getHeight(), // Search bar height
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: "${"search".tr()}...",
+                          fillColor: const Color(
+                              0xffCADBFF), // Set the background color
+                          filled: true, // Enable background color
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(12), // Rounded corners
+                            borderSide: BorderSide.none, // Remove border
+                          ),
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.magnifyingGlass,
+                            color: Colors.black,
+                          ),
+                          prefixIconConstraints: const BoxConstraints(
+                            minWidth:
+                                60, // Minimum width of the prefix icon container
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                      width: 15), // Space between search bar and button
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const AddPatientForm();
+                          });
+                    },
+                    icon: const Icon(
+                      FontAwesomeIcons.userPlus, // Your desired icon
+                      color: Colors.white, // Icon color
+                      size: 22, // Icon size
+                    ),
+                    label: Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: Text(
+                        "addPatient".tr(),
+                        style: const TextStyle(
+                          color: Colors.white, // Text color
+                          fontSize: 16, // Font size
+                          fontWeight: FontWeight.bold, // Font weight
+                        ),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          const Color(0xff407BFF), // Background color
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: btnsb.verticalPadding()), // Button padding
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(12), // Rounded corners
+                      ),
+                      elevation: 0, // Shadow depth
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
             Expanded(
               child: ListView.builder(
                 itemCount: _filteredPatients.length,
@@ -413,7 +418,14 @@ class _PatientInSystemState extends State<PatientInSystem> {
                           left: size.width / 2.6,
                           child: Row(
                             children: [
-                              Text("details".tr()), // This stays in place
+                              InkWell(
+                                child: Text("details".tr()),
+                                onTap: () {
+                                  setState(() {
+                                    _isExpanded[index] = !_isExpanded[index];
+                                  });
+                                },
+                              ), // This stays in place
                               Icon(
                                 _isExpanded[index]
                                     ? Icons.expand_less

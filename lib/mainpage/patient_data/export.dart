@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/authentication/element_setting/sizes.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/gender_dropdown.dart';
@@ -542,6 +542,9 @@ class _ExportPageState extends State<ExportPage> {
 
   @override
   Widget build(BuildContext context) {
+    SearchBarSetting sbs = SearchBarSetting(context: context);
+    ButtonNextToSearchBarSetting btnsb =
+        ButtonNextToSearchBarSetting(context: context);
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -564,29 +567,32 @@ class _ExportPageState extends State<ExportPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        _fullNameFilter = value;
-                        _filterPatients();
-                      });
-                    },
-                    decoration: InputDecoration(
-                      hintText: "${"search".tr()}...",
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide: BorderSide.none,
+                  child: SizedBox(
+                    height: sbs.getHeight(),
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _fullNameFilter = value;
+                          _filterPatients();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        hintText: "${"search".tr()}...",
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide.none,
+                        ),
+                        prefixIcon: const Icon(
+                          FontAwesomeIcons.magnifyingGlass,
+                          color: Colors.black,
+                        ),
+                        filled: true, // Enables the background color
+                        fillColor: const Color(
+                            0xffCADBFF), // Sets the background color
+                        labelStyle: const TextStyle(color: Colors.black),
                       ),
-                      prefixIcon: const Icon(
-                        FontAwesomeIcons.magnifyingGlass,
-                        color: Colors.black,
-                      ),
-                      filled: true, // Enables the background color
-                      fillColor:
-                          const Color(0xffCADBFF), // Sets the background color
-                      labelStyle: const TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                     ),
-                    style: const TextStyle(color: Colors.black),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -598,8 +604,8 @@ class _ExportPageState extends State<ExportPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 10),
+                      padding: EdgeInsets.symmetric(
+                          vertical: btnsb.verticalPadding(), horizontal: 10),
                       backgroundColor: const Color(0xff407BFF)),
                   child: Row(
                     children: [
@@ -635,7 +641,7 @@ class _ExportPageState extends State<ExportPage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 20),
                 ElevatedButton.icon(
                   onPressed: _exportAll,
                   label: Text('download'.tr(),

@@ -3,7 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/authentication/element_setting/sizes.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/utils/symbols_dialog/home_symbols.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
 import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
