@@ -54,7 +54,7 @@ class _PatientPageState extends State<PatientPage> {
         ]),
     Patient(
         name: "Chicky",
-        surname: "Cutie",
+        surname: "The Cutie",
         nextMonitoring: DateTime.now(),
         previousData: [
           {"1:30": "3"},
@@ -303,9 +303,10 @@ class _PatientPageState extends State<PatientPage> {
                                                 Shadow(
                                                   color: Colors.black.withOpacity(
                                                       0.25), // Shadow color with opacity
-                                                  offset: const Offset(0.8,
-                                                      0.8), // Horizontal and vertical offset
-                                                  blurRadius: 1, // Blur radius
+                                                  offset: const Offset(0.4,
+                                                      0.4), // Horizontal and vertical offset
+                                                  blurRadius:
+                                                      0.5, // Blur radius
                                                 ),
                                               ],
                                             ),
@@ -346,7 +347,15 @@ class _PatientPageState extends State<PatientPage> {
                             left: screenWidth / 2.5,
                             child: Row(
                               children: [
-                                Text("assess".tr()), // This stays in place
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _expandedStates[index] =
+                                            !_expandedStates[index];
+                                      });
+                                    },
+                                    child: Text(
+                                        "assess".tr())), // This stays in place
                                 Icon(
                                   isExpanded
                                       ? Icons.expand_less

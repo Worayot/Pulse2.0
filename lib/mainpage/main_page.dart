@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/mainpage/home.dart';
 import 'package:pulse/mainpage/patient_data/export.dart';
-import 'package:pulse/mainpage/patient_data/patient.dart';
+import 'package:pulse/mainpage/patient_data/monitored_patient.dart';
 import 'package:pulse/mainpage/settings/setting.dart';
 import 'package:pulse/utils/navbar.dart';
 

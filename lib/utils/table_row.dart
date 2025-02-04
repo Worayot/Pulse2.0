@@ -41,8 +41,8 @@ class TableRowWidget extends StatelessWidget {
                       color: Colors.black
                           .withOpacity(0.25), // Shadow color with opacity
                       offset: const Offset(
-                          0.8, 0.8), // Horizontal and vertical offset
-                      blurRadius: 1, // Blur radius
+                          0.4, 0.4), // Horizontal and vertical offset
+                      blurRadius: 0.5, // Blur radius
                     ),
                   ],
                 ),

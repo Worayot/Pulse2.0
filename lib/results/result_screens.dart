@@ -10,17 +10,21 @@ void showResultDialog(BuildContext context, int MEWs) {
   Color bgColor = components[2];
   String title = components[3];
 
+  Size size = MediaQuery.of(context).size;
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return Dialog(
-        backgroundColor: Colors.transparent,
+      return Card(
+        margin: const EdgeInsets.all(16),
+        color: Colors.transparent,
         child: Stack(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 width: double.infinity,
+                height: size.height,
                 color: bgColor,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -34,9 +38,7 @@ void showResultDialog(BuildContext context, int MEWs) {
                               child: Text(
                                 "finishedCalculating".tr(),
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
+                                    fontWeight: FontWeight.bold, fontSize: 22),
                               ),
                             ),
                           ),
@@ -46,28 +48,25 @@ void showResultDialog(BuildContext context, int MEWs) {
                     Row(
                       children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "\t\t${"totalScore".tr()}: $MEWs",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                ),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "\t\t${"totalScore".tr()}: $MEWs",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 35,
                               ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    // Wrap the scrollable container with Expanded to handle overflow
-                    Expanded(
-                      child: SingleChildScrollView(
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: SizedBox(
                         child: Container(
                           padding: const EdgeInsets.all(16.0),
-                          width: 300,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(12.0),
@@ -100,7 +99,6 @@ void showResultDialog(BuildContext context, int MEWs) {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              // The nursing text is now scrollable
                               SingleChildScrollView(
                                 child: Text(
                                   nursing,
@@ -115,72 +113,63 @@ void showResultDialog(BuildContext context, int MEWs) {
                         ),
                       ),
                     ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return NoteAdder(
-                                    onSave: () {},
-                                  );
-                                },
-                              );
-                            },
-                            icon: const Icon(FontAwesomeIcons.solidPenToSquare,
-                                color: Colors.white),
-                            label: Text(
-                              'addNote'.tr(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF565656),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ),
-
-            // Make the emoji non-interactive by wrapping with IgnorePointer
+            Positioned(
+              right: 15,
+              bottom: 15,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return NoteAdder(
+                        onSave: () {},
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(FontAwesomeIcons.solidPenToSquare,
+                    color: Colors.white),
+                label: Text(
+                  'addNote'.tr(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF565656),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+            // Emoji and Close Button go outside of SingleChildScrollView
             Positioned(
               bottom: 0,
               right: 0,
               child: IgnorePointer(
                 child: Opacity(
-                  opacity: 0.5, // Set opacity here (0.0 to 1.0)
+                  opacity: 0.5,
                   child: Image.asset(emoji),
                 ),
               ),
             ),
-
-            // Close button remains fixed
             Positioned(
-              top: 20,
-              right: 20,
+              top: 15,
+              right: 15,
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: const Icon(FontAwesomeIcons.xmark, color: Colors.black),
+                child: const Icon(Icons.close, color: Colors.black, size: 30),
               ),
             ),
           ],
