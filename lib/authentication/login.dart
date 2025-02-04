@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pulse/mainpage/home.dart';
-import 'package:pulse/mainpage/main_page.dart';
+import 'package:pulse/mainpage/navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       context,
       MaterialPageRoute(
           builder: (context) =>
-              MainPage()), // For example, navigating to the Login screen
+              const NavigationPage()), // For example, navigating to the Login screen
       (Route<dynamic> route) => false, // Removes all previous screens
     );
   }

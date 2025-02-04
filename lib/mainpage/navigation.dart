@@ -8,12 +8,14 @@ import 'package:pulse/mainpage/patient_data/monitored_patient.dart';
 import 'package:pulse/mainpage/settings/setting.dart';
 import 'package:pulse/utils/navbar.dart';
 
-class MainPage extends StatefulWidget {
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
+
   @override
-  _MainPageState createState() => _MainPageState();
+  _NavigationPageState createState() => _NavigationPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _NavigationPageState extends State<NavigationPage> {
   // Single index to manage navigation
   int _selectedIndex = 0;
 
@@ -40,8 +42,6 @@ class _MainPageState extends State<MainPage> {
     // Getting screen size information
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    final bool isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
 
     // Adjusting sizes based on screen width (responsive design)
     double iconSize =
