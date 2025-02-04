@@ -100,7 +100,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
                     const Spacer(),
                     IconButton(
                       icon: const Icon(
-                        FontAwesomeIcons.xmark,
+                        Icons.close,
                         color: Colors.black,
                         size: 30,
                       ),

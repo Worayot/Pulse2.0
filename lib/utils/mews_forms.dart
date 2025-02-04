@@ -26,7 +26,7 @@ class _MEWsFormsState extends State<MEWsForms> {
       TextEditingController();
   final TextEditingController urineController = TextEditingController();
 
-  String? consciousnessValue;
+  String consciousnessValue = "-";
 
   @override
   void dispose() {
@@ -47,20 +47,20 @@ class _MEWsFormsState extends State<MEWsForms> {
   }
 
   Widget _showMEWsForms(BuildContext context) {
-    return AlertDialog(
+    Size size = MediaQuery.of(context).size;
+    return Card(
+      margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15), // Adjust radius here
+        borderRadius: BorderRadius.circular(20), // Adjust radius here
       ),
-      backgroundColor: const Color(0xffD7E0F5),
-      contentPadding: null,
-      content: Container(
-        width: 800,
-        color: const Color(0xFFD7E0F5), // Background color for form
+      color: const Color(0xFFD7E0F5),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 15),
+              const SizedBox(height: 5),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
                   "calculateMEWs".tr(),
@@ -69,7 +69,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                 ),
                 IconButton(
                   icon: const Icon(
-                    FontAwesomeIcons.xmark, // Close icon
+                    Icons.close, // Close icon
                     color: Colors.black,
                     size: 30,
                   ),
@@ -88,7 +88,9 @@ class _MEWsFormsState extends State<MEWsForms> {
                 child: DropdownButtonFormField<String>(
                   value: consciousnessValue,
                   onChanged: (String? newValue) {
-                    consciousnessValue = newValue;
+                    setState(() {
+                      consciousnessValue = newValue!;
+                    });
                   },
                   decoration: InputDecoration(
                     filled: true,
@@ -110,8 +112,9 @@ class _MEWsFormsState extends State<MEWsForms> {
                   ),
                   items: [
                     const DropdownMenuItem(
-                      value: null,
-                      child: Text("-"),
+                      value: "-",
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 8), child: Text("-")),
                     ),
                     DropdownMenuItem(
                       value: "Conscious",
@@ -275,86 +278,86 @@ class _MEWsFormsState extends State<MEWsForms> {
               ),
               Row(
                 children: [
-                  Column(
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                          child: Text("Systolic",
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                      SizedBox(
-                        height: 40, // Adjust height here
-                        width: 132,
-                        child: TextField(
-                          controller: sysBloodPressureController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: '-',
-                            suffix: const Text("mmHg",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 16), // Adjusts height/padding
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(15), // Rounded corners
-                              borderSide: BorderSide
-                                  .none, // Removes visible border line
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(bottom: 5),
+                            child: Text("Systolic",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        SizedBox(
+                          height: 40,
+                          child: TextField(
+                            controller: sysBloodPressureController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: '-',
+                              suffix: const Text("mmHg",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 10),
-                  Column(
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                          child: Text("Diastolic",
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                      SizedBox(
-                        height: 40,
-                        width: 132,
-                        child: TextField(
-                          controller: diaBloodPressureController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            suffix: const Text("mmHg",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            hintText: '-',
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 16), // Adjusts height/padding
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(15), // Rounded corners
-                              borderSide: BorderSide
-                                  .none, // Removes visible border line
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(bottom: 5),
+                            child: Text("Diastolic",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        SizedBox(
+                          height: 40,
+                          child: TextField(
+                            controller: diaBloodPressureController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: '-',
+                              suffix: const Text("mmHg",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -443,7 +446,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: size.height * 0.03),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -451,21 +454,22 @@ class _MEWsFormsState extends State<MEWsForms> {
                       onTap: () {
                         showDialog(
                           context: context,
-                          builder: (BuildContext context) {
+                          builder: (BuildContext dialogContext) {
+                            // Use a separate variable
                             return AlertDialog(
                               title: Text("confirmAction".tr()),
                               content: Text("proceed?".tr()),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context)
+                                    Navigator.of(dialogContext)
                                         .pop(false); // User pressed cancel
                                   },
                                   child: Text("cancel".tr()),
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context)
+                                    Navigator.of(dialogContext)
                                         .pop(true); // User confirmed
                                   },
                                   child: Text("confirm".tr()),
@@ -474,11 +478,19 @@ class _MEWsFormsState extends State<MEWsForms> {
                             );
                           },
                         ).then((confirmed) {
-                          if (confirmed) {
-                            Navigator.pop(context);
-
-                            _showMEWsForms(context);
-                          } else {}
+                          if (mounted && confirmed == true) {
+                            setState(() {
+                              // Ensure UI updates properly
+                              heartRateController.text = "";
+                              temperatureController.text = "";
+                              sysBloodPressureController.text = "";
+                              diaBloodPressureController.text = "";
+                              spo2Controller.text = "";
+                              respiratoryRateController.text = "";
+                              urineController.text = "";
+                              consciousnessValue = "-"; // Reset dropdown safely
+                            });
+                          }
                         });
                       },
                       child: Text(
@@ -492,7 +504,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 15),
+                    const SizedBox(width: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -510,7 +522,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                         String spO2 = spo2Controller.text.trim();
                         String rr = respiratoryRateController.text.trim();
                         String urine = urineController.text.trim();
-                        String conscious = consciousnessValue ?? '';
+                        String conscious = consciousnessValue;
 
                         // String response = await sendMEWsValues(
                         //     consciousness: conscious,
@@ -520,8 +532,8 @@ class _MEWsFormsState extends State<MEWsForms> {
                         //     spo2: spO2,
                         //     respiratory_rate: rr,
                         //     urine: urine);
-                        print(
-                            "$hr, $temp, $sBp, $spO2, $rr, $urine, $conscious");
+                        // print(
+                        //     "$hr, $temp, $sBp, $spO2, $rr, $urine, $conscious");
 
                         int MEWs = calculateMEWs(
                             consciousness: conscious,
@@ -556,7 +568,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
