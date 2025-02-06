@@ -86,6 +86,7 @@
   "name": "Name",
   "name-surname": "Name-Surname",
   "nextInspectionTime": "Next Inspection Time",
+  "noPatient": "There's no one here.",
   "note": "Note",
   "notifications": "Notifications",
   "nurse": "Nurse",

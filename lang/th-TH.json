@@ -86,6 +86,7 @@
   "name": "ชื่อ",
   "name-surname": "ชื่อ-นามสกุล",
   "nextInspectionTime": "เวลาตรวจถัดไป",
+  "noPatient": "ยังไม่มีใครอยู่ที่นี่เลย",
   "note": "หมายเหตุ",
   "notifications": "การแจ้งเตือน",
   "nurse": "พยาบาล",

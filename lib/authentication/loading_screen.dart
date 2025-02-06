@@ -22,6 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   // Function to save preferences and navigate
   Future<void> _savePreferences() async {
+    //! Change values to database's values
     await saveStringPreference('name', 'วรยศ เลี่ยมแก้ว', context);
     await saveStringPreference('nurseID', '000001', context);
     await saveStringPreference('role', 'admin', context);
