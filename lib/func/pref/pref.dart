@@ -15,11 +15,19 @@ Future<void> saveStringPreference(
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(key, value); // Save the string value
 
-  // If you need to notify the UI that a preference has changed, do it here:
   final userDataProvider =
       Provider.of<UserDataProvider>(context, listen: false);
-  userDataProvider.updateUserData(value,
-      userDataProvider.nurseID); // If you're saving name or other user data
+
+  // Ensure correct values are updated based on the key
+  if (key == 'name') {
+    userDataProvider.updateUserName(value);
+  } else if (key == 'nurseID') {
+    userDataProvider.updateUserNurseID(value);
+  } else if (key == 'password') {
+    userDataProvider.updateUserPassword(value);
+  } else if (key == 'role') {
+    userDataProvider.updateUserRole(value);
+  }
 }
 
 // Function to save an integer preference

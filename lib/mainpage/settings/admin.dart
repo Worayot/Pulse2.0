@@ -6,8 +6,6 @@ import 'package:pulse/utils/add_user_form.dart';
 import 'package:pulse/utils/custom_header.dart';
 import 'package:pulse/utils/delete_user_dialog.dart';
 import 'package:pulse/utils/edit_user_form.dart';
-import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
-import 'package:pulse/utils/symbols_dialog/user_manager_symbols.dart';
 
 class User {
   final String name;

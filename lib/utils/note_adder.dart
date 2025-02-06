@@ -13,7 +13,7 @@ class NoteAdder extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(top: size.height / 4),
+      padding: EdgeInsets.only(top: size.height / 4, left: 16, right: 16),
       child: Stack(
         children: [
           SizedBox(

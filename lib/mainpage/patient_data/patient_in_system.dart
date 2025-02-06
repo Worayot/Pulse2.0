@@ -239,7 +239,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
                                     duration: const Duration(milliseconds: 250),
                                     curve: Curves.easeInOut,
                                     padding: const EdgeInsets.only(top: 16),
-                                    height: _isExpanded[index] ? 400 : 82,
+                                    height: _isExpanded[index] ? 380 : 82,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: const Color(0xff98B1E8),

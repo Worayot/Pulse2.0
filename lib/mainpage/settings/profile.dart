@@ -6,6 +6,8 @@ import 'package:pulse/func/pref/pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
+  const ProfileSettingsPage({super.key});
+
   @override
   _ProfileSettingsPageState createState() => _ProfileSettingsPageState();
 }
@@ -54,30 +56,33 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       if (field == 'name') {
         _isEditingName = !_isEditingName;
         if (!_isEditingName) {
-          // Save changes when exiting edit mode
-          _saveChanges('name', _nameController.text);
+          _saveName('name', _nameController.text);
         }
       } else if (field == 'password') {
         _isEditingPassword = !_isEditingPassword;
         if (!_isEditingPassword) {
-          // Save changes when exiting edit mode
-          _saveChanges('password', _passwordController.text);
+          _savePassword('password', _passwordController.text);
         }
       }
     });
   }
 
-  void _saveChanges(String field, String newValue) {
+  void _saveName(String field, String newValue) {
     if (field == 'name') {
       _name = newValue;
-      saveStringPreference('name', newValue, context);
       _isEditingName = !_isEditingName;
-    } else if (field == 'password') {
-      _password = newValue;
-      saveStringPreference('password', newValue, context);
-      _isEditingPassword = !_isEditingPassword;
+      saveStringPreference('name', newValue, context);
     }
-    setState(() {}); // Refresh the state to display the updated name/password
+    setState(() {});
+  }
+
+  void _savePassword(String field, String newValue) {
+    if (field == 'password') {
+      _password = newValue;
+      _isEditingPassword = !_isEditingPassword;
+      saveStringPreference('password', newValue, context);
+    }
+    setState(() {});
   }
 
   @override
@@ -165,7 +170,6 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                // Name-Surname
                                 InkWell(
                                   onTap: () => _toggleEditMode('name'),
                                   child: Padding(
@@ -192,11 +196,6 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                 height: 20,
                                                 child: _isEditingName
                                                     ? TextField(
-                                                        onSubmitted:
-                                                            (newValue) =>
-                                                                _saveChanges(
-                                                                    'name',
-                                                                    newValue),
                                                         controller:
                                                             _nameController,
                                                         decoration:
@@ -226,11 +225,9 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                   offset: const Offset(8.0,
                                                       0.0), // Move 8 pixels to the right
                                                   child: IconButton(
-                                                    onPressed: () =>
-                                                        _saveChanges(
-                                                            'name',
-                                                            _nameController
-                                                                .text),
+                                                    onPressed: () => _saveName(
+                                                        'name',
+                                                        _nameController.text),
                                                     icon: const Icon(
                                                         FontAwesomeIcons
                                                             .chevronRight),
@@ -272,11 +269,6 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                 height: 20,
                                                 child: _isEditingPassword
                                                     ? TextField(
-                                                        onSubmitted:
-                                                            (newValue) =>
-                                                                _saveChanges(
-                                                                    'password',
-                                                                    newValue),
                                                         controller:
                                                             _passwordController,
                                                         decoration:
@@ -308,7 +300,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                                       0.0), // Move 8 pixels to the right
                                                   child: IconButton(
                                                     onPressed: () =>
-                                                        _saveChanges(
+                                                        _savePassword(
                                                             'password',
                                                             _passwordController
                                                                 .text),

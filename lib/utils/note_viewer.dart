@@ -8,9 +8,14 @@ class NoteViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String date = "7/11/2567";
+    String time = "9:30";
+    String author = "วรยศ เลี่ยมแก้ว";
+    String authorID = "112203";
+
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(top: size.height / 4),
+      padding: EdgeInsets.only(top: size.height / 4, left: 16, right: 16),
       child: Stack(
         children: [
           SizedBox(
@@ -49,7 +54,24 @@ class NoteViewer extends StatelessWidget {
                         readOnly: true,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                                "${"ofDate".tr()} $date ${"atTime".tr()} $time",
+                                style: const TextStyle(
+                                    fontSize: 12, color: Color(0xff565656))),
+                            Text("${"by".tr()} $author ${"id".tr()} $authorID",
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.black)),
+                          ],
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -64,7 +86,7 @@ class NoteViewer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-          )
+          ),
         ],
       ),
     );
