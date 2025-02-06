@@ -87,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(height: 30),
+                  SizedBox(height: size.height * 0.1),
                   Card(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(
@@ -192,10 +193,10 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 40),
+                          SizedBox(height: size.height * 0.05),
                           SizedBox(
-                            width: 220,
-                            height: 60,
+                            width: size.width * 0.5,
+                            height: size.height * 0.07,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -258,11 +259,14 @@ class _LoginPageState extends State<LoginPage> {
             left: 0,
             right: 0,
             child: SizedBox(
-              width: size.width / 4, // Full width of the screen
-              height: size.height / 3.7, // Adjust height as needed
-              child: Image.asset(
-                'assets/images/img_login_bottom.png',
-                fit: BoxFit.contain, // Stretch the image to cover the container
+              width: size.width / 4.5, // Full width of the screen
+              height: size.height / 4.5, // Adjust height as needed
+              child: IgnorePointer(
+                child: Image.asset(
+                  'assets/images/img_login_bottom.png',
+                  fit: BoxFit
+                      .contain, // Stretch the image to cover the container
+                ),
               ),
             ),
           ),

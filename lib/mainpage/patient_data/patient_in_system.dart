@@ -117,11 +117,14 @@ class _PatientInSystemState extends State<PatientInSystem> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final double screenWidth = size.width;
+    final double screenHeight = size.height;
     SearchBarSetting sbs = SearchBarSetting(context: context);
     ButtonNextToSearchBarSetting btnsb =
         ButtonNextToSearchBarSetting(context: context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -168,10 +171,10 @@ class _PatientInSystemState extends State<PatientInSystem> {
                             return const AddPatientForm();
                           });
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       FontAwesomeIcons.userPlus, // Your desired icon
                       color: Colors.white, // Icon color
-                      size: 22, // Icon size
+                      size: screenWidth * 0.07, // Icon size
                     ),
                     label: Padding(
                       padding: const EdgeInsets.only(left: 4.0),
@@ -290,8 +293,8 @@ class _PatientInSystemState extends State<PatientInSystem> {
                                     InkWell(
                                       onTap: () {
                                         setState(() {
-                                          _isExpanded[index] = !_isExpanded[
-                                              index]; // Toggle state
+                                          _isExpanded[index] =
+                                              !_isExpanded[index];
                                         });
                                       },
                                       child: Row(

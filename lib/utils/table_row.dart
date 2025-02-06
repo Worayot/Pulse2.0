@@ -16,14 +16,19 @@ class TableRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final double screenWidth = size.width;
+    final double screenHeight = size.height;
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10, top: 8),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             // padding: padding,
-            width: 55,
-            height: 26,
+            width: screenWidth * 0.14,
+            height: screenHeight * 0.033,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius:
@@ -34,7 +39,7 @@ class TableRowWidget extends StatelessWidget {
                 '$time${"n".tr()}',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
+                  fontSize: screenWidth * 0.035,
                   fontWeight: FontWeight.bold,
                   shadows: [
                     Shadow(
@@ -51,8 +56,8 @@ class TableRowWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           SizedBox(
-            height: 30,
-            width: 125,
+            width: screenWidth * 0.3,
+            height: screenHeight * 0.033,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: const Color(0xff3362CC), // Text color
@@ -65,8 +70,7 @@ class TableRowWidget extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4), // Rounded corners
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               ),
               onPressed: () {
                 showDialog(
@@ -77,8 +81,9 @@ class TableRowWidget extends StatelessWidget {
               },
               child: Text(
                 "assessScore".tr(),
-                style: const TextStyle(
-                  fontSize: 13,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.035,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -87,8 +92,8 @@ class TableRowWidget extends StatelessWidget {
           const SizedBox(width: 8),
           Container(
             // padding: padding,
-            width: 75,
-            height: 26,
+            width: screenWidth * 0.18,
+            height: screenHeight * 0.033,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius:
@@ -138,8 +143,8 @@ class TableRowWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           SizedBox(
-            height: 30,
-            width: 70,
+            width: screenWidth * 0.18,
+            height: screenHeight * 0.033,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: const Color(0xff3362CC), // Text color

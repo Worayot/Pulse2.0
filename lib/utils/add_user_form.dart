@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/utils/info_text_field.dart';
 
 class AddUserForm extends StatefulWidget {
@@ -58,7 +59,7 @@ class _AddUserFormState extends State<AddUserForm> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
-
+    TextWidgetSize tws = TextWidgetSize(context: context);
     return Dialog(
       child: Container(
         decoration: BoxDecoration(
@@ -66,7 +67,7 @@ class _AddUserFormState extends State<AddUserForm> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: SizedBox(
-          height: size.height * 0.46,
+          height: size.height * 0.58,
           child: Column(
             children: [
               Padding(
@@ -81,7 +82,7 @@ class _AddUserFormState extends State<AddUserForm> {
                     const Spacer(),
                     IconButton(
                       icon: const Icon(
-                        FontAwesomeIcons.xmark,
+                        Icons.close,
                         color: Colors.black,
                         size: 30,
                       ),
@@ -99,23 +100,27 @@ class _AddUserFormState extends State<AddUserForm> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "name".tr(),
-                              controller: nameController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140,
-                              hintText: "fillInName".tr()),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                fontSize: tws.getInfoBoxTextSize(),
+                                title: "name".tr(),
+                                controller: nameController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140,
+                                hintText: "fillInName".tr()),
+                          ),
                         ),
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "surname".tr(),
-                              controller: surnameController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140,
-                              hintText: "fillInSurname".tr()),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "surname".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: surnameController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140,
+                                hintText: "fillInSurname".tr()),
+                          ),
                         ),
                       ],
                     ),
@@ -123,6 +128,7 @@ class _AddUserFormState extends State<AddUserForm> {
                       width: double.infinity,
                       child: infoTextField(
                           title: "role".tr(),
+                          fontSize: tws.getInfoBoxTextSize(),
                           controller: roleController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140,
@@ -132,6 +138,7 @@ class _AddUserFormState extends State<AddUserForm> {
                       width: double.infinity,
                       child: infoTextField(
                           title: "nurseID".tr(),
+                          fontSize: tws.getInfoBoxTextSize(),
                           controller: nurseIDController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140,

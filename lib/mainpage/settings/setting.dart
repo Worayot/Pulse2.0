@@ -11,6 +11,7 @@ import 'package:pulse/mainpage/settings/admin.dart';
 import 'package:pulse/mainpage/settings/language.dart';
 import 'package:pulse/mainpage/settings/profile.dart';
 import 'package:pulse/utils/custom_header.dart';
+import 'dart:io';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -51,16 +52,25 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Header()),
+      appBar: AppBar(
+        title: Padding(
+          padding: Platform.isAndroid
+              ? EdgeInsets.only(top: size.height * 0.05)
+              : EdgeInsets.only(top: size.height * 0),
+          child: const Header(),
+        ),
+        toolbarHeight: size.height * 0.13,
+      ),
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
               children: [
                 // User Info Section
-                const SizedBox(height: 40),
+                SizedBox(height: size.height * 0.05),
                 // Menu ListTiles
                 _buildSettingsTile(
                   title: 'profileSetting'.tr(),
@@ -141,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
-                const SizedBox(height: 40),
+                // const SizedBox(height: 40),
 
                 // Random Quote Section using FutureBuilder
                 FutureBuilder<List<Map<String, String>>>(
@@ -172,36 +182,36 @@ class _SettingsPageState extends State<SettingsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: 180,
+                                width: size.width / 2.2,
                                 child: Text.rich(TextSpan(children: [
-                                  const TextSpan(
+                                  TextSpan(
                                       text: '"',
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: size.width / 25,
                                         fontWeight: FontWeight.bold,
-                                        height: 1.8,
+                                        height: size.height * 0.002,
                                       )),
                                   TextSpan(
                                     text: selectedQuote['quote']![0],
-                                    style: const TextStyle(
-                                      fontSize: 20,
+                                    style: TextStyle(
+                                      fontSize: size.width / 15,
                                       fontWeight: FontWeight.bold,
-                                      height: 1.8,
+                                      height: size.height * 0.002,
                                     ),
                                   ),
                                   TextSpan(
                                       text:
                                           '${selectedQuote['quote']!.substring(1)}"',
-                                      style: const TextStyle(
-                                        fontSize: 15,
+                                      style: TextStyle(
+                                        fontSize: size.width / 25,
                                         fontWeight: FontWeight.bold,
-                                        height: 1.8,
+                                        height: size.height * 0.002,
                                       ))
                                 ])),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: size.height * 0.01),
                               SizedBox(
-                                width: 180,
+                                width: size.width * 0.45,
                                 child: Text(
                                   selectedQuote['author']!,
                                   style: const TextStyle(
@@ -221,13 +231,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           Positioned(
-            bottom: 40,
-            right: -110,
+            bottom: -size.width * 0.1,
+            right: 0,
             child: IgnorePointer(
               child: Image.asset(
                 'assets/images/hospital.png', // Ensure this path is correct
-                width: 400, // Increased width
-                height: 300, // Increased height
+                width: size.width * 0.4, // Increased width
+                height: size.height * 0.4, // Increased height
                 fit: BoxFit.contain,
               ),
             ),

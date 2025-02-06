@@ -6,7 +6,6 @@ Widget infoBox({
   required Color boxColor,
   required BuildContext context,
 }) {
-  Size size = MediaQuery.of(context).size;
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -21,7 +20,7 @@ Widget infoBox({
         ),
         const SizedBox(height: 5),
         Container(
-          width: size.width * 0.38,
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: boxColor,
             borderRadius: BorderRadius.circular(12),

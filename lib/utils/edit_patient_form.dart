@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/utils/gender_dropdown.dart';
 import 'package:pulse/utils/info_text_field.dart';
@@ -78,7 +79,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
-
+    TextWidgetSize tws = TextWidgetSize(context: context);
     return Dialog(
       child: Container(
         decoration: BoxDecoration(
@@ -123,6 +124,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
                               title: "name".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: nameController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -130,7 +132,8 @@ class _EditPatientFormState extends State<EditPatientForm> {
                         SizedBox(
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
-                              title: "surname".tr(),
+                              title: "name".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: surnameController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -144,6 +147,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
                               title: "age".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: ageController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -167,6 +171,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
                               title: "hnNo".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: hnController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -175,6 +180,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
                               title: "bedNumber".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: bedNumController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -185,6 +191,7 @@ class _EditPatientFormState extends State<EditPatientForm> {
                       width: double.infinity,
                       child: infoTextField(
                           title: "ward".tr(),
+                          fontSize: tws.getInfoBoxTextSize(),
                           controller: wardController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140),

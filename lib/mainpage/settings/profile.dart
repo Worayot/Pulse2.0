@@ -89,6 +89,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Header(),
@@ -151,7 +152,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 35), // White box outer padding
                         child: Container(
-                          height: size.height * 0.54,
+                          height: size.height * 0.5,
                           padding: const EdgeInsets.symmetric(
                               vertical: 12.0, horizontal: 10),
                           decoration: BoxDecoration(
@@ -377,7 +378,6 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 140)
                               ],
                             ),
                           ),
@@ -386,10 +386,16 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                     ],
                   ),
                   Positioned(
-                      bottom: -50,
-                      right: -30,
-                      child: IgnorePointer(
-                          child: Image.asset("assets/images/ambulance.png")))
+                    bottom: -50,
+                    right: -30,
+                    child: IgnorePointer(
+                      child: Image.asset(
+                        "assets/images/ambulance.png",
+                        width: size.width * 0.62, // Set width
+                        height: size.width * 0.62, // Set height
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

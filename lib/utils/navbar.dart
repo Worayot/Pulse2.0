@@ -33,9 +33,9 @@ class CustomAnimatedBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bgColor = backgroundColor ?? const Color(0xff3362CC);
-
+    final Size size = MediaQuery.of(context).size;
     return Container(
-      height: 110,
+      height: size.height * 0.09,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(25), topRight: Radius.circular(25)),

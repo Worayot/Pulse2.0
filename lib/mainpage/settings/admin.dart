@@ -58,6 +58,7 @@ class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(automaticallyImplyLeading: false, title: const Header()),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),

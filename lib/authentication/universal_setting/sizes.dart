@@ -36,6 +36,20 @@ class ButtonNextToSearchBarSetting {
   ButtonNextToSearchBarSetting({required this.context});
 
   double verticalPadding() {
-    return MediaQuery.of(context).size.height * 0.02;
+    return MediaQuery.of(context).size.height * 0.016;
+  }
+}
+
+class TextWidgetSize {
+  final BuildContext context;
+
+  TextWidgetSize({required this.context});
+
+  double getDialogTitleSize() {
+    return MediaQuery.of(context).size.width * 0.045;
+  }
+
+  double getInfoBoxTextSize() {
+    return MediaQuery.of(context).size.width * 0.038;
   }
 }

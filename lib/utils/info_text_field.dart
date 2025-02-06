@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 
 Widget infoTextField(
     {required String title,
     required TextEditingController controller,
     required Color boxColor,
     required double minWidth,
+    required double fontSize,
     String? hintText}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),

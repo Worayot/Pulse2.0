@@ -114,35 +114,41 @@ class _ExportPageState extends State<ExportPage> {
         // Apply name and other filters
         final matchesFullName = _fullNameFilter.isEmpty ||
             patient.fullName
+                .trim()
                 .toLowerCase()
-                .contains(_fullNameFilter.toLowerCase());
+                .contains(_fullNameFilter.toLowerCase().trim());
         final matchesName = _nameController.text.isEmpty ||
             firstName
                 .toLowerCase()
-                .contains(_nameController.text.toLowerCase());
+                .trim()
+                .contains(_nameController.text.toLowerCase().trim());
         final matchesSurname = _surnameController.text.isEmpty ||
             lastName
                 .toLowerCase()
-                .contains(_surnameController.text.toLowerCase());
+                .trim()
+                .contains(_surnameController.text.toLowerCase().trim());
         final matchesWard = _wardController.text.isEmpty ||
             patient.ward
                 .toLowerCase()
-                .contains(_wardController.text.toLowerCase());
+                .trim()
+                .contains(_wardController.text.toLowerCase().trim());
 
         // Gender filter logic
         final matchesGender = (_maleToggle == _femaleToggle) ||
-            (_maleToggle && patient.gender.toLowerCase() == "male") ||
-            (_femaleToggle && patient.gender.toLowerCase() == "female");
+            (_maleToggle && patient.gender.toLowerCase().trim() == "male") ||
+            (_femaleToggle && patient.gender.toLowerCase().trim() == "female");
 
         // Other filters
         final matchesHospitalNumber = _hnController.text.isEmpty ||
             patient.hospitalNumber
                 .toLowerCase()
-                .contains(_hnController.text.toLowerCase());
+                .trim()
+                .contains(_hnController.text.toLowerCase().trim());
         final matchesBedNumber = _bedNumController.text.isEmpty ||
             patient.bedNumber
                 .toLowerCase()
-                .contains(_bedNumController.text.toLowerCase());
+                .trim()
+                .contains(_bedNumController.text.toLowerCase().trim());
         final matchesAge = (patient.age >= _minAge) && (patient.age <= _maxAge);
 
         // Combine all conditions
@@ -177,90 +183,108 @@ class _ExportPageState extends State<ExportPage> {
   }
 
   void showFilterDialog(context) {
+    TextWidgetSize tws = TextWidgetSize(context: context);
     showDialog(
       context: context,
       builder: (context) {
         return Dialog(
-          child: SizedBox(
-            width: 400,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 5,
-                  right: 5,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                physics:
+                    const ClampingScrollPhysics(), // Prevent unnecessary scrolling
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height *
+                        0.8, // Limit height
                   ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: ClipRect(
-                    child: SizedBox(
-                      height: 280,
-                      child: Opacity(
-                        opacity: 1, // Set the opacity to 50%
-                        child: Image.asset(
-                          'assets/images/filter.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'filterPatients'.tr(),
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      _buildFilterInputs(),
-                      StatefulBuilder(
-                        builder: (context, setState) {
-                          return _buildAgeSlider(setState);
-                        },
-                      ),
-                      const SizedBox(height: 16.0),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
+                  child: SizedBox(
+                    width: 400,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 5,
+                          right: 5,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.black,
+                              size: 30,
+                            ),
                             onPressed: () {
-                              _filterPatients(); // Apply filters
-                              Navigator.of(context).pop(); // Close the dialog
+                              Navigator.of(context).pop();
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(
-                                  0xff407BFF), // Set the background color (you can change this color)
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    12.0), // Set the border radius
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: ClipRect(
+                            child: SizedBox(
+                              height: 280,
+                              child: Opacity(
+                                opacity: 1,
+                                child: Image.asset(
+                                  'assets/images/filter.png',
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
-                            child: Text('filterData'.tr(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
-                          )),
-                    ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'filterPatients'.tr(),
+                                  style: TextStyle(
+                                      fontSize: tws.getDialogTitleSize(),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              _buildFilterInputs(),
+                              StatefulBuilder(
+                                builder: (context, setState) {
+                                  return _buildAgeSlider(setState);
+                                },
+                              ),
+                              const SizedBox(height: 16.0),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _filterPatients();
+                                    Navigator.of(context).pop();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xff407BFF),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'filterData'.tr(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },
@@ -274,21 +298,25 @@ class _ExportPageState extends State<ExportPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            infoTextField(
-                title: "name".tr(),
-                controller: _nameController,
-                boxColor: const Color(0xffE0EAFF),
-                context: context,
-                fillSpace: false,
-                hintText: "-"),
+            Expanded(
+              child: infoTextField(
+                  title: "name".tr(),
+                  controller: _nameController,
+                  boxColor: const Color(0xffE0EAFF),
+                  context: context,
+                  fillSpace: true,
+                  hintText: "-"),
+            ),
             const SizedBox(width: 10),
-            infoTextField(
-                title: "surname".tr(),
-                controller: _surnameController,
-                boxColor: const Color(0xffE0EAFF),
-                context: context,
-                fillSpace: false,
-                hintText: "-"),
+            Expanded(
+              child: infoTextField(
+                  title: "surname".tr(),
+                  controller: _surnameController,
+                  boxColor: const Color(0xffE0EAFF),
+                  context: context,
+                  fillSpace: true,
+                  hintText: "-"),
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -308,28 +336,32 @@ class _ExportPageState extends State<ExportPage> {
                 const SizedBox(height: 3),
                 Row(
                   children: [
-                    ToggleButton(
-                      text: "male".tr(),
-                      icon: Icons.male,
-                      activeColor: const Color(0xff5C9FEE),
-                      inactiveColor: const Color(0xffE0EAFF),
-                      onToggle: (value) {
-                        _maleToggle = value;
-                      },
-                      preferenceKey:
-                          "male_toggle_state", // Unique key for male toggle
+                    Expanded(
+                      child: ToggleButton(
+                        text: "male".tr(),
+                        icon: Icons.male,
+                        activeColor: const Color(0xff5C9FEE),
+                        inactiveColor: const Color(0xffE0EAFF),
+                        onToggle: (value) {
+                          _maleToggle = value;
+                        },
+                        preferenceKey:
+                            "male_toggle_state", // Unique key for male toggle
+                      ),
                     ),
-                    const Spacer(),
-                    ToggleButton(
-                      text: "female".tr(),
-                      icon: Icons.female,
-                      activeColor: const Color(0xffD63A67),
-                      inactiveColor: const Color(0xffF9AEC3),
-                      onToggle: (value) {
-                        _femaleToggle = value;
-                      },
-                      preferenceKey:
-                          "female_toggle_state", // Unique key for female toggle
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ToggleButton(
+                        text: "female".tr(),
+                        icon: Icons.female,
+                        activeColor: const Color(0xffD63A67),
+                        inactiveColor: const Color(0xffF9AEC3),
+                        onToggle: (value) {
+                          _femaleToggle = value;
+                        },
+                        preferenceKey:
+                            "female_toggle_state", // Unique key for female toggle
+                      ),
                     ),
                   ],
                 ),
@@ -339,21 +371,25 @@ class _ExportPageState extends State<ExportPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            infoTextField(
-                title: "hn".tr(),
-                controller: _hnController,
-                boxColor: const Color(0xffE0EAFF),
-                context: context,
-                fillSpace: false,
-                hintText: "-"),
+            Expanded(
+              child: infoTextField(
+                  title: "hn".tr(),
+                  controller: _hnController,
+                  boxColor: const Color(0xffE0EAFF),
+                  context: context,
+                  fillSpace: true,
+                  hintText: "-"),
+            ),
             const SizedBox(width: 10),
-            infoTextField(
-                title: "bedNumber".tr(),
-                controller: _bedNumController,
-                boxColor: const Color(0xffE0EAFF),
-                context: context,
-                fillSpace: false,
-                hintText: "-"),
+            Expanded(
+              child: infoTextField(
+                  title: "bedNumber".tr(),
+                  controller: _bedNumController,
+                  boxColor: const Color(0xffE0EAFF),
+                  context: context,
+                  fillSpace: true,
+                  hintText: "-"),
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -546,6 +582,7 @@ class _ExportPageState extends State<ExportPage> {
     ButtonNextToSearchBarSetting btnsb =
         ButtonNextToSearchBarSetting(context: context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.only(left: 15),

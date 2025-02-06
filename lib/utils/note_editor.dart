@@ -17,7 +17,7 @@ class NoteEditor extends StatelessWidget {
       child: Stack(
         children: [
           SizedBox(
-            height: size.height * 0.4,
+            height: size.height * 0.42,
             child: Card(
               margin: const EdgeInsets.all(16.0),
               shape: RoundedRectangleBorder(

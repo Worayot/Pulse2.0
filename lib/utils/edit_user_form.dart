@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/utils/info_text_field.dart';
 
 class EditUserForm extends StatefulWidget {
@@ -62,7 +63,7 @@ class _EditUserFormState extends State<EditUserForm> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
-
+    TextWidgetSize tws = TextWidgetSize(context: context);
     return Dialog(
       child: Container(
         decoration: BoxDecoration(
@@ -107,6 +108,7 @@ class _EditUserFormState extends State<EditUserForm> {
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
                               title: "name".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: nameController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -115,6 +117,7 @@ class _EditUserFormState extends State<EditUserForm> {
                           width: size.width / 2 - size.width / 8 - 6,
                           child: infoTextField(
                               title: "surname".tr(),
+                              fontSize: tws.getInfoBoxTextSize(),
                               controller: surnameController,
                               boxColor: const Color(0xffE0EAFF),
                               minWidth: 140),
@@ -125,6 +128,7 @@ class _EditUserFormState extends State<EditUserForm> {
                       width: double.infinity,
                       child: infoTextField(
                           title: "role".tr(),
+                          fontSize: tws.getInfoBoxTextSize(),
                           controller: roleController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140),
@@ -133,6 +137,7 @@ class _EditUserFormState extends State<EditUserForm> {
                       width: double.infinity,
                       child: infoTextField(
                           title: "nurseID".tr(),
+                          fontSize: tws.getInfoBoxTextSize(),
                           controller: nurseIDController,
                           boxColor: const Color(0xffE0EAFF),
                           minWidth: 140),

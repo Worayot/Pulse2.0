@@ -247,7 +247,6 @@ class _PatientPageState extends State<PatientPage> {
                                               );
                                             }),
                                           ),
-                                          SizedBox(height: 10)
                                         ],
                                       ],
                                     ),
@@ -340,7 +339,7 @@ class _PatientPageState extends State<PatientPage> {
                           // Assess Text and Icon
                           if (!hasData)
                             Positioned(
-                              top: 75, // Adjust the position to fit your layout
+                              top: 73, // Adjust the position to fit your layout
                               left: screenWidth / 2.5,
                               child: Row(
                                 children: [

@@ -47,31 +47,41 @@ class _PatientIndDataState extends State<PatientIndData> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    infoBox(
-                        title: "age".tr(),
-                        content: widget.age,
-                        boxColor: Colors.white,
-                        context: context),
-                    infoBox(
-                        title: "gender".tr(),
-                        content: widget.gender,
-                        boxColor: Colors.white,
-                        context: context),
+                    Expanded(
+                      child: infoBox(
+                          title: "age".tr(),
+                          content: widget.age,
+                          boxColor: Colors.white,
+                          context: context),
+                    ),
+                    Expanded(
+                      child: infoBox(
+                          title: "gender".tr(),
+                          content: widget.gender,
+                          boxColor: Colors.white,
+                          context: context),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    infoBox(
+                    Expanded(
+                      child: infoBox(
                         title: "hn".tr(),
                         content: widget.hn,
                         boxColor: Colors.white,
-                        context: context),
-                    infoBox(
+                        context: context,
+                      ),
+                    ),
+                    Expanded(
+                      child: infoBox(
                         title: "bedNumber".tr(),
                         content: widget.bedNum,
                         boxColor: Colors.white,
-                        context: context),
+                        context: context,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
