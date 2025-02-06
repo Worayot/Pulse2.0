@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pulse/mainpage/home.dart';
-import 'package:pulse/mainpage/navigation.dart';
+import 'package:pulse/authentication/loading_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nurseIDController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   int _selectedLanguageIndex = 1;
   @override
@@ -63,14 +62,22 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() {
     // if (_formKey.currentState?.validate() ?? false) {
-    //   print("Email: ${_emailController.text}");
+    //   print("nurseID: ${_nurseIDController.text}");
     //   print("Password: ${_passwordController.text}");
     // }
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) =>
+    //           const NavigationPage()), // For example, navigating to the Login screen
+    //   (Route<dynamic> route) => false, // Removes all previous screens
+    // );
+
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
           builder: (context) =>
-              const NavigationPage()), // For example, navigating to the Login screen
+              const LoadingScreen()), // For example, navigating to the Login screen
       (Route<dynamic> route) => false, // Removes all previous screens
     );
   }
@@ -82,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
-        children: <Widget>[
+        children: [
           // Center content (login form, etc.)
           Center(
             child: Padding(
@@ -90,14 +97,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text(
-                    'MEWS',
-                    style: TextStyle(
-                      fontSize: 60,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
                   const SizedBox(height: 30),
                   Card(
                     elevation: 5,
@@ -106,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         Radius.circular(20),
                       ),
                     ),
-                    color: const Color(0xffE8F6F3),
+                    color: const Color(0xffE0EAFF),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: size.width / 10,
@@ -136,43 +135,52 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Text("nurseID".tr(),
+                                  style: const TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.left),
+                            ],
+                          ),
                           TextFormField(
-                            controller: _emailController,
+                            controller: _nurseIDController,
                             decoration: InputDecoration(
-                              labelText: "email".tr(),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              prefixIcon: const Icon(Icons.email,
-                                  color: Color(0xff2D6A4F)),
+                              // labelText: "nurseID".tr(),
+                              hintText: "\t\t${"fillInNurseID".tr()}",
+                              border: const UnderlineInputBorder(),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                             ),
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
+                                return 'Please enter your nurseID';
                               } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
                                   .hasMatch(value)) {
-                                return 'Please enter a valid email';
+                                return 'Please enter a valid nurseID';
                               }
                               return null;
                             },
                           ),
                           SizedBox(height: size.height / 50),
+                          Row(
+                            children: [
+                              Text("password".tr(),
+                                  style: const TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.left),
+                            ],
+                          ),
                           TextFormField(
                             controller: _passwordController,
                             decoration: InputDecoration(
-                              labelText: "password".tr(),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              prefixIcon: const Icon(Icons.lock,
-                                  color: Color(0xff2D6A4F)),
+                              // labelText: "password".tr(),
+                              hintText: "\t\t${"fillInPassword".tr()}",
+
+                              border: const UnderlineInputBorder(),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              // prefixIcon: const Icon(Icons.lock,
+                              //     color: Color(0xff2D6A4F)),
                             ),
                             obscureText: true,
                             validator: (value) {
@@ -186,16 +194,18 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 40),
                           SizedBox(
-                            width: 240,
+                            width: 220,
+                            height: 60,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color(0xff1225A4).withOpacity(0.65),
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+                                    const EdgeInsets.symmetric(vertical: 0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25),
                                 ),
+                                elevation: 5,
                               ),
                               onPressed: _login,
                               child: Text(
@@ -213,27 +223,43 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-
           Positioned(
-            top: size.height / 6,
-            left: -30, // This sticks the image to the left side of the screen
-            child: Container(
-              width: 150, // Adjust width as necessary
-              height: 150, // Adjust height as necessary
+            top: size.height / 12,
+            left: -36, // This sticks the image to the left side of the screen
+            child: SizedBox(
+              width: size.width * 0.5, // Adjust width as necessary
+              height: size.width * 0.5, // Adjust height as necessary
+              // width: 200, // Adjust width as necessary
+              // height: 200, // Adjust height as necessary
               child: Image.asset(
                 'assets/images/img_login_top.png',
                 fit: BoxFit.contain, // Adjust the image's fit to your needs
               ),
             ),
           ),
+          Positioned(
+            top: size.height / 6,
+            right: size.width / 2 - 100,
+            // right: 50,
+            child: const Text(
+              // textAlign: TextAlign.center,
+              'MEWS',
+              style: TextStyle(
+                fontSize: 60,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+
           // Bottom image positioned above the green card
           Positioned(
-            bottom: -80, // Adjust bottom position so it overlaps with the card
+            bottom: 0, // Adjust bottom position so it overlaps with the card
             left: 0,
             right: 0,
-            child: Container(
+            child: SizedBox(
               width: size.width / 4, // Full width of the screen
-              height: size.height / 3.2, // Adjust height as needed
+              height: size.height / 3.7, // Adjust height as needed
               child: Image.asset(
                 'assets/images/img_login_bottom.png',
                 fit: BoxFit.contain, // Stretch the image to cover the container

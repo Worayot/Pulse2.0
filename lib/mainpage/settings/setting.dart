@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/authentication/login.dart';
+import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/mainpage/settings/aboutapp.dart';
 import 'package:pulse/mainpage/settings/admin.dart';
 import 'package:pulse/mainpage/settings/language.dart';
@@ -90,15 +91,39 @@ class _SettingsPageState extends State<SettingsPage> {
                     setState(() {});
                   },
                 ),
-                _buildSettingsTile(
-                  title: 'admin'.tr(),
-                  leadingIcon: FontAwesomeIcons.userTie,
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AdminPage()),
-                    );
+                // if (_role == "admin")
+                //   _buildSettingsTile(
+                //     title: 'admin'.tr(),
+                //     leadingIcon: FontAwesomeIcons.userTie,
+                //     onTap: () async {
+                //       await Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const AdminPage()),
+                //       );
+                //     },
+                //   ),
+                FutureBuilder<String?>(
+                  future: loadStringPreference('role'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error loading role: ${snapshot.error}');
+                    } else if (snapshot.data == "admin") {
+                      return _buildSettingsTile(
+                        title: 'admin'.tr(),
+                        leadingIcon: FontAwesomeIcons.userTie,
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AdminPage()),
+                          );
+                        },
+                      );
+                    }
+                    return Container(); // If not admin, don't show this tile
                   },
                 ),
                 _buildSettingsTile(

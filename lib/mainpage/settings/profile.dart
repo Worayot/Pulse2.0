@@ -14,7 +14,7 @@ class ProfileSettingsPage extends StatefulWidget {
 
 class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   String _name = "";
-  String _nurseId = "";
+  String _nurseID = "";
   String _role = "";
   String _password = "";
 
@@ -38,7 +38,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       _name = prefs.getString('name') ?? "N/A";
       _role = prefs.getString('role') ?? "N/A";
       _password = prefs.getString('password') ?? "N/A";
-      _nurseId = prefs.getString('nurseId') ?? "N/A";
+      _nurseID = prefs.getString('nurseID') ?? "N/A";
 
       // Initialize the controllers with saved data
       _nameController.text = _name;
@@ -337,7 +337,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            _role,
+                                            _role.tr(),
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black54),
@@ -367,7 +367,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                           const SizedBox(
                                               height: 4), // Balanced spacing
                                           Text(
-                                            _nurseId,
+                                            _nurseID,
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black54),

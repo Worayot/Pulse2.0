@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/utils/gender_dropdown.dart';
 import 'package:pulse/utils/info_text_field.dart';
 
@@ -192,18 +193,44 @@ class _EditPatientFormState extends State<EditPatientForm> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'deletePatient'.tr(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red, // Red text color
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.red // Underline
+                        FutureBuilder<String?>(
+                          future: loadStringPreference('role'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                  'Error loading role: ${snapshot.error}');
+                            } else if (snapshot.data == "admin") {
+                              return TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'deletePatient'.tr(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red, // Red text color
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.red // Underline
+                                      ),
                                 ),
-                          ),
+                              );
+                            }
+                            return Container(); // If not admin, don't show this tile
+                          },
                         ),
+                        // TextButton(
+                        //   onPressed: () {},
+                        //   child: Text(
+                        //     'deletePatient'.tr(),
+                        //     style: const TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         color: Colors.red, // Red text color
+                        //         decoration: TextDecoration.underline,
+                        //         decorationColor: Colors.red // Underline
+                        //         ),
+                        //   ),
+                        // ),
                         Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton.icon(
