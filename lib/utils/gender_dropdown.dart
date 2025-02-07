@@ -4,12 +4,10 @@ import 'package:easy_localization/easy_localization.dart';
 class GenderDropdown extends StatelessWidget {
   final String? selectedGender;
   final ValueChanged<String?> onGenderChanged;
-  final Size size;
   final bool fillSpace;
 
   const GenderDropdown(
       {super.key,
-      required this.size,
       required this.selectedGender,
       required this.onGenderChanged,
       required this.fillSpace});
@@ -25,9 +23,6 @@ class GenderDropdown extends StatelessWidget {
         ),
         const SizedBox(height: 3),
         SizedBox(
-          width: fillSpace
-              ? double.infinity
-              : size.width / 2 - size.width / 8 - 23,
           child: SizedBox(
             height: 40,
             child: DropdownButtonFormField<String>(

@@ -5,27 +5,53 @@ import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/utils/gender_dropdown.dart';
 import 'package:pulse/utils/info_text_field.dart';
+import 'package:pulse/utils/warning_dialog.dart';
 
 class EditPatientForm extends StatefulWidget {
-  const EditPatientForm({super.key});
+  final String name;
+  final String surname;
+  final String age;
+  final String gender;
+  final String hn;
+  final String bedNum;
+  final String ward;
+  const EditPatientForm(
+      {super.key,
+      required this.name,
+      required this.surname,
+      required this.age,
+      required this.gender,
+      required this.hn,
+      required this.bedNum,
+      required this.ward});
 
   @override
   State<EditPatientForm> createState() => _EditPatientFormState();
 }
 
 class _EditPatientFormState extends State<EditPatientForm> {
-  final TextEditingController nameController =
-      TextEditingController(text: "Chicky");
-  final TextEditingController surnameController =
-      TextEditingController(text: "Chicken");
-  final TextEditingController ageController = TextEditingController(text: "10");
-  final TextEditingController wardController =
-      TextEditingController(text: "C11");
-  final TextEditingController hnController = TextEditingController(text: "602");
-  final TextEditingController bedNumController =
-      TextEditingController(text: "Bedroom");
+  late TextEditingController nameController;
+  late TextEditingController surnameController;
+  late TextEditingController ageController;
+  late TextEditingController wardController;
+  late TextEditingController hnController;
+  late TextEditingController bedNumController;
 
-  String? _selectedGender = "Male";
+  String? _selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+
+    nameController = TextEditingController(text: widget.name);
+    surnameController = TextEditingController(text: widget.surname);
+    ageController = TextEditingController(text: widget.age);
+    wardController = TextEditingController(text: widget.ward);
+    hnController = TextEditingController(text: widget.hn);
+    bedNumController = TextEditingController(text: widget.bedNum);
+
+    _selectedGender = widget.gender; // Initialize gender dropdown
+  }
 
   @override
   void dispose() {
@@ -52,7 +78,8 @@ class _EditPatientFormState extends State<EditPatientForm> {
         ward.isEmpty ||
         hn.isEmpty ||
         bedNum.isEmpty ||
-        _selectedGender == null) {
+        _selectedGender == null ||
+        _selectedGender == "-") {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -120,70 +147,79 @@ class _EditPatientFormState extends State<EditPatientForm> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "name".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: nameController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "name".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: nameController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "name".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: surnameController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "surname".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: surnameController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "age".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: ageController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "age".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: ageController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
                         const SizedBox(width: 8),
-                        GenderDropdown(
-                          size: size,
-                          selectedGender: _selectedGender,
-                          fillSpace: false,
-                          onGenderChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                            });
-                          },
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 4.0, right: 8),
+                            child: GenderDropdown(
+                              selectedGender: _selectedGender,
+                              fillSpace: false,
+                              onGenderChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                });
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "hnNo".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: hnController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "hnNo".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: hnController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "bedNumber".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: bedNumController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "bedNumber".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: bedNumController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
                       ],
                     ),
@@ -211,15 +247,27 @@ class _EditPatientFormState extends State<EditPatientForm> {
                                   'Error loading role: ${snapshot.error}');
                             } else if (snapshot.data == "admin") {
                               return TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  bool result = await showWarningDialog(
+                                      context); // Wait for user choice
+                                  if (result) {
+                                    print(
+                                        "✅ User confirmed: Deleting patient...");
+                                    Navigator.pop(
+                                        context); // Only pop if it makes sense in this context
+                                    // TODO: Add actual deletion logic here
+                                  } else {
+                                    print("❌ User canceled deletion.");
+                                  }
+                                },
                                 child: Text(
                                   'deletePatient'.tr(),
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red, // Red text color
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.red // Underline
-                                      ),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red, // Red text color
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.red, // Underline
+                                  ),
                                 ),
                               );
                             }

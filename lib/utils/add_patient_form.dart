@@ -116,70 +116,77 @@ class _AddPatientFormState extends State<AddPatientForm> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "name".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: nameController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "name".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: nameController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "surname".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: surnameController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "surname".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: surnameController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
+                        Expanded(
                           child: infoTextField(
-                              title: "age".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: ageController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                            title: "age".tr(),
+                            fontSize: tws.getInfoBoxTextSize(),
+                            controller: ageController,
+                            boxColor: const Color(0xffE0EAFF),
+                            minWidth: 140,
+                          ),
                         ),
                         const SizedBox(width: 8),
-                        GenderDropdown(
-                          size: size,
-                          selectedGender: _selectedGender,
-                          fillSpace: false,
-                          onGenderChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                            });
-                          },
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 4.0, right: 8),
+                            child: GenderDropdown(
+                              selectedGender: _selectedGender,
+                              fillSpace: false,
+                              onGenderChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                });
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "hnNo".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: hnController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "hnNo".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: hnController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
-                        SizedBox(
-                          width: size.width / 2 - size.width / 8 - 6,
-                          child: infoTextField(
-                              title: "bedNumber".tr(),
-                              fontSize: tws.getInfoBoxTextSize(),
-                              controller: bedNumController,
-                              boxColor: const Color(0xffE0EAFF),
-                              minWidth: 140),
+                        Expanded(
+                          child: SizedBox(
+                            child: infoTextField(
+                                title: "bedNumber".tr(),
+                                fontSize: tws.getInfoBoxTextSize(),
+                                controller: bedNumController,
+                                boxColor: const Color(0xffE0EAFF),
+                                minWidth: 140),
+                          ),
                         ),
                       ],
                     ),

@@ -5,10 +5,7 @@ import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/mainpage/patient_data/patient_ind_data.dart';
 import 'package:pulse/utils/edit_patient_form.dart';
 import 'package:pulse/utils/action_button.dart';
-import 'package:pulse/utils/note_editor.dart';
-import 'package:pulse/utils/nursing.dart';
 import 'package:pulse/utils/patient_details.dart';
-import 'package:pulse/utils/time_manager.dart';
 import 'package:pulse/utils/toggle_icon_button.dart';
 
 import '../../utils/add_patient_form.dart';
@@ -375,7 +372,15 @@ class _PatientInSystemState extends State<PatientInSystem> {
                                                     context: context,
                                                     builder:
                                                         (BuildContext context) {
-                                                      return const EditPatientForm();
+                                                      return EditPatientForm(
+                                                        name: name,
+                                                        surname: surname,
+                                                        age: age,
+                                                        gender: gender,
+                                                        hn: hn,
+                                                        bedNum: bedNum,
+                                                        ward: ward,
+                                                      );
                                                     });
                                               },
                                               style: OutlinedButton.styleFrom(
