@@ -57,9 +57,14 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(automaticallyImplyLeading: false, title: const Header()),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Header(),
+          toolbarHeight: size.height * 0.13,
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
           child: Column(

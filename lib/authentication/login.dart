@@ -228,8 +228,8 @@ class _LoginPageState extends State<LoginPage> {
             top: size.height / 12,
             left: -36, // This sticks the image to the left side of the screen
             child: SizedBox(
-              width: size.width * 0.5, // Adjust width as necessary
-              height: size.width * 0.5, // Adjust height as necessary
+              width: size.width * 0.35, // Adjust width as necessary
+              height: size.width * 0.35, // Adjust height as necessary
               // width: 200, // Adjust width as necessary
               // height: 200, // Adjust height as necessary
               child: Image.asset(
@@ -239,14 +239,14 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Positioned(
-            top: size.height / 6,
+            top: size.height / 7,
             right: size.width / 2 - 100,
             // right: 50,
-            child: const Text(
+            child: Text(
               // textAlign: TextAlign.center,
               'MEWS',
               style: TextStyle(
-                fontSize: 60,
+                fontSize: size.height * 0.095,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),

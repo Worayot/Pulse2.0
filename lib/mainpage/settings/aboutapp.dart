@@ -6,11 +6,12 @@ import 'package:pulse/utils/custom_header.dart';
 class AboutAppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove the default back button
         title: const Header(),
-        toolbarHeight: 80, // Make the header bigger
+        toolbarHeight: size.height * 0.13,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

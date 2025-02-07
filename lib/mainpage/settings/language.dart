@@ -46,12 +46,12 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
   Widget build(BuildContext context) {
     // Set initial locale if not already set
     _selectedLocale ??= context.locale;
-
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove the default back button
         title: const Header(),
-        toolbarHeight: 80, // Make the header bigger
+        toolbarHeight: size.height * 0.13,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -60,7 +60,7 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
           children: [
             const SizedBox(height: 16),
             Container(
-              height: 600,
+              height: size.height * 0.75,
               decoration: BoxDecoration(
                 color: const Color(0xFFB2C2E5),
                 borderRadius: BorderRadius.circular(12),
@@ -221,10 +221,14 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
                     ],
                   ),
                   Positioned(
-                      right: 0,
+                      right: -5,
                       bottom: 0,
                       child: IgnorePointer(
-                          child: Image.asset("assets/images/med_care.png")))
+                          child: Image.asset(
+                        "assets/images/med_care.png",
+                        height: size.width * 0.75,
+                        width: size.width * 0.75,
+                      )))
                 ],
               ),
             ),

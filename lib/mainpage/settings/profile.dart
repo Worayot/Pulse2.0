@@ -93,7 +93,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Header(),
-        toolbarHeight: 80,
+        toolbarHeight: size.height * 0.13,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
