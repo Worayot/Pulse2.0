@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,7 +11,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
     this.iconSize = 24,
     this.backgroundColor,
     this.itemCornerRadius = 20,
-    this.containerHeight = 50,
+    this.containerHeight = 80,
     this.animationDuration = const Duration(milliseconds: 270),
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     required this.items,
@@ -34,8 +36,10 @@ class CustomAnimatedBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = backgroundColor ?? const Color(0xff3362CC);
     final Size size = MediaQuery.of(context).size;
+    final bool isAndroid = Platform.isAndroid;
+
     return Container(
-      height: size.height * 0.09,
+      height: isAndroid ? size.height * 0.09 : size.height * 0.12,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(25), topRight: Radius.circular(25)),
@@ -52,7 +56,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: containerHeight,
-          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
             children: items.map((item) {
@@ -102,11 +106,12 @@ class _ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Semantics(
       container: true,
       selected: isSelected,
       child: AnimatedContainer(
-        width: isSelected ? boxWidth : 50,
+        width: isSelected ? boxWidth : size.width * 0.1,
         height: double.maxFinite,
         duration: animationDuration,
         curve: curve,

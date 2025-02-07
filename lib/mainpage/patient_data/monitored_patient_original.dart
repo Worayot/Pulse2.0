@@ -324,7 +324,8 @@ class _PatientPageState extends State<PatientPage> {
                                       buildActionButton(
                                         FontAwesomeIcons.solidClock,
                                         () {
-                                          showTimeManager(context);
+                                          showTimeManager(context, screenWidth,
+                                              screenHeight);
                                         },
                                         Colors.white,
                                         const Color(0xff3362CC),

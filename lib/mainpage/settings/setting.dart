@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
                 // User Info Section
-                SizedBox(height: size.height * 0.05),
+                SizedBox(height: size.height * 0.025),
                 // Menu ListTiles
                 _buildSettingsTile(
                   title: 'profileSetting'.tr(),
@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProfileSettingsPage()),
+                        builder: (context) => const ProfileSettingsPage()),
                   ),
                 ),
                 _buildSettingsTile(
@@ -151,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
-                // const SizedBox(height: 40),
+                SizedBox(height: size.height * 0.05),
 
                 // Random Quote Section using FutureBuilder
                 FutureBuilder<List<Map<String, String>>>(

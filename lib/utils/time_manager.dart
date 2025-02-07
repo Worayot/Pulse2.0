@@ -1,16 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-void showTimeManager(BuildContext context) {
+void showTimeManager(
+    BuildContext context, double screenWidth, double screenHeight) {
+  int selectedHour = 0;
+  int selectedMinute = 0;
+
+  FixedExtentScrollController hourController =
+      FixedExtentScrollController(initialItem: selectedHour);
+  FixedExtentScrollController minuteController =
+      FixedExtentScrollController(initialItem: selectedMinute);
+
   showDialog(
       context: context,
       builder: (BuildContext context) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 200),
+          padding: EdgeInsets.symmetric(vertical: screenWidth * 0.03),
           child: AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), // Adjust radius here
+              borderRadius: BorderRadius.circular(15),
             ),
             contentPadding:
                 const EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
@@ -43,7 +51,6 @@ void showTimeManager(BuildContext context) {
                       ],
                     ),
                   ),
-
                   Positioned(
                     bottom: 0,
                     right: -20,
@@ -57,7 +64,6 @@ void showTimeManager(BuildContext context) {
                       ),
                     ),
                   ),
-                  // Main content
                   Stack(
                     children: [
                       Positioned(
@@ -67,26 +73,19 @@ void showTimeManager(BuildContext context) {
                         left: 0,
                         child: FractionallySizedBox(
                             alignment: Alignment.center,
-                            widthFactor: 0.6, // Percentage of width
-                            heightFactor: 0.2, // Percentage of height
+                            widthFactor: 0.6,
+                            heightFactor: 0.2,
                             child: Container(
                               decoration: BoxDecoration(
-                                shape: BoxShape
-                                    .rectangle, // Ensure it's a rectangle shape
-                                color:
-                                    const Color(0xffC6D8FF), // Background color
-                                borderRadius: BorderRadius.circular(
-                                    15), // Set the border radius for rounded corners
+                                shape: BoxShape.rectangle,
+                                color: const Color(0xffC6D8FF),
+                                borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(
-                                        0.15), // Shadow color (use opacity for softness)
-                                    offset: const Offset(0.5,
-                                        0.25), // Shadow offset, here it's 4px on the Y-axis
-                                    blurRadius:
-                                        1, // Blur radius, controls the softness of the shadow
-                                    spreadRadius:
-                                        1, // Spread radius, controls how far the shadow spreads
+                                    color: Colors.black.withOpacity(0.15),
+                                    offset: const Offset(0.5, 0.25),
+                                    blurRadius: 1,
+                                    spreadRadius: 1,
                                   ),
                                 ],
                               ),
@@ -114,12 +113,15 @@ void showTimeManager(BuildContext context) {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const SizedBox(width: 30),
-                                  // "O'clock" timer picker
                                   Expanded(
                                     child: ListWheelScrollView.useDelegate(
+                                      controller: hourController,
                                       itemExtent: 50,
                                       perspective: 0.005,
                                       physics: const FixedExtentScrollPhysics(),
+                                      onSelectedItemChanged: (index) {
+                                        selectedHour = index;
+                                      },
                                       childDelegate:
                                           ListWheelChildLoopingListDelegate(
                                         children:
@@ -144,12 +146,15 @@ void showTimeManager(BuildContext context) {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  // "Minute" timer picker
                                   Expanded(
                                     child: ListWheelScrollView.useDelegate(
+                                      controller: minuteController,
                                       itemExtent: 50,
                                       perspective: 0.005,
                                       physics: const FixedExtentScrollPhysics(),
+                                      onSelectedItemChanged: (index) {
+                                        selectedMinute = index;
+                                      },
                                       childDelegate:
                                           ListWheelChildLoopingListDelegate(
                                         children:
@@ -174,7 +179,11 @@ void showTimeManager(BuildContext context) {
                           ),
                           const SizedBox(height: 30),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              print(
+                                  "Selected Time: $selectedHour:$selectedMinute");
+                              Navigator.of(context).pop();
+                            },
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 12,
