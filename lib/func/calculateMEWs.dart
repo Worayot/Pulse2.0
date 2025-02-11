@@ -8,10 +8,6 @@ int calculateMEWs({
   int? urine,
 }) {
   int score = 0;
-
-  print(
-      "$heartRate, $temperature, $systolicBp, $spo2, $respiratoryRate, $urine, $consciousness");
-
   // Consciousness scoring
   Map<String, int> consciousnessScoreMap = {
     "Unresponsive": 3,
@@ -22,6 +18,7 @@ int calculateMEWs({
     "-": 0,
     " ": 0
   };
+
   score += consciousnessScoreMap[consciousness] ??
       0; // Default to 0 if consciousness is unknown
 

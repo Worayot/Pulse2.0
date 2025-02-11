@@ -53,22 +53,3 @@ Future<int?> loadIntPreference(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getInt(key); // Returns null if no value exists
 }
-
-
-// // Save a boolean preference
-// savePreference('isLoggedIn', true);
-
-// // Save a string preference
-// saveStringPreference('userName', 'JohnDoe');
-
-// // Save an integer preference
-// saveIntPreference('userAge', 25);
-
-// // Load the boolean preference
-// bool isLoggedIn = await loadBooleanPreference('isLoggedIn');
-
-// // Load the string preference
-// String? userName = await loadStringPreference('userName');
-
-// // Load the integer preference
-// int? userAge = await loadIntPreference('userAge');
