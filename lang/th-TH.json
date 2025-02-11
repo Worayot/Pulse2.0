@@ -40,7 +40,7 @@
   "deleteUser": "ลบผู้ใช้",
   "deleteUserConfirmation": "ยืนยันที่จะลบข้อมูลผู้ใช้รายนี้ใช่หรือไม่?",
   "details": "รายละเอียด",
-  "download": "ดาวน์โหลด",
+  "downloadAllDisplayed": "ดาวน์โหลดที่แสดงทั้งหมด",
   "edit": "แก้ไข",
   "editPatientData": "แก้ไขข้อมูลผู้ป่วย",
   "editUserData": "แก้ไขข้อมูลผู้ใช้",

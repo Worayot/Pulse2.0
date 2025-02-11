@@ -16,7 +16,7 @@ class _AddUserFormState extends State<AddUserForm> {
   final TextEditingController surnameController = TextEditingController();
   final TextEditingController nurseIDController = TextEditingController();
 
-  String selectedRole = ''; // Keep track of selected role
+  String selectedRole = '';
 
   @override
   void dispose() {

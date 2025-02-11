@@ -578,6 +578,7 @@ class _ExportPageState extends State<ExportPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     SearchBarSetting sbs = SearchBarSetting(context: context);
     ButtonNextToSearchBarSetting btnsb =
         ButtonNextToSearchBarSetting(context: context);
@@ -678,10 +679,11 @@ class _ExportPageState extends State<ExportPage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(width: 20),
+                SizedBox(width: size.width * 0.035),
                 ElevatedButton.icon(
                   onPressed: _exportAll,
-                  label: Text('download'.tr(),
+                  label: Text(
+                      '${'downloadAllDisplayed'.tr()} (${_filteredPatients.length})',
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                   style: ElevatedButton.styleFrom(
@@ -700,6 +702,8 @@ class _ExportPageState extends State<ExportPage> {
       ),
     );
   }
-}
 
-void _exportAll() {}
+  void _exportAll() {
+    print(_filteredPatients.length);
+  }
+}
