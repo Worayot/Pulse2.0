@@ -47,11 +47,11 @@ class _PatientPageState extends State<PatientPage> {
         surname: "Doe",
         nextMonitoring: DateTime.now().add(const Duration(hours: 3)),
         previousData: [
-          {"1:30": "5"},
-          {"2:30": "4"},
-          {"3:30": "3"},
-          {"4:30": "2"},
-          {"5:30": "-"}
+          {"11:01": "5"},
+          {"12:30": "4"},
+          {"13:30": "3"},
+          {"14:30": "2"},
+          {"15:30": "-"}
         ]),
     Patient(
         name: "Chicky",
@@ -93,14 +93,12 @@ class _PatientPageState extends State<PatientPage> {
         surname: "World",
         nextMonitoring: DateTime.now(),
         previousData: [
-          {"1:30": "5"},
-          {"2:30": "4"},
-          {"3:30": "3"},
-          {"4:30": "2"},
-          {"1:30": "5"},
-          {"2:30": "4"},
-          {"3:30": "3"},
-          {"4:30": "2"},
+          {"3:30": "5"},
+          {"4:30": "4"},
+          {"1:30": "3"},
+          {"2:30": "2"},
+          {"3:30": "1"},
+          {"4:30": "0"},
           {"5:30": "-"}
         ]),
   ];
@@ -223,33 +221,42 @@ class _PatientPageState extends State<PatientPage> {
                                     duration: const Duration(milliseconds: 250),
                                     curve: Curves.easeInOut,
                                     padding: const EdgeInsets.only(top: 16),
+                                    height: _expandedStates[index]
+                                        ? (screenHeight * 0.033 + 8) *
+                                                data_length +
+                                            96
+                                        : 90,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: const Color(0xff98B1E8),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize
-                                          .min, // Adjust height dynamically
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                            height:
-                                                70), // Static height for header
-                                        if (isExpanded) ...[
-                                          Column(
-                                            children:
-                                                List.generate(data_length, (i) {
-                                              return TableRowWidget(
-                                                MEWs: previous_MEWs[i],
-                                                time: times[i],
-                                              );
-                                            }),
-                                          ),
-                                          SizedBox(height: 10)
+                                    child: SingleChildScrollView(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize
+                                            .min, // Adjust height dynamically
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                              height:
+                                                  70), // Static height for header
+                                          if (isExpanded) ...[
+                                            Column(
+                                              children: List.generate(
+                                                  data_length, (i) {
+                                                return TableRowWidget(
+                                                  MEWs: previous_MEWs[i],
+                                                  time: times[i],
+                                                );
+                                              }),
+                                            ),
+                                            const SizedBox(height: 10)
+                                          ],
                                         ],
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),

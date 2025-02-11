@@ -60,7 +60,7 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
           children: [
             const SizedBox(height: 16),
             Container(
-              height: size.height * 0.75,
+              height: size.height * 0.72,
               decoration: BoxDecoration(
                 color: const Color(0xFFB2C2E5),
                 borderRadius: BorderRadius.circular(12),

@@ -4,6 +4,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/authentication/universal_setting/sizes.dart';
 import 'package:pulse/utils/info_text_field.dart';
 
+class User {
+  final String name;
+  final String surname;
+  final String nurseID;
+  final String role;
+
+  User(
+      {required this.name,
+      required this.surname,
+      required this.nurseID,
+      required this.role});
+}
+
 class EditUserForm extends StatefulWidget {
   const EditUserForm({super.key});
 
@@ -12,20 +25,30 @@ class EditUserForm extends StatefulWidget {
 }
 
 class _EditUserFormState extends State<EditUserForm> {
-  final TextEditingController nameController =
-      TextEditingController(text: "Worayot");
+  User user = User(
+      name: "Worayot", surname: "Liamkaew", nurseID: "1000", role: "Admin");
+
+  final TextEditingController nameController = TextEditingController(text: "");
   final TextEditingController surnameController =
-      TextEditingController(text: "Liamkaew");
-  final TextEditingController roleController =
-      TextEditingController(text: "Nurse");
+      TextEditingController(text: "");
   final TextEditingController nurseIDController =
-      TextEditingController(text: "602");
+      TextEditingController(text: "");
+
+  String selectedRole = '';
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = user.name;
+    surnameController.text = user.surname;
+    nurseIDController.text = user.nurseID;
+    selectedRole = user.role; // Initialize selectedRole in initState
+  }
 
   @override
   void dispose() {
     nameController.dispose();
     surnameController.dispose();
-    roleController.dispose();
     nurseIDController.dispose();
     super.dispose();
   }
@@ -33,10 +56,12 @@ class _EditUserFormState extends State<EditUserForm> {
   void submitData() {
     String name = nameController.text.trim();
     String surname = surnameController.text.trim();
-    String role = roleController.text.trim();
     String nurseID = nurseIDController.text.trim();
 
-    if (name.isEmpty || surname.isEmpty || role.isEmpty || nurseID.isEmpty) {
+    if (name.isEmpty ||
+        surname.isEmpty ||
+        selectedRole.isEmpty ||
+        nurseID.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -64,6 +89,7 @@ class _EditUserFormState extends State<EditUserForm> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
     TextWidgetSize tws = TextWidgetSize(context: context);
+
     return Dialog(
       child: Container(
         decoration: BoxDecoration(
@@ -124,14 +150,79 @@ class _EditUserFormState extends State<EditUserForm> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: infoTextField(
-                          title: "role".tr(),
-                          fontSize: tws.getInfoBoxTextSize(),
-                          controller: roleController,
-                          boxColor: const Color(0xffE0EAFF),
-                          minWidth: 140),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'role'.tr(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedRole.isNotEmpty ? selectedRole : null,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: const Color(0xffE0EAFF),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            ),
+                            labelText:
+                                selectedRole.isEmpty ? 'selectRole'.tr() : "",
+                            labelStyle:
+                                TextStyle(fontSize: tws.getInfoBoxTextSize()),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                              value: "Nurse",
+                              child: Text(
+                                "nurse".tr(),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: tws.getInfoBoxTextSize(),
+                                ),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "Admin",
+                              child: Text(
+                                "admin".tr(),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: tws.getInfoBoxTextSize(),
+                                ),
+                              ),
+                            ),
+                          ],
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedRole =
+                                  value ?? ''; // Set the selected role
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     SizedBox(
                       width: double.infinity,

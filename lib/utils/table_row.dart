@@ -9,10 +9,10 @@ class TableRowWidget extends StatelessWidget {
   final String time;
   // Constructor with required parameters
   const TableRowWidget({
-    Key? key,
+    super.key,
     required this.MEWs,
     required this.time,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,7 @@ class TableRowWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            // padding: padding,
-            width: screenWidth * 0.14,
+            width: screenWidth * 0.16,
             height: screenHeight * 0.033,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -56,7 +55,7 @@ class TableRowWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           SizedBox(
-            width: screenWidth * 0.3,
+            width: screenWidth * 0.28,
             height: screenHeight * 0.033,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
