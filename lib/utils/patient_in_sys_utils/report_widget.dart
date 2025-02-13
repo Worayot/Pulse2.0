@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:pulse/utils/date_navigation.dart';
+import 'package:pulse/utils/patient_in_sys_utils/date_navigation.dart';
 import 'package:pulse/utils/swipable_table.dart';
 
 class ReportWidget extends StatelessWidget {

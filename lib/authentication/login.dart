@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pulse/authentication/loading_screen.dart';
+import 'package:pulse/temp_data/reset_preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -72,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
     //           const NavigationPage()), // For example, navigating to the Login screen
     //   (Route<dynamic> route) => false, // Removes all previous screens
     // );
+    //! Temporary
+    PreferenceResetter pr = PreferenceResetter();
+    pr.resetPatientInCare();
 
     Navigator.pushAndRemoveUntil(
       context,

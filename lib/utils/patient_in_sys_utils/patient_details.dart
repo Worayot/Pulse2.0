@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
-import 'package:pulse/utils/report_widget.dart';
+import 'package:pulse/utils/patient_in_sys_utils/report_widget.dart';
 
 import '../temp_data/patient_dummy_data.dart';
 

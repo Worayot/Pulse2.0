@@ -86,3 +86,10 @@ Future<void> removePatientID(String id) async {
   await prefs.setStringList('patient_ids', patientIDs);
   print('Updated List After Removing: $patientIDs'); // Debugging
 }
+
+Future<List<String>> getPatients() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> patientIDs = prefs.getStringList('patient_ids') ?? [];
+
+  return patientIDs;
+}

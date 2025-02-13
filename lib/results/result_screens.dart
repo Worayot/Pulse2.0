@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/utils/note_adder.dart';
+import 'package:pulse/utils/monitored_utils/note_adder.dart';
 
 void showResultDialog(BuildContext context, int MEWs) {
   List<dynamic> components = getComponent(MEWs);

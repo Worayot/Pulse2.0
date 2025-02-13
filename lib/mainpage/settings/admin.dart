@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/universal_setting/sizes.dart';
 import 'package:pulse/utils/action_button.dart';
-import 'package:pulse/utils/add_user_form.dart';
-import 'package:pulse/utils/custom_header.dart';
-import 'package:pulse/utils/delete_user_dialog.dart';
-import 'package:pulse/utils/edit_user_form.dart';
+import 'package:pulse/utils/setting_utils/add_user_form.dart';
+import 'package:pulse/utils/setting_utils/custom_header.dart';
+import 'package:pulse/utils/setting_utils/delete_user_dialog.dart';
+import 'package:pulse/utils/setting_utils/edit_user_form.dart';
 
 class User {
   final String name;

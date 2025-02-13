@@ -10,7 +10,7 @@ import 'package:pulse/mainpage/settings/aboutapp.dart';
 import 'package:pulse/mainpage/settings/admin.dart';
 import 'package:pulse/mainpage/settings/language.dart';
 import 'package:pulse/mainpage/settings/profile.dart';
-import 'package:pulse/utils/custom_header.dart';
+import 'package:pulse/utils/setting_utils/custom_header.dart';
 import 'dart:io';
 
 class SettingsPage extends StatefulWidget {

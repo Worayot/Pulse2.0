@@ -10,6 +10,8 @@ class Patient {
   final String hn;
   final String ward;
   final List<String> note;
+  final DateTime? nextMonitoring;
+  final List<Map<String, dynamic>>? previousData;
 
   Patient({
     required this.pId,
@@ -23,5 +25,7 @@ class Patient {
     required this.hn,
     required this.ward,
     this.note = const [],
+    this.nextMonitoring,
+    this.previousData,
   });
 }

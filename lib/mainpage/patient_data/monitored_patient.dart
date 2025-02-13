@@ -4,26 +4,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:pulse/func/pref/pref.dart';
+import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
+import 'package:pulse/temp_data/patient_dummy_data.dart';
 import 'package:pulse/universal_setting/sizes.dart';
 import 'package:pulse/func/get_color.dart';
 import 'package:pulse/mainpage/patient_data/no_patient_screen.dart';
 import 'package:pulse/utils/action_button.dart';
-import 'package:pulse/utils/circle_with_num.dart';
-import 'package:pulse/utils/table_row.dart';
-import 'package:pulse/utils/time_manager.dart';
-
-class Patient {
-  final String name;
-  final String surname;
-  final DateTime? nextMonitoring;
-  final List<Map<String, dynamic>>? previousData;
-
-  Patient(
-      {required this.name,
-      required this.surname,
-      this.nextMonitoring,
-      this.previousData});
-}
+import 'package:pulse/utils/monitored_utils/circle_with_num.dart';
+import 'package:pulse/utils/monitored_utils/table_row.dart';
+import 'package:pulse/utils/monitored_utils/time_manager.dart';
 
 class PatientPage extends StatefulWidget {
   const PatientPage({super.key});
@@ -33,83 +23,36 @@ class PatientPage extends StatefulWidget {
 }
 
 class _PatientPageState extends State<PatientPage> {
-  final List<Patient> _patients = [
-    Patient(
-        name: "Mike",
-        surname: "Johnson",
-        nextMonitoring: DateTime.now(),
-        previousData: [
-          {"4:30": "2"},
-          {"5:30": "1"}
-        ]),
-    Patient(
-        name: "John",
-        surname: "Doe",
-        nextMonitoring: DateTime.now().add(const Duration(hours: 3)),
-        previousData: [
-          {"11:01": "5"},
-          {"12:30": "4"},
-          {"13:30": "3"},
-          {"14:30": "2"},
-          {"15:30": "-"}
-        ]),
-    Patient(
-        name: "Chicky",
-        surname: "The Cutie",
-        nextMonitoring: DateTime.now(),
-        previousData: [
-          {"1:30": "3"},
-        ]),
-    Patient(
-        name: "Jane",
-        surname: "Smith",
-        nextMonitoring: DateTime.now().add(const Duration(hours: 2)),
-        previousData: [
-          {"1:30": "5"},
-          {"2:30": "4"},
-          {"3:30": "-"},
-        ]),
-    Patient(
-        name: "Mike",
-        surname: "Johnson",
-        nextMonitoring: DateTime.now(),
-        previousData: []),
-    Patient(
-        name: "Mike",
-        surname: "Johnson",
-        nextMonitoring: DateTime.now(),
-        previousData: [
-          {"5:30": '-'}
-        ]),
-    Patient(
-        name: "วรยศ",
-        surname: "เลี่ยมแก้ว",
-        nextMonitoring: DateTime.now(),
-        previousData: [
-          {"1:30": "7"},
-        ]),
-    Patient(
-        name: "Hello",
-        surname: "World",
-        nextMonitoring: DateTime.now(),
-        previousData: [
-          {"3:30": "5"},
-          {"4:30": "4"},
-          {"1:30": "3"},
-          {"2:30": "2"},
-          {"3:30": "1"},
-          {"4:30": "0"},
-          {"5:30": "-"}
-        ]),
-  ];
-
+  //! Change this to patient from server
+  List<Patient> allPatient = const PatientInSystem().getAllPatient();
+  final List<Patient> _patients = [];
   final List<bool> _expandedStates = [];
+
+  //! Change this to patient from server
+  Future<void> loadPatients() async {
+    List<String> storedPatientIDs = await getPatients();
+    _patients.clear();
+
+    for (var patient in allPatient) {
+      if (storedPatientIDs.contains(patient.pId)) {
+        _patients.add(patient);
+      }
+    }
+
+    // Update _expandedStates to match the new length of _patients
+    _expandedStates.clear();
+    _expandedStates.addAll(List<bool>.filled(_patients.length, false));
+
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
+    loadPatients();
     // Initialize all cards as collapsed
     _expandedStates.addAll(List<bool>.filled(_patients.length, false));
+    // loadPatients();
   }
 
   @override

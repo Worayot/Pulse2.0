@@ -2,84 +2,44 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pulse/func/pref/pref.dart';
+import 'package:pulse/temp_data/patient_list_dummy_data.dart';
 import 'package:pulse/universal_setting/sizes.dart';
 import 'package:pulse/mainpage/patient_data/patient_ind_data.dart';
-import 'package:pulse/utils/edit_patient_form.dart';
+import 'package:pulse/utils/patient_in_sys_utils/edit_patient_form.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/patient_details.dart';
 import 'package:pulse/utils/toggle_icon_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../temp_data/patient_dummy_data.dart';
-import '../../utils/add_patient_form.dart';
+import '../../utils/patient_in_sys_utils/add_patient_form.dart';
 
-final List<Patient> _patients = [
-  Patient(
-    pId: '00001',
-    name: "John",
-    surname: "Doe",
-    age: 12,
-    gender: "Male",
-    hn: '01',
-    bedNumber: "A",
-    ward: "A1",
-    MEWs: 5,
-    lastUpdate: DateTime.now().subtract(const Duration(hours: 1)),
-    note: ["Info 1", "Info 2"],
-  ),
-  Patient(
-    pId: '00002',
-    name: "Jane",
-    surname: "Smith",
-    age: 15,
-    gender: "Female",
-    hn: "02",
-    bedNumber: "B",
-    ward: "B1",
-    MEWs: 5,
-    lastUpdate: DateTime.now().subtract(const Duration(hours: 2)),
-    note: ["Info A", "Info B", "Info C"],
-  ),
-  Patient(
-    pId: '00003',
-    name: "Mike",
-    surname: "Johnson",
-    MEWs: 5,
-    age: 15,
-    gender: "Male",
-    hn: "03",
-    bedNumber: "C",
-    ward: "C1",
-    lastUpdate: DateTime.now().subtract(const Duration(hours: 3)),
-    note: ["Detail X", "Detail Y"],
-  ),
-];
+final PatientListDummy patientListDummy = PatientListDummy();
+//! Temporary
+final List<Patient> _patients = patientListDummy.generateRandomPatients(10);
 
 class PatientInSystem extends StatefulWidget {
   const PatientInSystem({super.key});
 
   @override
   _PatientInSystemState createState() => _PatientInSystemState();
+
+  List<Patient> getAllPatient() {
+    return _patients;
+  }
 }
 
 class _PatientInSystemState extends State<PatientInSystem> {
   final List<bool> _isExpanded = [];
   List<String> patientIDs = [];
-  // List<>
+  List<bool> _isPlus = [];
   final TextEditingController _searchController = TextEditingController();
   List<Patient> _filteredPatients = _patients; // Initialize with all patients
-
-  Future<List<String>> getPatients() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> patientIDs = prefs.getStringList('patient_ids') ?? [];
-
-    return patientIDs;
-  }
 
   Future<void> loadPatients() async {
     List<String> loadedPatients = await getPatients();
     setState(() {
-      patientIDs = loadedPatients; // Update the state
+      patientIDs = loadedPatients;
     });
   }
 
