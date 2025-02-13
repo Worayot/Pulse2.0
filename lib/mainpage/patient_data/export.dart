@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/authentication/universal_setting/sizes.dart';
+import 'package:pulse/universal_setting/sizes.dart';
 import 'package:pulse/func/pref/pref.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/gender_dropdown.dart';
 import 'package:pulse/utils/info_text_field_filter.dart';
 import 'package:pulse/utils/symbols_dialog/info_dialog.dart';
 import 'package:pulse/utils/toggle_button.dart';
+import 'package:pulse/utils/warning_dialog.dart';
 
 class ExportPage extends StatefulWidget {
   const ExportPage({super.key});
@@ -40,6 +41,7 @@ class _ExportPageState extends State<ExportPage> {
   final TextEditingController _wardController = TextEditingController();
   final TextEditingController _hnController = TextEditingController();
   final TextEditingController _bedNumController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   bool _maleToggle = false;
   bool _femaleToggle = false;
 
@@ -254,27 +256,30 @@ class _ExportPageState extends State<ExportPage> {
                                 },
                               ),
                               const SizedBox(height: 16.0),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _filterPatients();
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xff407BFF),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _filterPatients();
+                                      Navigator.of(context).pop();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff407BFF),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'filterData'.tr(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
-                                  child: Text(
-                                    'filterData'.tr(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
+                                ],
                               ),
                             ],
                           ),
@@ -614,16 +619,32 @@ class _ExportPageState extends State<ExportPage> {
                           _filterPatients();
                         });
                       },
+                      controller: _searchController,
                       decoration: InputDecoration(
                         hintText: "${"search".tr()}...",
+
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           borderSide: BorderSide.none,
                         ),
+
                         prefixIcon: const Icon(
                           FontAwesomeIcons.magnifyingGlass,
                           color: Colors.black,
                         ),
+                        suffixIcon: _fullNameFilter.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear,
+                                    color: Colors.black),
+                                onPressed: () {
+                                  setState(() {
+                                    _searchController.clear();
+                                    _fullNameFilter = '';
+                                    _filterPatients();
+                                  });
+                                },
+                              )
+                            : null,
                         filled: true, // Enables the background color
                         fillColor: const Color(
                             0xffCADBFF), // Sets the background color
@@ -639,12 +660,14 @@ class _ExportPageState extends State<ExportPage> {
                     showFilterDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          vertical: btnsb.verticalPadding(), horizontal: 10),
-                      backgroundColor: const Color(0xff407BFF)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: btnsb.verticalPadding(), horizontal: 10),
+                    backgroundColor: const Color(0xff407BFF),
+                    fixedSize: Size.fromHeight(sbs.getHeight()),
+                  ),
                   child: Row(
                     children: [
                       const Icon(FontAwesomeIcons.filter,
@@ -671,21 +694,35 @@ class _ExportPageState extends State<ExportPage> {
                   onTap: _resetFilters,
                   child: Text(
                     'resetFilters'.tr(),
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.red, // Set text color to red
                         decoration: TextDecoration.underline, // Add underline
                         decorationColor:
                             Colors.red, // Set underline color to red
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                        fontSize: size.width * 0.035),
                   ),
                 ),
                 SizedBox(width: size.width * 0.035),
                 ElevatedButton.icon(
-                  onPressed: _exportAll,
+                  onPressed: () async {
+                    bool result = await showWarningDialog(
+                        context); // Wait for user choice
+                    if (result) {
+                      _exportAll();
+                    } else {
+                      print("❌ User canceled deletion.");
+                    }
+                  },
                   label: Text(
-                      '${'downloadAllDisplayed'.tr()} (${_filteredPatients.length})',
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                    '${'downloadAllDisplayed'.tr()} (${_filteredPatients.length})',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: size.width * 0.035),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         const Color(0xff407BFF), // Set background color to blue

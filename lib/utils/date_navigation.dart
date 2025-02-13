@@ -63,7 +63,8 @@ class _DateNavigationState extends State<DateNavigation> {
           SizedBox(
             width: 15,
             child: Visibility(
-              visible: selectedDate.isBefore(DateTime.now()),
+              visible: selectedDate
+                  .isBefore(DateTime.now().subtract(const Duration(days: 1))),
               child: InkWell(
                 onTap: _increaseDate,
                 child: const FaIcon(

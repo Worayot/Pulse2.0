@@ -238,17 +238,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          Positioned(
-            top: size.height / 7,
-            right: size.width / 2 - 100,
-            // right: 50,
-            child: Text(
-              // textAlign: TextAlign.center,
-              'MEWS',
-              style: TextStyle(
-                fontSize: size.height * 0.095,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+          Positioned.fill(
+            top: -size.height / 2,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                // textAlign: TextAlign.center,
+                'MEWS',
+                style: TextStyle(
+                  fontSize: size.height * 0.095,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),

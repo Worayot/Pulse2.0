@@ -9,6 +9,12 @@ Future<void> savePreference(String key, bool value) async {
   await prefs.setBool(key, value); // Save the boolean value
 }
 
+// Function to save patient preference
+Future<void> savePatientPreference(List<String> patients) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList('patient_list', patients);
+}
+
 // Function to save a string preference
 Future<void> saveStringPreference(
     String key, String value, BuildContext context) async {
@@ -52,4 +58,31 @@ Future<String?> loadStringPreference(String key) async {
 Future<int?> loadIntPreference(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getInt(key); // Returns null if no value exists
+}
+
+// Function to load patient preference
+Future<List<String>> loadPatientPreference(String key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('patient_list') ??
+      []; // Returns null if no value exists
+}
+
+Future<void> addPatientID(String newID) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> patientIDs = prefs.getStringList('patient_ids') ?? [];
+
+  if (!patientIDs.contains(newID)) {
+    patientIDs.add(newID);
+    await prefs.setStringList('patient_ids', patientIDs);
+  }
+  print('Updated List After Adding: $patientIDs'); // Debugging
+}
+
+Future<void> removePatientID(String id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> patientIDs = prefs.getStringList('patient_ids') ?? [];
+
+  patientIDs.remove(id);
+  await prefs.setStringList('patient_ids', patientIDs);
+  print('Updated List After Removing: $patientIDs'); // Debugging
 }

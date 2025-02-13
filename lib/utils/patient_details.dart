@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:pulse/mainpage/patient_data/patient_in_system.dart';
 import 'package:pulse/utils/report_widget.dart';
 
-void showPatientDetails(BuildContext context, Patient1 patient) {
+import '../temp_data/patient_dummy_data.dart';
+
+void showPatientDetails(BuildContext context, Patient patient) {
   final screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
 

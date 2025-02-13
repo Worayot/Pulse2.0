@@ -1,43 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pulse/authentication/universal_setting/sizes.dart';
+import 'package:pulse/func/pref/pref.dart';
+import 'package:pulse/universal_setting/sizes.dart';
 import 'package:pulse/mainpage/patient_data/patient_ind_data.dart';
 import 'package:pulse/utils/edit_patient_form.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/patient_details.dart';
 import 'package:pulse/utils/toggle_icon_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../temp_data/patient_dummy_data.dart';
 import '../../utils/add_patient_form.dart';
 
-class Patient1 {
-  final String name;
-  final String surname;
-  final int age;
-  final String gender;
-  final int MEWs;
-  final DateTime lastUpdate;
-  final String bedNumber;
-  final String hn;
-  final String ward;
-  final List<String> note;
-
-  Patient1({
-    required this.name,
-    required this.surname,
-    required this.age,
-    required this.gender,
-    required this.MEWs,
-    required this.lastUpdate,
-    required this.bedNumber,
-    required this.hn,
-    required this.ward,
-    this.note = const [],
-  });
-}
-
-final List<Patient1> _patients = [
-  Patient1(
+final List<Patient> _patients = [
+  Patient(
+    pId: '00001',
     name: "John",
     surname: "Doe",
     age: 12,
@@ -49,7 +27,8 @@ final List<Patient1> _patients = [
     lastUpdate: DateTime.now().subtract(const Duration(hours: 1)),
     note: ["Info 1", "Info 2"],
   ),
-  Patient1(
+  Patient(
+    pId: '00002',
     name: "Jane",
     surname: "Smith",
     age: 15,
@@ -61,7 +40,8 @@ final List<Patient1> _patients = [
     lastUpdate: DateTime.now().subtract(const Duration(hours: 2)),
     note: ["Info A", "Info B", "Info C"],
   ),
-  Patient1(
+  Patient(
+    pId: '00003',
     name: "Mike",
     surname: "Johnson",
     MEWs: 5,
@@ -84,12 +64,29 @@ class PatientInSystem extends StatefulWidget {
 
 class _PatientInSystemState extends State<PatientInSystem> {
   final List<bool> _isExpanded = [];
+  List<String> patientIDs = [];
+  // List<>
   final TextEditingController _searchController = TextEditingController();
-  List<Patient1> _filteredPatients = _patients; // Initialize with all patients
+  List<Patient> _filteredPatients = _patients; // Initialize with all patients
+
+  Future<List<String>> getPatients() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> patientIDs = prefs.getStringList('patient_ids') ?? [];
+
+    return patientIDs;
+  }
+
+  Future<void> loadPatients() async {
+    List<String> loadedPatients = await getPatients();
+    setState(() {
+      patientIDs = loadedPatients; // Update the state
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    loadPatients();
     // Initialize all cards as collapsed
     _isExpanded.addAll(List<bool>.filled(_patients.length, false));
 
@@ -138,6 +135,15 @@ class _PatientInSystemState extends State<PatientInSystem> {
                         controller: _searchController,
                         decoration: InputDecoration(
                           hintText: "${"search".tr()}...",
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    _searchController
+                                        .clear(); // Clear the text field
+                                  },
+                                )
+                              : null,
                           fillColor: const Color(
                               0xffCADBFF), // Set the background color
                           filled: true, // Enable background color
@@ -195,6 +201,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
                             BorderRadius.circular(12), // Rounded corners
                       ),
                       elevation: 0, // Shadow depth
+                      fixedSize: Size.fromHeight(sbs.getHeight()),
                     ),
                   ),
                 ],
@@ -205,7 +212,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
               child: ListView.builder(
                 itemCount: _filteredPatients.length,
                 itemBuilder: (context, index) {
-                  Patient1 patient = _filteredPatients[index];
+                  Patient patient = _filteredPatients[index];
                   String name = patient.name;
                   String surname = patient.surname;
                   String age = patient.age.toString();
@@ -214,6 +221,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
                   String bedNum = patient.bedNumber;
                   String ward = patient.ward;
                   String MEWs = patient.MEWs.toString();
+                  String pId = patient.pId;
                   String time =
                       DateFormat('dd/MM/yyyy HH.mm').format(patient.lastUpdate);
 
@@ -227,8 +235,7 @@ class _PatientInSystemState extends State<PatientInSystem> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  16), // Match the container's radius
+                              borderRadius: BorderRadius.circular(16),
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
@@ -352,7 +359,24 @@ class _PatientInSystemState extends State<PatientInSystem> {
                                               ],
                                             ),
                                           ),
-                                          ToggleIconButton(func: () {}),
+                                          ToggleIconButton(
+                                            addPatientFunc: () async {
+                                              await addPatientID(pId);
+                                              setState(
+                                                  () {}); // Force a rebuild after adding
+                                              print('Added $pId');
+                                            },
+                                            removePatientFunc: () async {
+                                              await removePatientID(pId);
+                                              setState(
+                                                  () {}); // Force a rebuild after removal
+                                              print('Removed $pId');
+                                            },
+                                            buttonState: patientIDs
+                                                    .contains(pId)
+                                                ? false
+                                                : true, // Update based on patient ID state
+                                          ),
                                           const SizedBox(width: 8),
                                           buildActionButton(
                                             FontAwesomeIcons.clipboardList,

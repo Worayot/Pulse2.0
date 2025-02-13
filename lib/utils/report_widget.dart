@@ -15,7 +15,7 @@ class ReportWidget extends StatelessWidget {
       margin: const EdgeInsets.all(0),
       child: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           const DateNavigation(),
           const SizedBox(height: 20),
           SizedBox(height: tableHeight, child: const SwipableTable())

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pulse/universal_setting/sizes.dart';
 import 'package:pulse/utils/action_button.dart';
 import 'package:pulse/utils/add_user_form.dart';
 import 'package:pulse/utils/custom_header.dart';
@@ -36,13 +37,18 @@ class _AdminPageState extends State<AdminPage> {
     User(name: "Minecraft", surname: "Java", nurseID: "123123", role: "Nurse"),
   ];
 
+  final TextEditingController _searchController = TextEditingController();
+
   List<User> _filteredUsers = [];
   String _searchText = '';
 
   @override
   void initState() {
     super.initState();
-    _filteredUsers = _users; // Initially show all users
+    _filteredUsers = _users;
+    _searchController.addListener(() {
+      setState(() {}); // This ensures the clear button updates dynamically
+    });
   }
 
   void _filterUsers(String query) {
@@ -56,8 +62,15 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    SearchBarSetting sbs = SearchBarSetting(context: context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -100,43 +113,55 @@ class _AdminPageState extends State<AdminPage> {
               Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      onChanged: _filterUsers,
-                      decoration: InputDecoration(
-                        hintText: "${"search".tr()}...",
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: const Icon(
-                          FontAwesomeIcons.magnifyingGlass,
-                          color: Colors.black,
-                        ),
-                        filled: true,
-                        fillColor: const Color(0xffCADBFF),
-                        labelStyle: const TextStyle(color: Colors.black),
+                      child: TextField(
+                    onChanged: _filterUsers,
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "${"search".tr()}...",
+                      suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _searchText = '';
+                                  _filteredUsers =
+                                      _users; // Reset the user list
+                                });
+                              },
+                            )
+                          : null,
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderSide: BorderSide.none,
                       ),
-                      style: const TextStyle(color: Colors.black),
+                      prefixIcon: const Icon(
+                        FontAwesomeIcons.magnifyingGlass,
+                        color: Colors.black,
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xffCADBFF),
+                      labelStyle: const TextStyle(color: Colors.black),
                     ),
-                  ),
+                    style: const TextStyle(color: Colors.black),
+                  )),
                   const SizedBox(width: 10),
-                  SizedBox(
-                    width: 120,
-                    height: 55,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const AddUserForm();
-                            });
-                      },
-                      icon: const Icon(
-                        FontAwesomeIcons.personCirclePlus,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      label: Align(
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const AddUserForm();
+                          });
+                    },
+                    icon: const Icon(
+                      FontAwesomeIcons.personCirclePlus,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    label: Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: Align(
                         alignment: Alignment.center,
                         child: Text(
                           "addUser".tr(),
@@ -148,13 +173,14 @@ class _AdminPageState extends State<AdminPage> {
                           softWrap: true,
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff407bff),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 16)),
                     ),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff407bff),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        fixedSize: Size.fromHeight(sbs.getHeight())),
                   ),
                 ],
               ),

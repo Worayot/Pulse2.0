@@ -25,12 +25,12 @@ class _MEWsFormsState extends State<MEWsForms> {
   final TextEditingController respiratoryRateController =
       TextEditingController();
   final TextEditingController urineController = TextEditingController();
-
+  final FocusNode sysBpFocusNode = FocusNode();
+  final FocusNode diasBpFocusNode = FocusNode();
   String consciousnessValue = "-";
 
   @override
   void dispose() {
-    // Dispose controllers to release memory
     heartRateController.dispose();
     temperatureController.dispose();
     sysBloodPressureController.dispose();
@@ -39,6 +39,8 @@ class _MEWsFormsState extends State<MEWsForms> {
     respiratoryRateController.dispose();
     urineController.dispose();
     super.dispose();
+    sysBpFocusNode.dispose();
+    diasBpFocusNode.dispose();
   }
 
   @override
@@ -289,6 +291,13 @@ class _MEWsFormsState extends State<MEWsForms> {
                             SizedBox(
                               height: 40,
                               child: TextField(
+                                focusNode: sysBpFocusNode,
+                                onChanged: (value) {
+                                  if (value.length == 3) {
+                                    FocusScope.of(context)
+                                        .requestFocus(diasBpFocusNode);
+                                  }
+                                },
                                 controller: sysBloodPressureController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -331,6 +340,7 @@ class _MEWsFormsState extends State<MEWsForms> {
                             SizedBox(
                               height: 40,
                               child: TextField(
+                                focusNode: diasBpFocusNode,
                                 controller: diaBloodPressureController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
